@@ -3,6 +3,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
 		shell: {
+      dev: {
+        command: 'node server.js'
+      }
 			// запуск сервера через скрипт shell'a https://www.npmjs.com/package/grunt-shell
 		},
 
@@ -10,7 +13,7 @@ module.exports = function (grunt) {
 			// запуск watcher'a, который следит за изенениями файлов  templates/*.xml
 			// и если они изменяются, то запускает таск сборки шаблонов (grunt fest)
 		},
-		
+
 		concurrent: {
 			// одновременный запуска shell'a и watcher'a https://www.npmjs.com/package/grunt-concurrent
 		},
