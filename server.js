@@ -4,13 +4,15 @@ var express = require('express'),
 	proxy = require('express-http-proxy');
 
 var HOSTNAME = 'localhost',
-    PORT = 8080,
+    PORT = 8090,
     PUBLIC_DIR = __dirname + '/public_html';
 
+var req_count = 0;
+
 app.use(function (req, res, done) {
-	// Здесь нужно написать журналирование в формате
-	// (журналирование - вывод в консоль)
-	// [время] [номер запроса по счету]
+	var date = new Date();
+	// Журналирование в формате [время] [номер запроса по счету]
+	console.log("[%s] [%d]", date.toTimeString(), req_count++);
 	done();
 });
 
