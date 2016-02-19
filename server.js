@@ -12,6 +12,7 @@ var req_count = 0;
 app.use(function (req, res, done) {
 	var date = new Date();
 	// Журналирование в формате [время] [номер запроса по счету]
+  //test
 	console.log("[%s] [%d]", date.toTimeString(), req_count++);
 	done();
 });
