@@ -10,11 +10,21 @@ module.exports = function (grunt) {
 		},
 
 		watch: {
+        fest: {
+          files: ['templates/*.xml'],
+          tasks: ['fest'],
+          options: {
+            spawn: 'false',
+            atBegin: 'true',
+          },
+        }
+
 			// запуск watcher'a, который следит за изенениями файлов  templates/*.xml
 			// и если они изменяются, то запускает таск сборки шаблонов (grunt fest)
 		},
 
 		concurrent: {
+      dev: ['shell', 'watch']
 			// одновременный запуска shell'a и watcher'a https://www.npmjs.com/package/grunt-concurrent
 		},
 

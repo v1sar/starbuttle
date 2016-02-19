@@ -14,7 +14,18 @@
         <h1 class="red">Hello from IU6-team!</h1>
     </div>
     <script>
+    //var template = mainTmpl;
+      function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+      }
+
         var $page = $('#page');
+$('#page').on('click', 'a[href]', function (event) {
+  var name = $(event.target).attr('href').slice(1);
+  window['show' + capitalize(name) + 'Screen']();
+
+});
+      //  $page.html(mainTmpl());
         showMainScreen();
     </script>
 </body></html>

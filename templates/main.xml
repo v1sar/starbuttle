@@ -1,3 +1,10 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="main"></div>
+    <div id="main">
+      <h1>Привет Fest!</h1>
+      <fest:for iterate="[1,2,3]" index='i' value='v'>
+        <fest:value>v</fest:value>
+      </fest:for>
+      <h2>Я могу менять текст</h2>
+    </div>
+
 </fest:template>
