@@ -1,3 +1,15 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="scoreboard"></div>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div id="scoreboard">
+    	<div class="ui middle aligned center aligned grid">
+			<div class="four wide column">
+			<h1 class="ui center aligned header">
+				SCOREBOARD!
+			</h1>
+			<h3 class="ui aligned header">
+				<a href="#main">MAIN MENU</a>
+			</h3>
+			</div>
+		</div>
+
+    </div>
 </fest:template>

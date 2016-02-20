@@ -1,3 +1,32 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="login"></div>
+	<div id="login">
+		<div class="ui middle aligned center aligned grid">
+			<div class="four wide column">
+				<h1 class="ui center aligned header">
+					LOGIN FORM!
+				</h1>
+				<h3 class="ui aligned header">
+					<a href="#main">MAIN MENU</a>
+				</h3>
+
+				<form class="ui form">
+					<div class="field">
+						<label>First Name</label>
+						<input type="text" name="first-name" placeholder="First Name" />
+					</div>
+					<div class="field">
+						<label>Last Name</label>
+						<input type="text" name="last-name" placeholder="Last Name" />
+					</div>
+					<div class="field">
+						<div class="ui checkbox">
+							<input type="checkbox" tabindex="0" class="hidden" />
+							<label>I agree to the Terms and Conditions</label>
+						</div>
+					</div>
+					<button class="ui button" type="submit">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </fest:template>

@@ -1,26 +1,26 @@
 function showScoreboardScreen() {
-	// TODO
+	$('#page').html(scoreboardTmpl());
 }
 function hideScoreboardScreen() {
 	// TODO
 }
 
 function showGameScreen() {
-	// TODO
+	$('#page').html(gameTmpl());
 }
 function hideGameScreen() {
 	// TODO
 }
 
 function showLoginScreen() {
-	// TODO
+	$('#page').html(loginTmpl());
 }
 function hideLoginScreen() {
 	// TODO
 }
 
 function showMainScreen() {
-	// TODO
+	$('#page').html(mainTmpl());
 }
 
 function hideMainScreen() {

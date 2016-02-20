@@ -1,31 +1,75 @@
 <!DOCTYPE  html>
-<html><head>
+<html>
+<head>
     <meta charset="utf-8" />
+
     <title>Игра DUEL</title>
+
     <link rel="stylesheet" href="/css/main.css" />
-    <script src="/js/lib/jquery.js"></script>
-    <script src="/js/tmpl/main.js"></script>
-    <script src="/js/tmpl/scoreboard.js"></script>
-    <script src="/js/tmpl/game.js"></script>
-    <script src="/js/tmpl/login.js"></script>
-    <script src="/js/index.js"></script>
-</head><body>
+    <link rel="stylesheet" href="/semantic/dist/semantic.min.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+
+
+    <script data-main="js/main.js" src="/js/lib/require.js"></script>
+    <!-- <script src="/js/lib/jquery.js"></script> -->
+    <!-- <script src="/semantic/dist/semantic.min.js"></script> -->
+    <!-- <script src="/js/tmpl/main.js"></script> -->
+    <!-- <script src="/js/tmpl/scoreboard.js"></script> -->
+    <!-- <script src="/js/tmpl/game.js"></script> -->
+    <!-- <script src="/js/tmpl/login.js"></script> -->
+    <!-- <script src="/js/index.js"></script> -->
+</head>
+<body>
     <div id="page">
         <h1 class="red">Hello from IU6-team!</h1>
     </div>
     <script>
-    //var template = mainTmpl;
-      function capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-      }
+    //     //var template = mainTmpl;
+    //       function capitalize(string) {
+    //         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    //       }
+
+    //         var $page = $('#page');
+    // $('#page').on('click', 'a[href]', function (event) {
+    //   var name = $(event.target).attr('href').slice(1);
+    //   window['show' + capitalize(name) + 'Screen']();
+
+    // });
+    //   //  $page.html(mainTmpl());
+
+        require.config({
+            urlArgs: "_=" + (new Date()).getTime(),
+            baseUrl: "js",
+            paths: {
+                jquery: "lib/jquery",
+                underscore: "lib/underscore",
+                backbone: "lib/backbone"
+            },
+            shim: {
+                'backbone': {
+                    deps: ['underscore', 'jquery'],
+                    exports: 'Backbone'
+                },
+                'underscore': {
+                    exports: '_'
+                }
+            }
+        });
+    </script>
+    <!-- <script> 
+        function capitalise(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
 
         var $page = $('#page');
-$('#page').on('click', 'a[href]', function (event) {
-  var name = $(event.target).attr('href').slice(1);
-  window['show' + capitalize(name) + 'Screen']();
+        $('#page').on('click', 'a[href]', function (event) {
+            var name = $(event.target).attr('href').slice(1);
+            window['show' + capitalise(name) + 'Screen']();
+            console.log(name);
+        });
 
-});
-      //  $page.html(mainTmpl());
         showMainScreen();
     </script>
-</body></html>
+    -->
+</body>
+</html>

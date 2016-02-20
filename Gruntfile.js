@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 		shell: {
             // запуск сервера через скрипт shell'a https://www.npmjs.com/package/grunt-shell
             dev: {
-                command: 'node server.js'     // node
+                command: 'node server.js'
             }
 		},
 
@@ -16,15 +16,21 @@ module.exports = function (grunt) {
                 files: ['templates/*.xml'],
                 tasks: ['fest'],
                 options: {
-                    spawn: 'false',
-                    atBegin: 'true',
+                    spawn: 'false',     // false
+                    atBegin: 'true',    // true
                 },
             }
 		},
 
+        qunit: {
+            all: ['./public_html/tests/index.html']
+        },
+
 		concurrent: {
-            // одновременный запуска shell'a и watcher'a https://www.npmjs.com/package/grunt-concurrent
-            dev: ['shell', 'watch']
+			dev: ['shell', 'watch'],
+            options: {
+                logConcurrentOutput: true
+            }
 		},
 
 		fest: {
@@ -38,7 +44,7 @@ module.exports = function (grunt) {
                 options: {
                     template: function (data) {
                         return grunt.template.process(
-                            'var <%= name %>Tmpl = <%= contents %> ;',
+                            'define(function () { return <%= contents %> ; });',
                             {data: data}
                         );
                     }
@@ -50,10 +56,12 @@ module.exports = function (grunt) {
 
 	// подключть все необходимые модули
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-fest');
 
     // результат команды grunt
-    grunt.registerTask('default', ['shell', 'watch']);
+    grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask('test', ['qunit:all']);
 };
