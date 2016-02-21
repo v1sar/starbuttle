@@ -19,7 +19,6 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
-            console.log('default router');
             mainView.show();
         },
         scoreboardAction: function () {

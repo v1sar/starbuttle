@@ -3,16 +3,17 @@ define([
 	'models/score'
 ], function(
 	Backbone,
-	player
+	playerModel
 ){
 
     var PlayerScoreCollection = Backbone.Collection.extend({
-    	model: player,
-    	comparator: score
+    	model: playerModel,
+    	comparator: function(player) {
+            return -player.get('score');    // Минус!
+        }
     });
 
-    
-    var players =  new PlayerScoreCollection([
+    var players = new PlayerScoreCollection([
     	{name: 'Alex', score: 5},
     	{name: 'Yura', score: 15},
     	{name: 'Dmitriy', score: 25},
@@ -22,7 +23,7 @@ define([
     	{name: 'Maxim', score: 25},
     	{name: 'Anthony', score: 0},
     	{name: 'Victor', score: 1}
-    ]).sort();
+    ]);
 
     return players;
 });

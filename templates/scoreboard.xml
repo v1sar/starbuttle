@@ -5,6 +5,14 @@
 			<h1 class="ui center aligned header">
 				ЛУЧШИЕ ИГРОКИ!
 			</h1>
+				<ul>
+				<fest:each iterate="json.collection" index="i" value="player">
+    				<li>
+    					<fest:value output="text">player.name</fest:value> |
+    					<fest:value output="text">player.score</fest:value>
+    				</li>
+				</fest:each>
+				</ul>
 			<h3 class="ui aligned header">
 				<a href="#main">ГЛАВНОЕ МЕНЮ</a>
 			</h3>

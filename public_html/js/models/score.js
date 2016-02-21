@@ -6,10 +6,10 @@ define([
     
     var PlayerScoreModel = Backbone.Model.extend({
     	defaults: {
-    		"name": '',
-    		"score": 0
+    		name: '',
+    		score: 0
     	}
     });
     
-    return new PlayerScoreModel();
+    return PlayerScoreModel;
 });
