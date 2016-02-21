@@ -1,9 +1,11 @@
 define([
     'backbone',
-    'tmpl/scoreboard'
+    'tmpl/scoreboard',
+    'collections/scores'
 ], function(
     Backbone, 
-    tmpl
+    tmpl,
+    players
 ){
     var PlayerScoreView = Backbone.View.extend({
         tagName: "li",
@@ -11,17 +13,22 @@ define([
         template: tmpl,
         initialize: function () {
             // При любых изменениях в моделе, перерисовываем представление
-            this.listenTo(this.model, "change", this.render);
+            //this.listenTo(this.model, "change", this.render);
+            $('#page').html(tmpl());
+            // $('#scoreboard').hide();
         },
         render: function () {
-            this.$el.html(this.template(this.model.attributes));
-            return this;
+            // this.$el.html(this.template(this.model.attributes));
+            // return this;
+            $('#page').html(tmpl());
         },
         show: function () {
-            // TODO
+            $('#page').html(tmpl());
+            // $('#scoreboard').show();
         },
         hide: function () {
-            // TODO
+           $('#page').html('');
+            //$('#scoreboard').hide();
         },
         events: {
 
@@ -30,11 +37,3 @@ define([
 
     return new PlayerScoreView();
 });
-
-/*
-$el - Закешированный объект jQuery c элементом данного представления — то же самое, что $(this.el). 
-Удобная ссылка — замена постоянному оборачиванию DOM-элемента. 
-
-view.$el.show();
-listView.$el.append(itemView.el)
-*/

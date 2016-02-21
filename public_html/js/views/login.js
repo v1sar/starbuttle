@@ -6,23 +6,26 @@ define([
     tmpl
 ){
 
-    var View = Backbone.View.extend({
+    var loginView = Backbone.View.extend({
 
         template: tmpl,
         initialize: function () {
-            // TODO
+            $('#page').html(tmpl());
+            // $('#login').hide();
         },
         render: function () {
-            // TODO
+            $('#page').html(tmpl());
         },
         show: function () {
-            // TODO
+            $('#page').html(tmpl());
+            // $('#login').show();
         },
         hide: function () {
-            // TODO
+            $('#page').html('');
+            //$('#login').hide();
         }
 
     });
 
-    return new View();
+    return new loginView();
 });

@@ -3,10 +3,10 @@
 		<div class="ui middle aligned center aligned grid">
 			<div class="four wide column">
 				<h1 class="ui center aligned header">
-					LOGIN FORM!
+					ФОРМА АВТОРИЗАЦИИ!
 				</h1>
 				<h3 class="ui aligned header">
-					<a href="#main">MAIN MENU</a>
+					<a href="#main">ГЛАВНОЕ МЕНЮ</a>
 				</h3>
 
 				<form class="ui form">

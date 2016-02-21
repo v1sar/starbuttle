@@ -1,14 +1,14 @@
 define([
     'backbone', 
     'views/main',
-    // 'views/login',
-    // 'views/scoreboard',
+    'views/login',
+    'views/scoreboard',
     'views/game'
 ], function(
     Backbone, 
     mainView,
-    // loginView,
-    // scoreboardView,
+    loginView,
+    scoreboardView,
     gameView
 ){
     var Router = Backbone.Router.extend({
@@ -24,15 +24,15 @@ define([
         },
         scoreboardAction: function () {
             // mainView.hide();
-            // scoreboardView.show();
+            scoreboardView.show();
         },
         gameAction: function () {
-            mainView.hide();
+            //mainView.hide();
             gameView.show();
         },
         loginAction: function () {
             // mainView.hide();
-            // loginView.show();
+            loginView.show();
         }
     });
 
