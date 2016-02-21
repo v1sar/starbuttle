@@ -15,16 +15,10 @@
     "grunt-concurrent": "^2.2.1",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-connect": "~0.6.0",
-<<<<<<< HEAD
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-fest": "^0.1.6",
-    "grunt-shell": "^1.1.2"
-=======
-    "grunt-contrib-qunit": "^0.7.0",
+    "grunt-contrib-qunit": "^1.0.1",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-fest": "~0.1.4",
     "grunt-shell": "^1.1.1"
->>>>>>> 5dd0ed5dbc725ad821797292cdf0052d915dba0a
   },
   "scripts": {
     "start": "node server"
