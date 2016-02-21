@@ -6,23 +6,24 @@ define([
     tmpl
 ){
 
-    var View = Backbone.View.extend({
+    var gameView = Backbone.View.extend({
 
         template: tmpl,
         initialize: function () {
-            // TODO
+            $('#page').html(tmpl());
+            $('#game').hide();
         },
         render: function () {
             // TODO
         },
         show: function () {
-            // TODO
+            $('#game').show();
         },
         hide: function () {
-            // TODO
+            $('#game').hide();
         }
 
     });
 
-    return new View();
+    return new gameView();
 });

@@ -1,4 +1,9 @@
-define(['backbone'], function(Backbone) {
+define([
+	'backbone'
+], function(
+	Backbone
+) {
+    
     var PlayerScoreModel = Backbone.Model.extend({
     	name: '',
     	score: 0

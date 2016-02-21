@@ -1,4 +1,10 @@
-define(['backbone', 'tmpl/scoreboard'], function(Backbone, tmpl) {
+define([
+    'backbone',
+    'tmpl/scoreboard'
+], function(
+    Backbone, 
+    tmpl
+){
     var PlayerScoreView = Backbone.View.extend({
         tagName: "li",
         className: "score__item",

@@ -1,9 +1,3 @@
-define([
-    'backbone',
-    'router'
-], function(
-    Backbone,
-    router
-){
+define(['backbone', 'router'], function(Backbone, router) {
     Backbone.history.start();
 });
