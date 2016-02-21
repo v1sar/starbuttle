@@ -1,14 +1,14 @@
 define([
     'backbone', 
     'views/main',
-    'views/login',
-    'views/scoreboard',
+    // 'views/login',
+    // 'views/scoreboard',
     'views/game'
 ], function(
     Backbone, 
     mainView,
-    loginView,
-    scoreboardView,
+    // loginView,
+    // scoreboardView,
     gameView
 ){
     var Router = Backbone.Router.extend({
@@ -19,19 +19,20 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
+            console.log('default router');
             mainView.show();
         },
         scoreboardAction: function () {
-            mainView.hide();
-            scoreboardView.show();
+            // mainView.hide();
+            // scoreboardView.show();
         },
         gameAction: function () {
             mainView.hide();
             gameView.show();
         },
         loginAction: function () {
-            mainView.hide();
-            loginView.show();
+            // mainView.hide();
+            // loginView.show();
         }
     });
 

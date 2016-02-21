@@ -13,30 +13,15 @@
     <script data-main="js/main.js" src="/js/lib/require.js"></script>
     <!-- <script src="/js/lib/jquery.js"></script> -->
     <!-- <script src="/semantic/dist/semantic.min.js"></script> -->
-    <script src="/js/tmpl/main.js"></script>
+    <!--<script src="/js/tmpl/main.js"></script> -->
     <!-- <script src="/js/tmpl/scoreboard.js"></script> -->
     <!-- <script src="/js/tmpl/game.js"></script> -->
     <!-- <script src="/js/tmpl/login.js"></script> -->
     <!-- <script src="/js/index.js"></script> -->
 </head>
 <body>
-    <div id="page">
-        <h1 class="red">Hello from IU6-team!</h1>
-    </div>
+    <div id="page"></div>
     <script>
-    //     //var template = mainTmpl;
-    //       function capitalize(string) {
-    //         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-    //       }
-
-    //         var $page = $('#page');
-    // $('#page').on('click', 'a[href]', function (event) {
-    //   var name = $(event.target).attr('href').slice(1);
-    //   window['show' + capitalize(name) + 'Screen']();
-
-    // });
-    //   //  $page.html(mainTmpl());
-
         require.config({
             urlArgs: "_=" + (new Date()).getTime(),
             baseUrl: "js",
@@ -56,20 +41,5 @@
             }
         });
     </script>
-    <!-- <script> 
-        function capitalise(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-        }
-
-        var $page = $('#page');
-        $('#page').on('click', 'a[href]', function (event) {
-            var name = $(event.target).attr('href').slice(1);
-            window['show' + capitalise(name) + 'Screen']();
-            console.log(name);
-        });
-
-        showMainScreen();
-    </script>
-    -->
 </body>
 </html>

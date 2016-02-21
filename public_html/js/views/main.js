@@ -11,16 +11,18 @@ define([
         template: tmpl,
         initialize: function () {
             $('#page').html(tmpl());
-            $('#main').hide();
+            // $('#main').hide();
         },
         render: function () {
-            // TODO
+            $('#page').html(tmpl());
         },
         show: function () {
-            $('#main').show();
+            $('#page').html(tmpl());
+            // $('#main').show();
         },
         hide: function () {
-            $('#main').hide();
+            $('#page').html('');
+            // $('#main').hide();
         }
 
     });
