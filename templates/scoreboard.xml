@@ -1,22 +1,48 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div id="scoreboard">
-    	<div class="ui middle aligned center aligned grid">
-			<div class="four wide column">
-			<h1 class="ui center aligned header">
-				ЛУЧШИЕ ИГРОКИ!
-			</h1>
-				<ul>
+    	<div class="header">
+			<h1 class="header__h1 header__h1_50">
+				TOP PLAYERS
+	    	</h1>
+		</div>
+
+		<div class="content">
+			<table class="content__top-table">
 				<fest:each iterate="json.collection" index="i" value="player">
-    				<li>
-    					<fest:value output="text">player.name</fest:value> |
-    					<fest:value output="text">player.score</fest:value>
-    				</li>
+					<!-- Первые три подсвечиваются золотом -->
+					<fest:script>
+						i++;
+						var tr_class = 'content__top-tr';
+						
+						if (i == 1 || i == 2 || i == 3)
+							tr_class += ' content__top-tr_gold-hover';
+					</fest:script>
+
+			        <tr>	
+			        	<fest:attributes>
+        					<fest:attribute name="class"><fest:value>tr_class</fest:value></fest:attribute>
+    					</fest:attributes>					
+						<td>
+							<fest:value output="text">i</fest:value>
+						</td>
+						<td align="left">
+							<fest:value output="text">player.name</fest:value>
+						</td>
+						<td>
+							<fest:value output="text">player.score</fest:value>
+						</td>
+					</tr>
 				</fest:each>
-				</ul>
-			<h3 class="ui aligned header">
-				<a href="#main">ГЛАВНОЕ МЕНЮ</a>
-			</h3>
-			</div>
+			</table>
+		</div>
+
+		<div class="footer">
+			<h3>
+				<a href="#main" class="footer__a">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					MAIN MENU
+				</a>
+	    	</h3>
 		</div>
     </div>
 </fest:template>
