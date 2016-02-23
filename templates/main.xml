@@ -1,28 +1,26 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div id="main">
-    	<div class="ui middle aligned center aligned grid">
-    		<p class="ui"></p>
-    		<div class="four wide column">
-		    	<h1 class="ui center aligned header">
-					Невъебенный главный экран
-		    	</h1>
-				<div class="container">
-			    	<ul class="ui bulleted link list">
-			    		<li class="item">
-			    			<a href="#game">Начать игру</a>
-			    		</li>
-			    		<li class="item">
-			    			<a href="#scoreboard">Лучшие игроки</a>
-			    		</li>
-			    		<li class="item">
-			    			<a href="#login">Войти</a>
-			    		</li>
-			    		<li class="item">
-			    			<a href="#register">Регистрация</a>
-			    		</li>
-			    	</ul>
-				</div>
-	    	</div>
+		<div class="header">
+			<h1 class="header__h1 header__h1_80">
+				STAR BUTTLE
+	    	</h1>
+		</div>	
+
+    	<div class="content"> 
+	    	<ul class="content__main-menu">
+	    		<li class="content__main-menu__item">
+	    			<a href="#game">START GAME</a>
+	    		</li>
+	    		<li class="content__main-menu__item">
+	    			<a href="#scoreboard">TOP PLAYERS</a>
+	    		</li>
+	    		<li class="content__main-menu__item">
+	    			<a href="#login">SIGN IN</a>
+	    		</li>
+	    		<li class="content__main-menu__item">
+	    			<a href="#register">SIGN UP</a>
+	    		</li>
+	    	</ul>
     	</div>
-    </div>
+	</div>
 </fest:template>
