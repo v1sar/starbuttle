@@ -12,16 +12,9 @@
 					<!-- Первые три подсвечиваются золотом -->
 					<fest:script>
 						i++;
-						var tr_class = 'content__top-tr';
-						
-						if (i == 1 || i == 2 || i == 3)
-							tr_class += ' content__top-tr_gold-hover';
+						var tr_gold = 'content__top-tr_gold-hover';
 					</fest:script>
-
-			        <tr>	
-			        	<fest:attributes>
-        					<fest:attribute name="class"><fest:value>tr_class</fest:value></fest:attribute>
-    					</fest:attributes>					
+			        <tr class="content__top-tr { i < 4 ? tr_gold : ''}">	
 						<td>
 							<fest:value output="text">i</fest:value>
 						</td>
