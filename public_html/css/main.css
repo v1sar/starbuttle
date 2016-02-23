@@ -5,6 +5,12 @@
     background-size: 100%; 
 	font-family: 'Englebert', sans-serif;
 }
+._no-border {
+	border-radius: 0px !important;
+}
+._bold {
+	font-weight: bold !important;
+}
 
 /* HEADER */
 .header {
@@ -25,6 +31,7 @@
 /* CONTENT */
 .content {
 	width: 100%;
+	min-height: 300px;
 }
 
 .content__main-menu {
@@ -71,6 +78,20 @@
 .content__top-tr_gold-hover:hover {
 	text-shadow: 2px 2px 3px black, 0 0 30px gold;
 	color: gold;
+}
+
+.content__form-login {
+	max-width: 400px;
+	margin: 0 auto;
+	margin-top: 50px;
+	text-align: right;
+}
+.content__label {
+	text-shadow: 2px 2px 2px black, 0 0 1em white;
+	color: white;
+}
+.content__btn {
+	padding: 10px 30px;
 }
 
 /**************************************/

@@ -15,10 +15,10 @@
 	    			<a href="#scoreboard">TOP PLAYERS</a>
 	    		</li>
 	    		<li class="content__main-menu__item">
-	    			<a href="#login">LOGIN</a>
+	    			<a href="#login">SIGN IN</a>
 	    		</li>
 	    		<li class="content__main-menu__item">
-	    			<a href="#register">SIGNIN</a>
+	    			<a href="#register">SIGN UP</a>
 	    		</li>
 	    	</ul>
     	</div>
