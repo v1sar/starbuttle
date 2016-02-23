@@ -4,9 +4,9 @@
 			<h1 class="header__h1 header__h1_80">
 				STAR BUTTLE
 	    	</h1>
-		</div>	
+		</div>
 
-    	<div class="content"> 
+    	<div class="content">
 	    	<ul class="content__main-menu">
 	    		<li class="content__main-menu__item">
 	    			<a href="#game">START GAME</a>
@@ -18,7 +18,7 @@
 	    			<a href="#login">SIGN IN</a>
 	    		</li>
 	    		<li class="content__main-menu__item">
-	    			<a href="#register">SIGN UP</a>
+	    			<a href="#registration">REGISTER</a>
 	    		</li>
 	    	</ul>
     	</div>

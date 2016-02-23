@@ -58,8 +58,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-concurrent');
-	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-fest');
+  	grunt.loadNpmTasks('grunt-shell');
+  	grunt.loadNpmTasks('grunt-fest');
 
     // результат команды grunt
     grunt.registerTask('default', ['concurrent']);

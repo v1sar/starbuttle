@@ -1,35 +1,31 @@
 define([
     'backbone',
-    'tmpl/game'
+    'tmpl/registration'
 ], function(
     Backbone,
     tmpl
 ){
-    var gameView = Backbone.View.extend({
+
+    var registrationView = Backbone.View.extend({
 
         template: tmpl,
         initialize: function () {
             $('#page').html(tmpl());
-            // $('#game').hide();
+            // $('#registration').hide();
         },
         render: function () {
             $('#page').html(tmpl());
         },
         show: function () {
             $('#page').html(tmpl());
-            // $('#game').show();
+            // $('#registration').show();
         },
         hide: function () {
             $('#page').html('');
-            //$('#game').hide();
+            //$('#registration').hide();
         }
 
     });
-    
-    $(document).on('mousemove', '#game-field', function (event) {
-        $('#space-craft')
-            .css('left', (event.pageX - 75) + 'px')
-            .css('top', (event.pageY - 75) + 'px');
-    });
-    return new gameView();
+
+    return new registrationView();
 });
