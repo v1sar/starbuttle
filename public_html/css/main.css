@@ -80,7 +80,8 @@
 	color: gold;
 }
 
-.content__form-login {
+.content__form-sign-in, 
+.content__form-sign-up {
 	max-width: 400px;
 	margin: 0 auto;
 	margin-top: 50px;
@@ -113,12 +114,19 @@
 /**************************************/
 
 /* FOOTER */
-.footer__a:hover{
-	color: white;
-	font-size: 24px;
-	text-decoration: none;
-}
-
 .footer__a span {
 	font-size: 20px;
+	vertical-align: middle;
+	margin-bottom: 5px;
 }
+.footer__a:hover {
+	color: white;
+	font-size: 28px;
+	text-decoration: none;
+}
+.footer__a:hover > span {
+	font-size: 26px;
+	margin-bottom: 6px;
+}
+
+
