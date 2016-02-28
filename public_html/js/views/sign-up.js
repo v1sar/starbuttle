@@ -1,16 +1,16 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/sign-up'
 ], function(
     Backbone,
     tmpl
 ) {
-    var mainView = Backbone.View.extend({
+    var registrationView = Backbone.View.extend({
         template: tmpl,
 
         tagName: 'div',
 
-        id: 'main',
+        id: 'sign-up',
 
         initialize: function () {
             // TODO: this.listenTo(...)
@@ -31,5 +31,5 @@ define([
         }
     });
 
-    return mainView;
+    return registrationView;
 });

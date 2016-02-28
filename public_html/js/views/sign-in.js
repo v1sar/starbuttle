@@ -1,21 +1,22 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/sign-in'
 ], function(
     Backbone,
     tmpl
 ) {
-    var mainView = Backbone.View.extend({
+    var loginView = Backbone.View.extend({
+
         template: tmpl,
 
         tagName: 'div',
 
-        id: 'main',
+        id: 'sign-in',
 
         initialize: function () {
             // TODO: this.listenTo(...)
         },
-
+        
         render: function() {
             this.$el.html(this.template());
             return this;
@@ -31,5 +32,5 @@ define([
         }
     });
 
-    return mainView;
+    return loginView;
 });

@@ -1,38 +1,49 @@
 define(function(require) {
     
     var Backbone = require('backbone'),
-        mainView = require('views/main'),
-        loginView = require('views/login'),
-        scoreboardView = require('views/scoreboard'),
-        gameView = require('views/game'),
-        registrationView = require('views/registration');
+        MainView = require('views/main'),
+        SignInView = require('views/sign-in'),
+        ScoreboardView = require('views/scoreboard'),
+        GameView = require('views/game'),
+        SignUpView = require('views/sign-up');
     
+    var app = require('views/app');
+    app.setViews({
+        'main': MainView,
+        'signIn': SignInView,
+        'scoreboard': ScoreboardView,
+        'game': GameView,
+        'signUp': SignUpView
+    });
+
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
-            'login': 'loginAction',
-            'registration': 'registrationAction',
+            'signup': 'signUpAction',
+            'signin': 'signInAction',
             '*default': 'defaultActions'
         },
+
         defaultActions: function () {
-            mainView.show();
+            // TODO: 404_view
+            app.getView('main').show();
         },
+
         scoreboardAction: function () {
-            // mainView.hide();
-            scoreboardView.show();
+            app.getView('scoreboard').show();
         },
+
         gameAction: function () {
-            //mainView.hide();
-            gameView.show();
+            app.getView('game').show();
         },
-        loginAction: function () {
-            // mainView.hide();
-            loginView.show();
+
+        signInAction: function () {
+            app.getView('signIn').show();
         },
-        registrationAction: function () {
-            // mainView.hide();
-            registrationView.show();
+        
+        signUpAction: function () {
+            app.getView('signUp').show();
         }
     });
 

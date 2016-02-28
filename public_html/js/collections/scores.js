@@ -8,6 +8,7 @@ define([
 
     var PlayerScoreCollection = Backbone.Collection.extend({
     	model: playerModel,
+        
     	comparator: function(player) {
             return -player.get('score');    // Минус!
         }

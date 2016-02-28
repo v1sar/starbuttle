@@ -1,37 +1,44 @@
-define([
-    'backbone',
-    'tmpl/scoreboard',
-    'collections/scores'
-], function(
-    Backbone, 
-    tmpl,
-    players
-){
-    var PlayerScoreView = Backbone.View.extend({
-        // tagName: "li",
-        // className: "score__item",
-        template: tmpl,
-        initialize: function () {
-            // При любых изменениях в моделе, перерисовываем представление
-            //this.listenTo(this.model, "change", this.render);
-            // $('#scoreboard').hide();
-        },
-        render: function () {
-            // this.$el.html(this.template(this.model.attributes));
-            // return this;
-        },
-        show: function () {
-            $('#page').html(tmpl({collection: players.toJSON()}));
-            // $('#scoreboard').show(); 
-        },
-        hide: function () {
-            $('#page').html('');
-            //$('#scoreboard').hide();
-        },
-        events: {
+define(function(require) {
 
+    var Backbone = require('backbone'),
+        players =  require('collections/scores'),
+        playerModel = require('models/score'),
+        tmpl = require('tmpl/scoreboard');
+
+    var PlayerScoreView = Backbone.View.extend({
+        model: playerModel,
+
+        collection: players,
+
+        template: tmpl,
+
+        tagName: 'div',
+
+        id: 'scoreboard',
+
+        initialize: function () {
+            // TODO: this.listenTo(this.collection, "change", this.render);
         },
+
+        render: function () {
+            var context = { 
+                collection: this.collection.toJSON() 
+            };
+
+            this.$el.html(this.template(context));
+
+            return this;
+        },
+
+        show: function () {
+            this.trigger('show');
+            this.$el.show();
+        },
+
+        hide: function () {
+            this.$el.hide();
+        }
     });
 
-    return new PlayerScoreView();
+    return PlayerScoreView;
 });

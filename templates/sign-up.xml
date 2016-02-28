@@ -41,21 +41,11 @@
 
 		<div class="footer">
 			<h3>
-				<a href="#main" class="footer__a">
+				<a href="/#main" class="footer__a">
 					<span class="glyphicon glyphicon-chevron-left"></span>
 					MAIN MENU
 				</a>
 	    	</h3>
 		</div>
 	</div>
-<!-- <div class="field">
-	<label>Last Name</label>
-	<input type="text" name="last-name" placeholder="Last Name" />
-</div>
-<div class="field">
-	<div class="ui checkbox">
-		<input type="checkbox" tabindex="0" class="hidden" />
-		<label>I agree to the Terms and Conditions</label>
-	</div>
-</div> -->
 </fest:template>

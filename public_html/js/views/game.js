@@ -4,32 +4,44 @@ define([
 ], function(
     Backbone,
     tmpl
-){
+) {
     var gameView = Backbone.View.extend({
-
         template: tmpl,
-        initialize: function () {
-            $('#page').html(tmpl());
-            // $('#game').hide();
-        },
-        render: function () {
-            $('#page').html(tmpl());
-        },
-        show: function () {
-            $('#page').html(tmpl());
-            // $('#game').show();
-        },
-        hide: function () {
-            $('#page').html('');
-            //$('#game').hide();
-        }
 
+        tagName: 'div',
+
+        id: 'game',
+
+        events: {
+            'mousemove #game-field': 'moveSpaceCraft'
+        },
+
+        initialize: function () {
+            // TODO: this.listenTo(...)
+        },
+
+        render: function() {
+            this.$el.html(this.template());
+            return this;
+        },
+
+        show: function () {
+            this.trigger('show');
+            this.$el.show();
+        },
+
+        hide: function () {
+            this.$el.hide();
+        },
+
+        moveSpaceCraft: function(event) {
+            var $spaceCraft = this.$el.find('#space-craft');
+
+            $spaceCraft
+                .css('left', (event.pageX - 75) + 'px')
+                .css('top', (event.pageY - 75) + 'px');  
+        }
     });
-    
-    $(document).on('mousemove', '#game-field', function (event) {
-        $('#space-craft')
-            .css('left', (event.pageX - 75) + 'px')
-            .css('top', (event.pageY - 75) + 'px');
-    });
-    return new gameView();
+
+    return gameView;
 });
