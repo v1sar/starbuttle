@@ -1,18 +1,12 @@
-define([
-    'backbone',
-    'views/main',
-    'views/login',
-    'views/scoreboard',
-    'views/game',
-    'views/registration'
-], function(
-    Backbone,
-    mainView,
-    loginView,
-    scoreboardView,
-    gameView,
-    registrationView
-){
+define(function(require) {
+    
+    var Backbone = require('backbone'),
+        mainView = require('views/main'),
+        loginView = require('views/login'),
+        scoreboardView = require('views/scoreboard'),
+        gameView = require('views/game'),
+        registrationView = require('views/registration');
+    
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
