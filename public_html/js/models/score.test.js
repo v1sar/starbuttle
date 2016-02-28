@@ -1,12 +1,10 @@
-define(function (require) {
-    QUnit.module("models/score");
+define(function(require) {
+    QUnit.module("models/");
 
-    QUnit.test("ScoreModel - экземпляр Backbone.Model", function () {
+    QUnit.test("PlayerModel - instance of Backbone.Model", function () {
+        var PlayerModel = require('./score'),
+            player = new PlayerModel();
 
-        var ScoreModel = require('./score'),
-            score = new ScoreModel();
-
-        QUnit.ok(score instanceof Backbone.Model);
-
+        QUnit.ok(player instanceof Backbone.Model);
     });
 });

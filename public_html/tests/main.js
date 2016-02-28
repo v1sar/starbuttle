@@ -1,4 +1,5 @@
-// QUnit.config.autostart = false;
+QUnit.config.autostart = false;
+
 require.config({
     urlArgs: "_=" + (new Date()).getTime(),
     baseUrl: "../js",
@@ -19,7 +20,8 @@ require.config({
 });
 
 var tests = [
-    'models/score.test'
+    'models/score.test',
+    'views/main.test'
 ];
 
 require(tests, function () {
