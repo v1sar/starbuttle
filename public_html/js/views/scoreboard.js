@@ -2,17 +2,12 @@ define(function(require) {
 
     var Backbone = require('backbone'),
         players =  require('collections/scores'),
-        playerModel = require('models/score'),
         tmpl = require('tmpl/scoreboard');
 
     var PlayerScoreView = Backbone.View.extend({
-        model: playerModel,
-
         collection: players,
 
         template: tmpl,
-
-        tagName: 'div',
 
         id: 'scoreboard',
 

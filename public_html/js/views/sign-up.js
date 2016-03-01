@@ -5,10 +5,8 @@ define([
     Backbone,
     tmpl
 ) {
-    var registrationView = Backbone.View.extend({
+    var RegistrationView = Backbone.View.extend({
         template: tmpl,
-
-        tagName: 'div',
 
         id: 'sign-up',
 
@@ -31,5 +29,5 @@ define([
         }
     });
 
-    return registrationView;
+    return RegistrationView;
 });

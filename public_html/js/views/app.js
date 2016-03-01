@@ -4,10 +4,9 @@ define([
     Backbone
 ) {
     var AppView = Backbone.View.extend({
-        initialize: function () {
-            var $page = $('#page'); 
-            this.setElement($page);
+        el: $('#page'),
 
+        initialize: function () {
             this._views = {};
         },
 

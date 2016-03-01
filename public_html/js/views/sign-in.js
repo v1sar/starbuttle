@@ -5,11 +5,9 @@ define([
     Backbone,
     tmpl
 ) {
-    var loginView = Backbone.View.extend({
+    var LoginView = Backbone.View.extend({
 
         template: tmpl,
-
-        tagName: 'div',
 
         id: 'sign-in',
 
@@ -32,5 +30,5 @@ define([
         }
     });
 
-    return loginView;
+    return LoginView;
 });

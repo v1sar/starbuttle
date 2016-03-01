@@ -5,10 +5,8 @@ define([
     Backbone,
     tmpl
 ) {
-    var mainView = Backbone.View.extend({
+    var MainView = Backbone.View.extend({
         template: tmpl,
-
-        tagName: 'div',
 
         id: 'main',
 
@@ -31,5 +29,5 @@ define([
         }
     });
 
-    return mainView;
+    return MainView;
 });

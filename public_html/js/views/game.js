@@ -5,10 +5,8 @@ define([
     Backbone,
     tmpl
 ) {
-    var gameView = Backbone.View.extend({
+    var GameView = Backbone.View.extend({
         template: tmpl,
-
-        tagName: 'div',
 
         id: 'game',
 
@@ -43,5 +41,5 @@ define([
         }
     });
 
-    return gameView;
+    return GameView;
 });
