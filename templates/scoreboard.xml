@@ -6,14 +6,14 @@
 	</div>
 
 	<div class="content">
-		<table class="content__top-table">
+		<table class="top-table">
 			<fest:each iterate="json.collection" index="i" value="player">
 				<!-- Первые три подсвечиваются золотом -->
 				<fest:script>
 					i++;
-					var tr_gold = 'content__top-tr_gold-hover';
+					var tr_gold = 'top-tr_gold-hover';
 				</fest:script>
-		        <tr class="content__top-tr { i < 4 ? tr_gold : ''}">	
+		        <tr class="top-tr { i < 4 ? tr_gold : ''}">	
 					<td>
 						<fest:value output="text">i</fest:value>
 					</td>

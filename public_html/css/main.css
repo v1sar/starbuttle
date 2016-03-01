@@ -34,7 +34,7 @@
 	min-height: 300px;
 }
 
-.content__main-menu {
+.main-menu {
 	text-align: center;
 	color: white;
 	top: 50px;
@@ -42,20 +42,19 @@
 	padding: 0px;
 	text-shadow: 1px 1px 2px black, 0 0 1em white;
 }
-.content__main-menu__item {
+.main-menu__item {
 	list-style-type: none;
 	width: 100%;
-	/*height: 57px;*/
 }
-.content__main-menu__item a {
+.main-menu__item a {
 	height: 100%;
 	display: block;
 	padding-top: 5px;
 }
-.content__main-menu__item:hover {
+.main-menu__item:hover {
 	background: rgba(0, 25, 162, 0.21);
 }
-.content__main-menu__item:hover > a {
+.main-menu__item:hover > a {
 	text-decoration: none;
 	color: white;
 }
@@ -64,7 +63,7 @@
 	text-align: center;
 }
 
-.content__top-table {
+.top-table {
 	margin: 0 auto;
 	font-size: 30px;
 	color: #9b9595;
@@ -72,21 +71,21 @@
 	font-weight: bold;
 	margin-top: 20px;
 }
-.content__top-tr td {
+.top-tr td {
 	min-width: 100px;
 	cursor: default;
 }
-.content__top-tr:hover {
+.top-tr:hover {
 	text-shadow: 2px 2px 3px black, 0 0 30px white;
 	color: white;
 }
-.content__top-tr_gold-hover:hover {
+.top-tr_gold-hover:hover {
 	text-shadow: 2px 2px 3px black, 0 0 30px gold;
 	color: gold;
 }
 
-.content__form-sign-in, 
-.content__form-sign-up {
+.form-sign-in, 
+.form-sign-up {
 	max-width: 400px;
 	margin: 0 auto;
 	margin-top: 50px;
@@ -119,6 +118,10 @@
 /**************************************/
 
 /* FOOTER */
+.footer__a {
+	display: block;
+	height: 100%;
+}
 .footer__a span {
 	font-size: 20px;
 	vertical-align: middle;
