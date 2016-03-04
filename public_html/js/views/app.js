@@ -10,10 +10,15 @@ define([
             this._views = {};
         },
 
-        setViews: function(views) {
-            _.each(views, function(view, name) {
+        setViews: function(Views) {
+        /* TODO:
+            this._views = _.map(Views, function(View, name) {
+                return { name: { viewConstructor: View } };
+            });
+        */
+            _.each(Views, function(View, name) {
                 this._views[name] = {
-                    objConstructor: view
+                    viewConstructor: View
                 }    
             }, this);
         },
@@ -21,22 +26,22 @@ define([
         getView: function(name) {
             var view = this._views[name];
             
-            if (!view.obj) {
-                view.obj = new view.objConstructor();
-                this.listenTo(view.obj, 'show', this.hideOtherViews);
+            if (!view.instance) {
+                view.instance = new view.viewConstructor();
+                this.listenTo(view.instance, 'show', this.hideOtherViews);
                 
-                this.$el.append(view.obj.render().$el);
+                this.$el.append(view.instance.render().$el);
   
-                this._views[name].obj = view.obj;
+                this._views[name].instance = view.instance;
             }
 
-            return view.obj;
+            return view.instance;
         },
 
         hideOtherViews: function() {
             _.each(this._views, function(view) {
-                if (view.obj) {
-                    view.obj.hide();
+                if (view.instance) {
+                    view.instance.hide();
                 }
             }, this);
         }
