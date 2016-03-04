@@ -1,0 +1,49 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<div class="header">
+		<h1 class="header__h1 header__h1_50">
+			SIGN UP
+    	</h1>
+	</div>
+
+	<div class="content">
+		<form method="" class="form-sign-up form-horizontal">
+			<div class="form-group form-group-lg">
+				<div class="col-md-3">
+					<label for="Email" class="control-label content__label">Email</label>
+				</div>
+				<div class="col-md-9">
+					<input type="email" class="form-control _no-border _bold" name="Email" placeholder="Email" />
+				</div>
+			</div>
+
+			<div class="form-group form-group-lg">
+				<div class="col-md-3">
+					<label for="password" class="control-label content__label">Password</label>
+				</div>
+				<div class="col-md-9">
+					<input type="password" class="form-control _no-border _bold" name="password" placeholder="password" />
+				</div>
+			</div>
+
+			<div class="form-group form-group-lg">
+				<div class="col-md-3">
+					<label for="nickname" class="control-label content__label">Nickname</label>
+				</div>
+				<div class="col-md-9">
+					<input type="text" name="nickname" class="form-control _no-border _bold" placeholder="login" />
+				</div>
+			</div>
+
+			<button class="btn btn-primary btn-lg content__btn _no-border" type="submit">Register</button>
+		</form>
+	</div>
+
+	<div class="footer">
+		<h3>
+			<a href="/#main" class="footer__a">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				MAIN MENU
+			</a>
+    	</h3>
+	</div>
+</fest:template>

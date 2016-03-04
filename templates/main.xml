@@ -1,3 +1,24 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="main"></div>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+	<div class="header">
+		<h1 class="header__h1 header__h1_80">
+			STAR BUTTLE
+    	</h1>
+	</div>
+
+	<div class="content">
+    	<ul class="main-menu">
+    		<li class="main-menu__item">
+    			<a href="#game">START GAME</a>
+    		</li>
+    		<li class="main-menu__item">
+    			<a href="#scoreboard">TOP PLAYERS</a>
+    		</li>
+    		<li class="main-menu__item">
+    			<a href="#signin">SIGN IN</a>
+    		</li>
+    		<li class="main-menu__item">
+    			<a href="#signup">SIGN UP</a>
+    		</li>
+    	</ul>
+	</div>
 </fest:template>
