@@ -4,7 +4,8 @@ require.config({
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        bootstrap: "lib/bootstrap"
     },
     shim: {
         'backbone': {
@@ -13,13 +14,17 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'bootstrap': {
+            deps: ['jquery']
         }
     }
 });
 
 require([
-	'backbone',
-	'router'
+    'backbone',
+	'router',
+    'bootstrap'
 ], function(
 	Backbone,
 	router

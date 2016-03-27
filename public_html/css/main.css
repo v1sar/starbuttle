@@ -99,6 +99,29 @@
 	padding: 10px 30px;
 }
 
+.glyphicon_sm {
+	font-size: 16px;
+}
+
+.signup-alert {
+	max-width: 400px;
+	border-radius: 0px;
+	margin: 0 auto;
+	margin-bottom: -20px;	
+	color: white;
+	cursor: default;
+}
+.signup-alert.alert-danger {
+	background-color: rgba(206, 6, 6, 0.75);
+}
+.signup-alert.alert-success {
+	background-color: rgba(32, 84, 11, 0.75);
+}
+.signup-alert.alert-success .alert-link {
+    color: #fff;
+    font-size: 20px;
+}
+
 /**************************************/
 #game-field {
 	width: 100%;

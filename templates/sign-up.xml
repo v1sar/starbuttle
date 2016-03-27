@@ -6,13 +6,17 @@
 	</div>
 
 	<div class="content">
-		<form method="" class="form-sign-up form-horizontal">
+		<div id="signup-alert" class="alert alert-danger signup-alert" style="display: none">
+			<span id="signup-alert-text"></span>
+		</div>
+
+		<form method="POST" action="" id="sign-up-form" class="form-sign-up form-horizontal">
 			<div class="form-group form-group-lg">
 				<div class="col-md-3">
 					<label for="Email" class="control-label content__label">Email</label>
 				</div>
 				<div class="col-md-9">
-					<input type="email" class="form-control _no-border _bold" name="Email" placeholder="Email" />
+					<input type="email" class="form-control _no-border _bold" name="email" placeholder="Email" />
 				</div>
 			</div>
 

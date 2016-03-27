@@ -1,7 +1,7 @@
 define(function(require) {
 
-    var Backbone = require('backbone'),
-        players =  require('collections/scores'),
+    var Backbone = require('backbone');
+        players =  require('collections/players'),
         tmpl = require('tmpl/scoreboard');
 
     var PlayerScoreView = Backbone.View.extend({
