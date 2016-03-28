@@ -45,15 +45,19 @@
 				<div class="col-md-9 _no-padding-left">
 					<div class="col-md-6">
 						<div id="preview" class="avatar-preview pull-left">
-							<img src="/images/default-img.png" height="170" width="170" />
+							<img src="/images/default-img.png" height="170" width="170" id="default_img" />
 						</div>
 					</div>
 					<div class="col-md-6 _no-padding-right">
-						<button id="upload-btn" class="btn btn-default content__btn _no-border _upload">
-							<span class="glyphicon glyphicon-download-alt"></span>
-							Upload the image
-						</button>
-						<button id="webcamera-btn" class="btn btn-default content__btn _no-border _upload _mar-t-5">
+						<div class="js-fileapi-wrapper" id="choose">
+					      	<input name="files" type="file" accept="image/*" class="upload-input"/>
+					      	<button id="upload-btn" class="btn btn-default content__btn _no-border upload-btn">
+								<span class="glyphicon glyphicon-download-alt"></span>
+								Upload the image
+							</button>
+						</div>
+
+						<button id="webcamera-btn" class="btn btn-default content__btn _no-border upload-btn _mar-t-5">
 							<span class="glyphicon glyphicon-camera"></span>
 							Take a photo
 						</button>

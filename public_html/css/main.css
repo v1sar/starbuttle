@@ -91,6 +91,9 @@
 	margin-top: 50px;
 	text-align: right;
 }
+.form-sign-in {
+	max-width: 400px;
+}
 .content__label {
 	text-shadow: 2px 2px 2px black, 0 0 1em white;
 	color: white;
@@ -100,11 +103,6 @@
 }
 .content__btn span {
 	margin-right: 5px;
-}
-._upload {
-	font-size: 16px;
-	padding: 10px;
-	width: 100%;
 }
 
 .glyphicon_sm {
@@ -128,6 +126,24 @@
 .signup-alert.alert-success .alert-link {
     color: #fff;
     font-size: 20px;
+}
+
+.upload-btn {
+	font-size: 16px;
+	padding: 10px;
+	width: 100%;
+}
+.upload-input {
+	position: absolute;
+	max-width: 177px;
+	height: 45px;
+	opacity: 0;
+	cursor: pointer;
+}
+.js-fileapi-wrapper:hover > .upload-btn {
+	color: #333;
+	background-color: #e6e6e6;
+	border-color: #adadad;
 }
 
 ._no-padding-left {

@@ -5,13 +5,12 @@ window.FileAPI = {
 };   
 
 define(function(require) {   
+    var FileAPI = require('fileAPI');
 
     var Backbone = require('backbone');
         PlayerModel = require('models/player'),
         players = require('collections/players'),
         tmpl  = require('tmpl/sign-up');
-
-    var FileAPI = require('fileAPI');
 
     var RegistrationView = Backbone.View.extend({
         newPlayer: new PlayerModel(),
@@ -24,7 +23,8 @@ define(function(require) {
 
         events: {
             'submit #sign-up-form': 'addPlayer',
-            'click #startWebBtn': 'cameraInit'
+            'click #startWebBtn': 'cameraInit',
+            'change #choose': 'fileUpload'
         },
 
         initialize: function () {
@@ -33,7 +33,7 @@ define(function(require) {
         },
 
         render: function() {
-            this.$el.html(this.template());
+            this.$el.html(this.template());            
             return this;
         },
 
@@ -47,17 +47,17 @@ define(function(require) {
         },
 
         showErrorMsg: function(model, error) {
-            var alertError = this.$('#signup-alert'),
-                alertText = this.$('#signup-alert-text');
+            var $alertError = this.$('#signup-alert'),
+                $alertText = this.$('#signup-alert-text');
 
-            alertError.hide();
+            $alertError.hide();
 
-            if (alertError.hasClass('alert-success')) {
-                alertError.toggleClass('alert-success alert-danger');
+            if ($alertError.hasClass('alert-success')) {
+                $alertError.toggleClass('alert-success alert-danger');
             }
 
-            alertText.text(error);            
-            alertError.fadeIn();
+            $alertText.text(error);            
+            $alertError.fadeIn();
             
             // setTimeout(function() {
             //     alertError.fadeOut();
@@ -65,18 +65,18 @@ define(function(require) {
         },
 
         showSuccessMsg: function(player) {
-            var alertSuccess = this.$('#signup-alert'),
-                alertText = this.$('#signup-alert-text');
+            var $alertSuccess = this.$('#signup-alert'),
+                $alertText = this.$('#signup-alert-text');
 
-            alertSuccess.hide();
+            $alertSuccess.hide();
 
-            if (alertSuccess.hasClass('alert-danger')) {
-                alertSuccess.toggleClass('alert-danger alert-success');
+            if ($alertSuccess.hasClass('alert-danger')) {
+                $alertSuccess.toggleClass('alert-danger alert-success');
             }
 
-            alertText.text('Вы успешно зарегистированы как');
-            alertText.append('</br><a href="/#signin" class="alert-link">' + player.get('nickname') + '</a>');
-            alertSuccess.fadeIn();
+            $alertText.text('Вы успешно зарегистированы как');
+            $alertText.append('</br><a href="/#signin" class="alert-link">' + player.get('nickname') + '</a>');
+            $alertSuccess.fadeIn();
         },
 
         addPlayer: function(event) {                   
@@ -117,7 +117,7 @@ define(function(require) {
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
-                        shot.preview(100).get(function (err, img){
+                        shot.preview(170).get(function (err, img){
                             previews.appendChild(img);
                         });
 
@@ -141,9 +141,56 @@ define(function(require) {
                     }
                 });
             });
-
         },
-    });
+
+        fileUpload: function(event) {
+                var $preview = this.$('#preview'),
+                    $default_img = this.$('#default_img'),
+                    files = FileAPI.getFiles(event);
+
+                FileAPI.filterFiles(files, function (file, info) {
+                    if (!(/^image\//i.test(file.type))) {
+                        alert('Invalid file type!');
+                        return false;
+                    }
+
+                    if (!((info.width > 160) && (info.height > 160))) {
+                        alert('The size is too small!');
+                        return false;
+                    }
+
+                    if (file.size && (file.size > 2 * FileAPI.MB)) {
+                        alert('The weight is too large!');
+                        return false;
+                    }
+
+                    return true;
+
+                }, function(files, rejected) {
+                    if (files.length) {
+                        var file = files[0];
+
+                        this.avatar = file;
+                        
+                        FileAPI.Image(file).preview(170).get(function(err, img) {
+                            $default_img.hide();            
+                            $preview.empty();
+                            preview.appendChild(img);       //  BUT $preview NOT WORKING?????!
+                        });
+                    }
+                });
+
+                  // Загружаем файлы
+                // FileAPI.upload({
+                //     url: './ctrl.php',
+                //     files: { images: files },
+                //     progress: function (evt){ /* ... */ },
+                //     complete: function (err, xhr){ /* ... */ }
+                // });
+            
+        }   // fileUploadInit
+   
+    }); // RegistrationView
 
     return RegistrationView;
 });
