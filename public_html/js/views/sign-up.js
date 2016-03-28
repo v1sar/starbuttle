@@ -23,7 +23,7 @@ define(function(require) {
 
         events: {
             'submit #sign-up-form': 'addPlayer',
-            'click #startWebBtn': 'cameraInit',
+            'click #webcamera_btn': 'cameraPublish',
             'change #choose': 'fileUpload'
         },
 
@@ -38,11 +38,12 @@ define(function(require) {
         },
 
         show: function () {
-            this.trigger('show');
+            this.trigger('show');            
             this.$el.show();
         },
 
         hide: function () {
+            this.$('#signup-alert').hide();
             this.$el.hide();
         },
 
@@ -79,74 +80,52 @@ define(function(require) {
             $alertSuccess.fadeIn();
         },
 
-        addPlayer: function(event) {                   
-            var newPlayer = {
-                email: this.$('input[name="email"]').val(),
-                password: this.$('input[name="password"]').val(),
-                nickname: this.$('input[name="nickname"]').val()
-            }   
-            
-            this.newPlayer.set(newPlayer);
+        cameraPublish: function() {
+            var $preview = this.$('#preview'),
+                $webcamera_btn = this.$('#webcamera_btn'),
+                $shot_btn = this.$('#shot_btn'),
+                $default_img = this.$('#default_img');
 
-            if (this.newPlayer.isValid()) {
-                this.collection.add(this.newPlayer);
-                return false;                            // TODO: true: AJAX to JAVA-server
-            }
+            $webcamera_btn.hide();
+            $shot_btn.show();
 
-            return false;                               // event.preventDefault();
-        },
+            FileAPI.avatar = null;
 
-        cameraInit: function() {
-            FileAPI.Camera.publish(preview, { width: 320, height: 173 }, function (err, cam) {
+            FileAPI.Camera.publish(preview, { width: 170, height: 170 }, function (err, cam) {
                 if (err) {
-                    alert('WebCam or Flash not supported :[');
+                    alert('WebCam or Flash not supported!');
                     return;
                 } 
 
-                // readyBox.style.display = '';
-
-                FileAPI.event.on(startBtn, 'click', function (){
-                    cam.start();
-                });
-
-                // FileAPI.event.on(stopBtn, 'click', function (){
-                //     cam.stop();
-                // });
-
-                FileAPI.event.on(shotBtn, 'click', function (){
+                FileAPI.event.on(shot_btn, 'click', function (){
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
                         shot.preview(170).get(function (err, img){
-                            previews.appendChild(img);
+                            $default_img.hide();
+                            $preview.children('video').remove();
+                            $preview.children('canvas').remove();
+                            preview.appendChild(img);
                         });
 
-                        // shot
-                        //     .clone()
-                        //     .preview(100, 100)
-                        //     .get(function(err, img) {
-                        //         img.style.marginRight = '5px';
-                        //         shots.insertBefore(img, shots.firstChild);
-                        //     })
-                        // ;
-
-                        var file = shot
-                            .preview(200, 200)
-                            .overlay({
-                                  x: 5
-                                , y: 5
-                                , rel: FileAPI.Image.RIGHT_TOP
-                            })
-                        ;
+                        FileAPI.avatar = FileAPI.Image(shot);
+                        
+                    } else {
+                        alert('Web camera is turned off!');
+                        $default_img.show();
                     }
+
+                    $shot_btn.hide();
+                    $webcamera_btn.show()
                 });
             });
         },
 
         fileUpload: function(event) {
-                var $preview = this.$('#preview'),
-                    $default_img = this.$('#default_img'),
-                    files = FileAPI.getFiles(event);
+                var $preview = this.$('#preview'),                    
+                    $default_img = this.$('#default_img');
+                    
+                var files = FileAPI.getFiles(event);
 
                 FileAPI.filterFiles(files, function (file, info) {
                     if (!(/^image\//i.test(file.type))) {
@@ -170,26 +149,45 @@ define(function(require) {
                     if (files.length) {
                         var file = files[0];
 
-                        this.avatar = file;
+                        FileAPI.avatar = file;  // Храним аватар прямо в объекте API, а как его еще выцеить отсюда в отправку формы?
                         
-                        FileAPI.Image(file).preview(170).get(function(err, img) {
-                            $default_img.hide();            
-                            $preview.empty();
+                        FileAPI.Image(file).preview(170).get(function(err, img) {           
+                            $default_img.hide();
+                            $preview.children('canvas').remove();
                             preview.appendChild(img);       //  BUT $preview NOT WORKING?????!
                         });
                     }
                 });
+            
+        },   // fileUploadInit
+        
+        addPlayer: function(event) {                   
 
-                  // Загружаем файлы
+            var newPlayer = {
+                email: this.$('input[name="email"]').val(),
+                password: this.$('input[name="password"]').val(),
+                nickname: this.$('input[name="nickname"]').val()
+            }   
+            
+            this.newPlayer.set(newPlayer);
+
+            if (this.newPlayer.isValid()) {
+                this.collection.add(this.newPlayer);
+                
+                // Загружаем файлы
                 // FileAPI.upload({
-                //     url: './ctrl.php',
+                //     url: '....',
                 //     files: { images: files },
                 //     progress: function (evt){ /* ... */ },
                 //     complete: function (err, xhr){ /* ... */ }
                 // });
-            
-        }   // fileUploadInit
-   
+
+                return false;                            // TODO: true: AJAX to JAVA-server
+            }
+
+            return false;                               // event.preventDefault();
+        }
+
     }); // RegistrationView
 
     return RegistrationView;
