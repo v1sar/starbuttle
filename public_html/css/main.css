@@ -86,7 +86,7 @@
 
 .form-sign-in, 
 .form-sign-up {
-	max-width: 400px;
+	max-width: 500px;
 	margin: 0 auto;
 	margin-top: 50px;
 	text-align: right;
@@ -98,13 +98,21 @@
 .content__btn {
 	padding: 10px 30px;
 }
+.content__btn span {
+	margin-right: 5px;
+}
+._upload {
+	font-size: 16px;
+	padding: 10px;
+	width: 100%;
+}
 
 .glyphicon_sm {
 	font-size: 16px;
 }
 
 .signup-alert {
-	max-width: 400px;
+	max-width: 500px;
 	border-radius: 0px;
 	margin: 0 auto;
 	margin-bottom: -20px;	
@@ -120,6 +128,16 @@
 .signup-alert.alert-success .alert-link {
     color: #fff;
     font-size: 20px;
+}
+
+._no-padding-left {
+	padding-left: 0px;
+}
+._no-padding-right {
+	padding-right: 0px;
+}
+._mar-t-5 {
+	margin-top: 5px;
 }
 
 /**************************************/
@@ -141,6 +159,9 @@
 /**************************************/
 
 /* FOOTER */
+.footer {
+	margin-bottom: 50px;
+}
 .footer__a {
 	display: block;
 	height: 100%;

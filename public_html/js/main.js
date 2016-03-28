@@ -5,7 +5,8 @@ require.config({
         jquery: "lib/jquery",
         underscore: "lib/underscore",
         backbone: "lib/backbone",
-        bootstrap: "lib/bootstrap"
+        bootstrap: "lib/bootstrap",        
+        fileAPI: "lib/file_api/FileAPI"
     },
     shim: {
         'backbone': {
@@ -17,6 +18,10 @@ require.config({
         },
         'bootstrap': {
             deps: ['jquery']
+        },
+        'fileAPI': {
+            // deps: ['jquery'],
+            exports: 'FileAPI'
         }
     }
 });

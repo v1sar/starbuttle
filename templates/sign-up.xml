@@ -38,6 +38,36 @@
 				</div>
 			</div>
 
+			<div class="form-group form-group-lg">
+				<div class="col-md-3">
+					<label for="avatar" class="control-label content__label">Avatar</label>
+				</div>
+				<div class="col-md-9 _no-padding-left">
+					<div class="col-md-6">
+						<div id="preview" class="avatar-preview pull-left">
+							<img src="/images/default-img.png" height="170" width="170" />
+						</div>
+					</div>
+					<div class="col-md-6 _no-padding-right">
+						<button id="upload-btn" class="btn btn-default content__btn _no-border _upload">
+							<span class="glyphicon glyphicon-download-alt"></span>
+							Upload the image
+						</button>
+						<button id="webcamera-btn" class="btn btn-default content__btn _no-border _upload _mar-t-5">
+							<span class="glyphicon glyphicon-camera"></span>
+							Take a photo
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+			
+			<button id="startWebBtn">startWeb</button>
+			<button id="startBtn">start</button>
+			<button id="shotBtn">shot</button>
+			<div id="previews"></div>
+
 			<button class="btn btn-primary btn-lg content__btn _no-border" type="submit">Register</button>
 		</form>
 	</div>
