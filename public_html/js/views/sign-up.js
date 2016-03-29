@@ -175,12 +175,17 @@ define(function(require) {
                 this.collection.add(this.newPlayer);
                 
                 // Загружаем файлы
-                // FileAPI.upload({
-                //     url: '....',
-                //     files: { images: files },
-                //     progress: function (evt){ /* ... */ },
-                //     complete: function (err, xhr){ /* ... */ }
-                // });
+                FileAPI.upload({
+                    url: '/uploads',
+                    files: { 
+                        images: FileAPI.avatar },
+                    complete: function (err, xhr){ 
+                        if (err) {
+                            alert('error');
+                        }
+                        alert('complete');
+                    }
+                });
 
                 return false;                            // TODO: true: AJAX to JAVA-server
             }
