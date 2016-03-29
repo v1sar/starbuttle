@@ -21,7 +21,8 @@ require.config({
 
 var tests = [
     'models/score.test',
-    'views/main.test'
+    'views/main.test',
+    'models/session.test'
 ];
 
 require(tests, function () {

@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "express-http-proxy": "^0.6.0",
-    "express-rewrite": "0.0.4"
+    "express-rewrite": "0.0.4",
+    "start": "node server",
+    "test": "grunt test"
   }
 }
