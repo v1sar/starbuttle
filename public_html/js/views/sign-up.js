@@ -162,35 +162,53 @@ define(function(require) {
         },   // fileUploadInit
         
         addPlayer: function(event) {                   
+            event.preventDefault();
 
             var newPlayer = {
                 email: this.$('input[name="email"]').val(),
                 password: this.$('input[name="password"]').val(),
                 nickname: this.$('input[name="nickname"]').val()
             }   
-            
+
             this.newPlayer.set(newPlayer);
 
             if (this.newPlayer.isValid()) {
-                this.collection.add(this.newPlayer);
-                
+
                 // Загружаем файлы
-                FileAPI.upload({
-                    url: '/uploads',
-                    files: { 
-                        images: FileAPI.avatar },
-                    complete: function (err, xhr){ 
-                        if (err) {
-                            alert('error');
-                        }
-                        alert('complete');
+                // FileAPI.upload({
+                //     url: '/uploads',
+                //     files: { 
+                //         images: FileAPI.avatar },
+                //     complete: function (err, xhr){ 
+                //         if (err) {
+                //             alert('error');
+                //         }
+                //         alert('complete');
+                //     }
+                // });
+
+                $.ajax({ 
+                    url: "/api/user",
+                    
+                    type: "PUT",
+                    
+                    data: { 
+                        login: newPlayer.nickname,
+                        password: newPlayer.password,
+                        email: newPlayer.email
+                    },
+                    
+                    success: function(json) {
+                        console.log(json);                        
+                        console.log("...SUCCESS!"); 
+                        this.collection.add(newPlayer);
+                    },
+
+                    error: function(xhr, error_msg, error) {
+                        console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
                     }
                 });
-
-                return false;                            // TODO: true: AJAX to JAVA-server
             }
-
-            return false;                               // event.preventDefault();
         }
 
     }); // RegistrationView

@@ -19,13 +19,15 @@ app.use(function (req, res, done) {
     done();
 });
 
+
 app
     .use('/', express.static(PUBLIC_DIR))
     .use(errorHandler())
-    .use('/api/*', function (req, res) {
+    /*.use('/api/*', function (req, res) {
         var url = 'http://private-4133d4-technopark.apiary-mock.com' + req.originalUrl;
         req.pipe(request(url)).pipe(res);
-    });
+    });*/
+
 
 app.listen(PORT, function () {
     console.log("Simple static server showing %s listening at http://%s:%s", PUBLIC_DIR, HOSTNAME, PORT);
