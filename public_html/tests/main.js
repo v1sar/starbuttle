@@ -20,7 +20,7 @@ require.config({
 });
 
 var tests = [
-    'models/score.test',
+    'models/player.test',
     'views/main.test',
     'models/session.test'
 ];
