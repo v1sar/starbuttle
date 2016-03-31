@@ -28,7 +28,7 @@ define(function(require) {
         },
 
         initialize: function () {
-            this.listenTo(this.newPlayer, 'invalid', this.showErrorMsg);
+            this.listenTo(this.newPlayer, 'invalid', this.validationMsg);
             this.listenTo(this.collection, 'add', this.showSuccessMsg);
         },
 
@@ -47,7 +47,7 @@ define(function(require) {
             this.$el.hide();
         },
 
-        showErrorMsg: function(model, error) {
+        showErrorMsg: function(errorText) {
             var $alertError = this.$('#signup-alert'),
                 $alertText = this.$('#signup-alert-text');
 
@@ -57,12 +57,16 @@ define(function(require) {
                 $alertError.toggleClass('alert-success alert-danger');
             }
 
-            $alertText.text(error);            
+            $alertText.text(errorText);            
             $alertError.fadeIn();
             
             // setTimeout(function() {
             //     alertError.fadeOut();
             // }, 5000);
+        },
+
+        validationMsg: function(model, error) {
+            this.showErrorMsg(error);
         },
 
         showSuccessMsg: function(player) {
@@ -174,40 +178,49 @@ define(function(require) {
 
             if (this.newPlayer.isValid()) {
 
-                // Загружаем файлы
-                // FileAPI.upload({
-                //     url: '/uploads',
-                //     files: { 
-                //         images: FileAPI.avatar },
-                //     complete: function (err, xhr){ 
-                //         if (err) {
-                //             alert('error');
-                //         }
-                //         alert('complete');
-                //     }
-                // });
+                // TODO: -> AJAX
+                /* FileAPI.upload({
+                    url: '/uploads',
+                    files: { 
+                        images: FileAPI.avatar },
+                    complete: function (err, xhr){ 
+                        if (err) {
+                            alert('error');
+                        }
+                        alert('complete');
+                    }
+                }); */
+
+                var regView = this;
 
                 $.ajax({ 
                     url: "/api/user",
                     
                     type: "PUT",
                     
-                    data: { 
+                    dataType: "json",
+                    
+                    contentType: "application/json",
+
+                    data: JSON.stringify({ 
                         login: newPlayer.nickname,
                         password: newPlayer.password,
                         email: newPlayer.email
-                    },
+                    }),
                     
-                    success: function(json) {
-                        console.log(json);                        
-                        console.log("...SUCCESS!"); 
-                        this.collection.add(newPlayer);
+                    success: function(json) {                      
+                        console.log("...SUCCESS!");
+                        console.log(json); 
+                        regView.collection.add(newPlayer);
                     },
 
                     error: function(xhr, error_msg, error) {
                         console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
+                        regView.showErrorMsg('Пользователь с таким email уже существует!');
                     }
                 });
+
+                this.$('#sign-up-form')[0].reset();
             }
         }
 
