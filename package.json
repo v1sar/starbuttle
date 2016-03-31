@@ -21,12 +21,11 @@
     "grunt-shell": "^1.1.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "grunt test"
   },
   "dependencies": {
     "express-http-proxy": "^0.6.0",
-    "express-rewrite": "0.0.4",
-    "start": "node server",
-    "test": "grunt test"
+    "express-rewrite": "0.0.4"
   }
 }
