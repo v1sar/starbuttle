@@ -22,14 +22,14 @@ define(function(require) {
         id: 'sign-up',
 
         events: {
-            'submit #sign-up-form': 'addPlayer',
-            'click #webcamera_btn': 'cameraPublish',
-            'change #choose': 'fileUpload'
+            'submit .js-sign-up-form': 'addPlayer',
+            'click .js-webcamera-btn': 'cameraPublish',
+            'change .js-choose': 'fileUpload'
         },
 
         initialize: function () {
-            this.listenTo(this.newPlayer, 'invalid', this.validationMsg);
-            this.listenTo(this.collection, 'add', this.showSuccessMsg);
+            this.listenTo(this.newPlayer, 'invalid', this.errorRegMsg);
+            this.listenTo(this.collection, 'add', this.successRegMsg);
         },
 
         render: function() {
@@ -43,95 +43,96 @@ define(function(require) {
         },
 
         hide: function () {
-            this.$('#signup-alert').hide();
+            this.$('.js-alert').hide();
             this.$el.hide();
         },
 
-        showErrorMsg: function(errorText) {
-            var $alertError = this.$('#signup-alert'),
-                $alertText = this.$('#signup-alert-text');
+        showMessage: function(type /* error or success */, text, link, textLink) {
+            this.$('.js-alert').hide();
 
-            $alertError.hide();
+            var $alert = this.$('.js-alert-' + type),
+                $alertText = this.$('.js-alert-' + type + '-text'),
+                $alertLink = this.$('.js-alert-' + type + '-link');
 
-            if ($alertError.hasClass('alert-success')) {
-                $alertError.toggleClass('alert-success alert-danger');
+            $alertText.text(text);            
+            if (typeof textLink !== undefined) {
+                $alertLink.attr("href", link)
+                $alertLink.text(textLink);
             }
 
-            $alertText.text(errorText);            
-            $alertError.fadeIn();
-            
+            $alert.fadeIn();            
+       
             // setTimeout(function() {
-            //     alertError.fadeOut();
+            //     $alert.fadeOut();
             // }, 5000);
         },
 
-        validationMsg: function(model, error) {
-            this.showErrorMsg(error);
+        errorRegMsg: function(model, error) {
+            this.showMessage('error', error);
         },
 
-        showSuccessMsg: function(player) {
-            var $alertSuccess = this.$('#signup-alert'),
-                $alertText = this.$('#signup-alert-text');
+        successRegMsg: function(player) {
+            var text = 'Вы успешно зарегистрированы как',
+                link = '/#signin',
+                linkText = player.get('nickname');
 
-            $alertSuccess.hide();
-
-            if ($alertSuccess.hasClass('alert-danger')) {
-                $alertSuccess.toggleClass('alert-danger alert-success');
-            }
-
-            $alertText.text('Вы успешно зарегистированы как');
-            $alertText.append('</br><a href="/#signin" class="alert-link">' + player.get('nickname') + '</a>');
-            $alertSuccess.fadeIn();
+            this.showMessage('success', text, link, linkText);
         },
 
         cameraPublish: function() {
-            var $preview = this.$('#preview'),
-                $webcamera_btn = this.$('#webcamera_btn'),
-                $shot_btn = this.$('#shot_btn'),
-                $default_img = this.$('#default_img');
+            var $preview = this.$('.js-preview'),
+                $webcameraBtn = this.$('.js-webcamera-btn'),
+                $shotBtn = this.$('.js-shot-btn'),
+                $fileUploadInput = this.$('.js-choose'),
+                $defaultImg = this.$('.js-default-img');
 
-            $webcamera_btn.hide();
-            $shot_btn.show();
+            $webcameraBtn.hide();
+            $shotBtn.show();
 
             FileAPI.avatar = null;
 
-            FileAPI.Camera.publish(preview, { width: 170, height: 170 }, function (err, cam) {
+            FileAPI.Camera.publish($preview, { width: 170, height: 170 }, function (err, cam) {
                 if (err) {
                     alert('WebCam or Flash not supported!');
                     return;
                 } 
 
-                FileAPI.event.on(shot_btn, 'click', function (){
+                $shotBtn.on('click', function() {
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
                         shot.preview(170).get(function (err, img){
-                            $default_img.hide();
+                            $defaultImg.hide();
                             $preview.children('video').remove();
                             $preview.children('canvas').remove();
-                            preview.appendChild(img);
+                            $preview.append(img);
                         });
 
                         FileAPI.avatar = FileAPI.Image(shot);
                         
                     } else {
                         alert('Web camera is turned off!');
-                        $default_img.show();
+                        $defaultImg.show();
                     }
 
-                    $shot_btn.hide();
-                    $webcamera_btn.show()
+                    $shotBtn.hide();
+                    $webcameraBtn.show();
                 });
-            });
+
+                $fileUploadInput.on('change', function() {
+                    $shotBtn.hide();
+                    $webcameraBtn.show();
+                });                
+            }); // FileAPI.Camera.publish()
         },
 
         fileUpload: function(event) {
-                var $preview = this.$('#preview'),                    
-                    $default_img = this.$('#default_img');
+                var $preview = this.$('.js-preview'),                    
+                    $defaultImg = this.$('.js-default-img');
                     
                 var files = FileAPI.getFiles(event);
 
-                FileAPI.filterFiles(files, function (file, info) {
+                FileAPI.filterFiles(files, function(file, info) {
                     if (!(/^image\//i.test(file.type))) {
                         alert('Invalid file type!');
                         return false;
@@ -153,12 +154,13 @@ define(function(require) {
                     if (files.length) {
                         var file = files[0];
 
-                        FileAPI.avatar = file;  // Храним аватар прямо в объекте API, а как его еще выцеить отсюда в отправку формы?
+                        FileAPI.avatar = file; 
                         
                         FileAPI.Image(file).preview(170).get(function(err, img) {           
-                            $default_img.hide();
+                            $defaultImg.hide();
+                            $preview.children('video').remove();
                             $preview.children('canvas').remove();
-                            preview.appendChild(img);       //  BUT $preview NOT WORKING?????!
+                            $preview.append(img); 
                         });
                     }
                 });
@@ -211,16 +213,15 @@ define(function(require) {
                     success: function(json) {                      
                         console.log("...SUCCESS!");
                         console.log(json); 
-                        regView.collection.add(newPlayer);
                     },
 
                     error: function(xhr, error_msg, error) {
                         console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
-                        regView.showErrorMsg('Пользователь с таким email уже существует!');
+                        regView.showMessage('error', 'Пользователь с таким email уже существует!');
                     }
                 });
 
-                this.$('#sign-up-form')[0].reset();
+                this.$('.app-form')[0].reset();
             }
         }
 

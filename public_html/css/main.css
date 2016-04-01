@@ -5,12 +5,6 @@
     background-size: 100%; 
 	font-family: 'Englebert', sans-serif;
 }
-._no-border {
-	border-radius: 0px !important;
-}
-._bold {
-	font-weight: bold !important;
-}
 
 /* HEADER */
 .header {
@@ -83,81 +77,89 @@
 	text-shadow: 2px 2px 3px black, 0 0 30px gold;
 	color: gold;
 }
+.col_no-padding-left {
+	padding-left: 0px;
+}
+.col_no-padding-right {
+	padding-right: 0px;
+}
 
-.form-sign-in, 
-.form-sign-up {
+/* APP-FORM */
+.app-form {
 	max-width: 500px;
 	margin: 0 auto;
 	margin-top: 50px;
 	text-align: right;
 }
-.form-sign-in {
+.app-form_w400 {
 	max-width: 400px;
 }
-.content__label {
+.app-form__label {
 	text-shadow: 2px 2px 2px black, 0 0 1em white;
 	color: white;
 }
-.content__btn {
+.app-form__btn {
 	padding: 10px 30px;
+	border-radius: 0px !important;
 }
-.content__btn span {
+.app-form__btn span {
 	margin-right: 5px;
 }
-
-.glyphicon_sm {
-	font-size: 16px;
+.app-form__btn_mar-t-5 {
+	margin-top: 5px;
 }
-
-.signup-alert {
-	max-width: 500px;
-	border-radius: 0px;
-	margin: 0 auto;
-	margin-bottom: -20px;	
-	color: white;
-	cursor: default;
+.app-form__input {
+	border-radius: 0px !important;
+	font-weight: bold !important;
 }
-.signup-alert.alert-danger {
-	background-color: rgba(206, 6, 6, 0.75);
-}
-.signup-alert.alert-success {
-	background-color: rgba(32, 84, 11, 0.75);
-}
-.signup-alert.alert-success .alert-link {
-    color: #fff;
-    font-size: 20px;
-}
-
-.upload-btn {
+.app-form__upload-btn {
 	font-size: 16px;
 	padding: 10px;
 	width: 100%;
 }
-.upload-input {
+.app-form__upload-input {
 	position: absolute;
 	max-width: 177px;
 	height: 45px;
 	opacity: 0;
 	cursor: pointer;
 }
-.js-fileapi-wrapper:hover > .upload-btn {
+.app-form__upload-container:hover > .app-form__upload-btn {
 	color: #333;
 	background-color: #e6e6e6;
 	border-color: #adadad;
 }
+.glyphicon_sm {
+	font-size: 16px;
+}
 
-._no-padding-left {
-	padding-left: 0px;
+/*** ALERT ***/
+.content__alert {
+	max-width: 500px;
+	border-radius: 0px;
+	margin: 0 auto;
+	margin-bottom: -20px;	
+	color: white;
+	cursor: default;
+	padding: 15px;
+	border: 1px solid transparent;
+	border-color: #ebccd1;
 }
-._no-padding-right {
-	padding-right: 0px;
+.content__alert_danger {
+	background-color: rgba(206, 6, 6, 0.75);
 }
-._mar-t-5 {
-	margin-top: 5px;
+.content__alert_success {
+	background-color: rgba(32, 84, 11, 0.75);
 }
-._w100 {
-	width: 100%;
+.content__alert__alert-link {
+    color: #fff;
+    font-size: 20px;
 }
+.content__alert__alert-link:hover {
+	color: #e7e6e6;
+	font-weight: bold;
+}
+
 
 /**************************************/
 #game-field {
