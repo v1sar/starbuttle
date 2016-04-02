@@ -6,7 +6,9 @@ require.config({
         underscore: "lib/underscore",
         backbone: "lib/backbone",
         bootstrap: "lib/bootstrap",        
-        fileAPI: "lib/file_api/FileAPI"
+        fileAPI: "lib/file_api/FileAPI",
+        three: "lib/3D/three",
+        three_world: "lib/3D/world", 
     },
     shim: {
         'backbone': {
@@ -20,8 +22,14 @@ require.config({
             deps: ['jquery']
         },
         'fileAPI': {
-            // deps: ['jquery'],
             exports: 'FileAPI'
+        },
+        'three': {
+            exports: 'THREE'
+        },
+        'three_world': {
+            deps: ['three'],
+            exports: 'World'
         }
     }
 });

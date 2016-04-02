@@ -160,25 +160,6 @@
 	font-weight: bold;
 }
 
-
-/**************************************/
-#game-field {
-	width: 100%;
-	height: 400px;
-	margin-bottom: 100px;
-}
-#space-craft {
-	background: url("../images/space-craft.png") center center no-repeat;
-	background-size: 100%;
-	width: 150px;
-	height: 150px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -100;
-}
-/**************************************/
-
 /* FOOTER */
 .footer {
 	margin-bottom: 50px;
@@ -202,4 +183,11 @@
 	margin-bottom: 6px;
 }
 
-
+/* GAME */
+.game-world {
+	padding: 0;
+    margin:  0;
+    height: 100%;
+    height: 100vh;
+    overflow: hidden;
+}

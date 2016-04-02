@@ -1,6 +1,10 @@
 {
   "name": "star_buttle",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Antonboom/2016_1_iu6team"
+  },
   "description": "SSPA - Simple Single Page Application",
   "main": "index.js",
   "author": "a.mezin@corp.mail.ru",

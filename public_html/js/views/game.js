@@ -1,25 +1,41 @@
-define([
-    'backbone',
-    'tmpl/game'
-], function(
-    Backbone,
-    tmpl
-) {
+define(function(require) {
+    
+    function gameWorldCSS() {
+        $('html body')
+            .css('padding', '0px')
+            .css('margin', '0px')
+            .css('height', '100%')
+            .css('height', '100vh')
+            .css('overflow', 'hidden');
+
+        $('body').removeClass('app');
+    }
+
+    gameWorldCSS();
+
+    var Backbone = require('backbone'),
+        World = require('three_world'),
+        tmpl  = require('tmpl/game');
+
     var GameView = Backbone.View.extend({
         template: tmpl,
 
         id: 'game',
 
-        events: {
-            'mousemove #game-field': 'moveSpaceCraft'
-        },
-
         initialize: function () {
-            // TODO: this.listenTo(...)
+            this._world = World;
+            
+            this._world.init({ 
+                renderCallback: this.renderWorld,
+                clearColor: 0x000022
+            });
+
+            this.listenTo(this, 'rendered', this.startGameWorld);
         },
 
         render: function() {
             this.$el.html(this.template());
+            this.trigger('rendered');
             return this;
         },
 
@@ -32,12 +48,26 @@ define([
             this.$el.hide();
         },
 
-        moveSpaceCraft: function(event) {
-            var $spaceCraft = this.$el.find('#space-craft');
+        startGameWorld: function() {
+            this._world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125)
+            
+            var tunnel = new THREE.Mesh(
+                new THREE.CylinderGeometry(100, 100, 5000, 24, 24, true),
+                new THREE.MeshBasicMaterial({
+                    map: THREE.ImageUtils.loadTexture('../../images/space.jpg', null, function(tex) {
+                        tex.wrapS = tex.wrapT = THREE.RepeatWrapping
+                        tex.repeat.set(5, 10)
+                        tex.needsUpdate = true
+                    }),
+                    side: THREE.BackSide
+                })
+            );
+                
+            tunnel.rotation.x = -Math.PI / 2;
+            this._world.add(tunnel);
 
-            $spaceCraft
-                .css('left', (event.pageX - 75) + 'px')
-                .css('top', (event.pageY - 75) + 'px');  
+
+            this._world.start();
         }
     });
 
