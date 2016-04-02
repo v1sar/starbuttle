@@ -53,7 +53,8 @@
 				</div>
 				<div class="col-md-9 col_no-padding-left">
 					<div class="col-md-6">
-						<div class="js-preview avatar-preview pull-left">
+						<div class="avatar-preview pull-left">
+							<div class="js-preview"></div>
 							<img src="/images/default-img.png" height="170" width="170" class="js-default-img" />
 						</div>
 					</div>

@@ -13,7 +13,7 @@ define(function(require) {
         tmpl  = require('tmpl/sign-up');
 
     var RegistrationView = Backbone.View.extend({
-        newPlayer: new PlayerModel(),
+        newPlayer: new PlayerModel(),   // TODO: _newPlayer
 
         collection: players,
 
@@ -28,6 +28,7 @@ define(function(require) {
         },
 
         initialize: function () {
+            this._avatar = null;
             this.listenTo(this.newPlayer, 'invalid', this.errorRegMsg);
             this.listenTo(this.collection, 'add', this.successRegMsg);
         },
@@ -86,14 +87,25 @@ define(function(require) {
                 $fileUploadInput = this.$('.js-choose'),
                 $defaultImg = this.$('.js-default-img');
 
+            $defaultImg.hide();
             $webcameraBtn.hide();
             $shotBtn.show();
 
-            FileAPI.avatar = null;
+            this._avatar = null;
+
+            var regView = this;
 
             FileAPI.Camera.publish($preview, { width: 170, height: 170 }, function (err, cam) {
                 if (err) {
                     alert('WebCam or Flash not supported!');
+                    
+                    $preview.children('video').remove();
+                    $preview.css('width','0').css('height','0');                      
+                    $defaultImg.show();
+
+                    $shotBtn.hide();
+                    $webcameraBtn.show();
+
                     return;
                 } 
 
@@ -101,17 +113,21 @@ define(function(require) {
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
-                        shot.preview(170).get(function (err, img){
-                            $defaultImg.hide();
+                        regView._avatar = shot;
+
+                        shot.preview(170).get(function (err, img){                            
                             $preview.children('video').remove();
                             $preview.children('canvas').remove();
                             $preview.append(img);
                         });
 
-                        FileAPI.avatar = FileAPI.Image(shot);
+                        // regView._avatar = FileAPI.Image(shot);
                         
                     } else {
                         alert('Web camera is turned off!');
+                        
+                        $preview.children('video').remove();
+                        $preview.children('canvas').remove();                        
                         $defaultImg.show();
                     }
 
@@ -127,7 +143,10 @@ define(function(require) {
         },
 
         fileUpload: function(event) {
-                var $preview = this.$('.js-preview'),                    
+                this._avatar = null;
+
+                var regView = this,
+                    $preview = this.$('.js-preview'),                    
                     $defaultImg = this.$('.js-default-img');
                     
                 var files = FileAPI.getFiles(event);
@@ -154,7 +173,7 @@ define(function(require) {
                     if (files.length) {
                         var file = files[0];
 
-                        FileAPI.avatar = file; 
+                        regView._avatar = file; 
                         
                         FileAPI.Image(file).preview(170).get(function(err, img) {           
                             $defaultImg.hide();
@@ -179,22 +198,10 @@ define(function(require) {
             this.newPlayer.set(newPlayer);
 
             if (this.newPlayer.isValid()) {
+                var regView = this,
+                    file = this._avatar;
 
-                // TODO: -> AJAX
-                /* FileAPI.upload({
-                    url: '/uploads',
-                    files: { 
-                        images: FileAPI.avatar },
-                    complete: function (err, xhr){ 
-                        if (err) {
-                            alert('error');
-                        }
-                        alert('complete');
-                    }
-                }); */
-
-                var regView = this;
-
+                console.log(regView._avatar);
                 $.ajax({ 
                     url: "/api/user",
                     
@@ -207,7 +214,8 @@ define(function(require) {
                     data: JSON.stringify({ 
                         login: newPlayer.nickname,
                         password: newPlayer.password,
-                        email: newPlayer.email
+                        email: newPlayer.email,
+                        avatar: regView._avatar
                     }),
                     
                     success: function(json) {                      
@@ -222,7 +230,7 @@ define(function(require) {
                 });
 
                 this.$('.app-form')[0].reset();
-            }
+            }   // isValid()
         }
 
     }); // RegistrationView

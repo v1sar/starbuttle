@@ -11,7 +11,7 @@ define(function(require) {
         $('body').removeClass('app');
     }
 
-    gameWorldCSS();
+    //gameWorldCSS();
 
     var Backbone = require('backbone'),
         World = require('three_world'),
@@ -27,6 +27,7 @@ define(function(require) {
             
             this._world.init({ 
                 renderCallback: this.renderWorld,
+               //container: this.$el,
                 clearColor: 0x000022
             });
 
@@ -65,7 +66,50 @@ define(function(require) {
                 
             tunnel.rotation.x = -Math.PI / 2;
             this._world.add(tunnel);
+            /***/
 
+            var loader = new THREE.JSONLoader(),//new THREE.OBJLoader(),
+                player = null,
+                view = this;
+            
+            /*
+            loader.load(
+                '../../3D_models/space-ship.obj', 
+                '../../3D_models/space-ship.mtl', 
+                function(object) {
+                   // object.scale.set(0.2, 0.2, 0.2);
+                   // object.rotation.set(0, Math.PI, 0);
+                   // object.position.set(0, -25, 0);
+                    console.log(object);
+                    // player = object;
+                    // view._world.add(player);
+                },
+                // Download progress
+                function(xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // Download error
+                function(xhr) {
+                    console.log('An error happened with model');
+                }
+            );*/
+
+            loader.load(
+                '../../3D_models/trylvl.json',
+                function(geometry, materials) {
+                    player = new THREE.Mesh(
+                        geometry, 
+                        new THREE.MeshFaceMaterial(materials)
+                    );
+
+                    player.position.set(0, -25, 0);
+                    player.scale.x = player.scale.y = player.scale.z = 0.75;
+                    player.tranlation = THREE.GeometryUtils.center(geometry);
+                    player.receiveShadow = true;
+
+                    view._world.add(player);
+                }
+            );
 
             this._world.start();
         }

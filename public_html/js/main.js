@@ -7,8 +7,13 @@ require.config({
         backbone: "lib/backbone",
         bootstrap: "lib/bootstrap",        
         fileAPI: "lib/file_api/FileAPI",
-        three: "lib/3D/three",
+        // 3D - world
+        three: "lib/3D/three.min",  // TODO: delete three.js
         three_world: "lib/3D/world", 
+        ddsloader: "lib/3D/ddsloader",
+        mtlloader: "lib/3D/mtlloader",
+        objloader: "lib/3D/objloader",
+        objmtlloader: "lib/3D/objmtlloader"
     },
     shim: {
         'backbone': {
@@ -24,13 +29,30 @@ require.config({
         'fileAPI': {
             exports: 'FileAPI'
         },
+        // 3D - world
         'three': {
             exports: 'THREE'
         },
-        'three_world': {
+        'ddsloader': {
             deps: ['three'],
+            exports: 'DDSLoader',
+        },
+        'mtlloader': {
+            deps: ['three'],
+            exports: 'MTLLoader'
+        },
+        'objloader': {
+            deps: ['three'],
+            exports: 'OBJLoader',
+        },
+        'objmtlloader': {
+            deps: ['three', 'ddsloader', 'mtlloader', 'objloader'],
+            exports: 'OBJMTLLoader'
+        },
+        'three_world': {
+            deps: ['three', 'objmtlloader'],
             exports: 'World'
-        }
+        },
     }
 });
 
