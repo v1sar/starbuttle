@@ -56,7 +56,7 @@ define(function(require, exports, module) {
       if(options.clearColor) renderer.setClearColor(options.clearColor);
 
       var container = options.container || document.body;
-      //container.append(renderer.domElement);  // appendChild
+      // container.append(renderer.domElement); 
       container.appendChild(renderer.domElement);
 
       window.addEventListener( 'resize', onResize, false );

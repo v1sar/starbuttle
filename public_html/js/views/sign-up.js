@@ -29,6 +29,7 @@ define(function(require) {
 
         initialize: function () {
             this._avatar = null;
+
             this.listenTo(this.newPlayer, 'invalid', this.errorRegMsg);
             this.listenTo(this.collection, 'add', this.successRegMsg);
         },
@@ -113,15 +114,13 @@ define(function(require) {
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
-                        regView._avatar = shot;
+                        regView._avatar = shot.file;    // canvas
 
                         shot.preview(170).get(function (err, img){                            
                             $preview.children('video').remove();
                             $preview.children('canvas').remove();
                             $preview.append(img);
                         });
-
-                        // regView._avatar = FileAPI.Image(shot);
                         
                     } else {
                         alert('Web camera is turned off!');
@@ -143,51 +142,56 @@ define(function(require) {
         },
 
         fileUpload: function(event) {
-                this._avatar = null;
+            this._avatar = null;
 
-                var regView = this,
-                    $preview = this.$('.js-preview'),                    
-                    $defaultImg = this.$('.js-default-img');
+            var regView = this,
+                $preview = this.$('.js-preview'),                    
+                $defaultImg = this.$('.js-default-img');
+                
+            var files = FileAPI.getFiles(event);
+
+            FileAPI.filterFiles(files, function(file, info) {
+                if (!(/^image\//i.test(file.type))) {
+                    alert('Invalid file type!');
+                    return false;
+                }
+
+                if (!((info.width > 160) && (info.height > 160))) {
+                    alert('The size is too small!');
+                    return false;
+                }
+
+                if (file.size && (file.size > 2 * FileAPI.MB)) {
+                    alert('The weight is too large!');
+                    return false;
+                }
+
+                return true;
+
+            }, function(files, rejected) {
+                if (files.length) {
+                    var file = files[0];
+
+                    regView._avatar = file; 
                     
-                var files = FileAPI.getFiles(event);
-
-                FileAPI.filterFiles(files, function(file, info) {
-                    if (!(/^image\//i.test(file.type))) {
-                        alert('Invalid file type!');
-                        return false;
-                    }
-
-                    if (!((info.width > 160) && (info.height > 160))) {
-                        alert('The size is too small!');
-                        return false;
-                    }
-
-                    if (file.size && (file.size > 2 * FileAPI.MB)) {
-                        alert('The weight is too large!');
-                        return false;
-                    }
-
-                    return true;
-
-                }, function(files, rejected) {
-                    if (files.length) {
-                        var file = files[0];
-
-                        regView._avatar = file; 
-                        
-                        FileAPI.Image(file).preview(170).get(function(err, img) {           
-                            $defaultImg.hide();
-                            $preview.children('video').remove();
-                            $preview.children('canvas').remove();
-                            $preview.append(img); 
-                        });
-                    }
-                });
+                    FileAPI.Image(file).preview(170).get(function(err, img) {           
+                        $defaultImg.hide();
+                        $preview.children('video').remove();
+                        $preview.children('canvas').remove();
+                        $preview.append(img); 
+                    });
+                }
+            });
             
         },   // fileUploadInit
         
         addPlayer: function(event) {                   
             event.preventDefault();
+
+            var $preview = this.$('.js-preview'),
+                $webcameraBtn = this.$('.js-webcamera-btn'),
+                $shotBtn = this.$('.js-shot-btn'),
+                $defaultImg = this.$('.js-default-img');
 
             var newPlayer = {
                 email: this.$('input[name="email"]').val(),
@@ -200,37 +204,64 @@ define(function(require) {
             if (this.newPlayer.isValid()) {
                 var regView = this,
                     file = this._avatar;
-
-                console.log(regView._avatar);
-                $.ajax({ 
-                    url: "/api/user",
-                    
-                    type: "PUT",
-                    
-                    dataType: "json",
-                    
-                    contentType: "application/json",
-
-                    data: JSON.stringify({ 
-                        login: newPlayer.nickname,
-                        password: newPlayer.password,
-                        email: newPlayer.email,
-                        avatar: regView._avatar
-                    }),
-                    
-                    success: function(json) {                      
-                        console.log("...SUCCESS!");
-                        console.log(json); 
-                    },
-
-                    error: function(xhr, error_msg, error) {
-                        console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
-                        regView.showMessage('error', 'Пользователь с таким email уже существует!');
-                    }
-                });
+                
+                if (this._avatar !== null) {
+                    FileAPI.readAsDataURL(file, function(event) {
+                        if (event.type == 'load') {
+                            newPlayer.avatar = event.result;
+                            regView.sendNewPlayer(newPlayer);
+                        } else if (event.type =='progress') {
+                            console.log(event.loaded / event.total * 100 + '% parsing to base64');
+                        } else {
+                            console.log('Error parse to base64');
+                        }
+                    })               
+                } else {
+                    newPlayer.avatar = null;
+                    regView.sendNewPlayer(newPlayer);
+                } 
 
                 this.$('.app-form')[0].reset();
+
+                $preview.children('video').remove();
+                $preview.children('canvas').remove();   
+                $preview.removeAttr('style');
+                $shotBtn.hide();
+                $webcameraBtn.show();
+
+                $defaultImg.show();
             }   // isValid()
+        },
+
+        sendNewPlayer: function(newPlayer){
+            var regView = this;
+
+            $.ajax({ 
+                url: "/api/user",
+                
+                type: "PUT",
+                
+                dataType: "json",
+                
+                contentType: "application/json",
+
+                data: JSON.stringify({ 
+                    login: newPlayer.nickname,
+                    password: newPlayer.password,
+                    email: newPlayer.email,
+                    avatar: newPlayer.avatar
+                }),
+                
+                success: function(json) {                      
+                    console.log("...SUCCESS!");
+                    console.log(json); 
+                },
+
+                error: function(xhr, error_msg, error) {
+                    console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
+                    regView.showMessage('error', 'Пользователь с таким email уже существует!');
+                }
+            });
         }
 
     }); // RegistrationView
