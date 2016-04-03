@@ -1,10 +1,24 @@
 define(function(require) {
     
+    function gameWorldCSS() {
+        $('html')
+            .css('padding', '0px')
+            .css('margin', '0px')
+            .css('height', '100%')
+            .css('height', '100vh')
+            .css('overflow', 'hidden');
+    }
+
+    gameWorldCSS();
+
     /****** WORLD ****/
     var World = require('three_world'),
+        clock = new THREE.Clock(),
+        keyboard = new THREEx.KeyboardState(),
         camera = null,
-        tunnel = require('./game_models/tunnel'),
-        Spacecraft = require('./game_models/spacecraft');      
+        Sphere = require('./game_models/sphere'),
+        Spacecraft = require('./game_models/spacecraft'),
+        Shot = require('./game_models/shot');      
 
     function initWorld() {
         World.init({ 
@@ -13,7 +27,10 @@ define(function(require) {
         });
 
         World.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);       
-        World.add(tunnel);   
+        
+        worldSphere = new Sphere(1000);
+        World.add(worldSphere.getMesh());   
+        
         camera = World.getCamera();
         player = new Spacecraft(World, camera);;     
     }
@@ -24,8 +41,69 @@ define(function(require) {
     }
 
     function renderWorld() {
-       
+        if (!player.isLoaded()) {
+            return;
+        }
+
+        keyboardListener();        
     }
+
+    function keyboardListener() {
+        var delta = clock.getDelta(),
+            moveDistance = 200 * delta,
+            rotateAngle = Math.PI / 3 * delta;     
+
+        var spacecraft = player.getMesh();
+
+        if (keyboard.pressed("W")) {
+            spacecraft.translateZ( moveDistance );
+        }
+
+        if (keyboard.pressed("S")){
+            spacecraft.translateZ(  -moveDistance );
+        }
+
+        if (keyboard.pressed("q")) {
+            spacecraft.translateX( moveDistance );
+        }
+
+        if (keyboard.pressed("E")) {
+            spacecraft.translateX( - moveDistance );
+        }
+
+        var rotation_matrix = new THREE.Matrix4().identity();
+
+        if (keyboard.pressed("A")) {
+            spacecraft.rotateOnAxis( new THREE.Vector3(0, 1, 0), rotateAngle);
+        }
+
+        if (keyboard.pressed("D")) {
+            spacecraft.rotateOnAxis( new THREE.Vector3(0, 1, 0), -rotateAngle);
+        }
+
+        if (keyboard.pressed("R")) {
+           spacecraft.rotateOnAxis( new THREE.Vector3(1, 0, 0), -rotateAngle);
+        }
+
+        if (keyboard.pressed("F")) {
+            spacecraft.rotateOnAxis( new THREE.Vector3(1, 0, 0), +rotateAngle);
+        }
+     
+        if (keyboard.pressed("Z")) {
+            spacecraft.position.set(0, -25, 0);
+            spacecraft.rotate(Math.PI);
+        }
+     
+        var relativeCameraOffset = new THREE.Vector3(0, 1, -10);
+     
+        var cameraOffset = relativeCameraOffset.applyMatrix4( spacecraft.matrixWorld );
+     
+        camera.position.x = cameraOffset.x;
+        camera.position.y = cameraOffset.y;
+        camera.position.z = cameraOffset.z;
+        camera.lookAt(spacecraft.position);
+    }
+
     /****** WORLD ****/
 
 
