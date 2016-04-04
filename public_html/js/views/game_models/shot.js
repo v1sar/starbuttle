@@ -1,9 +1,9 @@
-define(function(require)) {
+define(function(require) {
 	var THREE = require('three');
 
 	var Shot = function(position) {
 		this._mesh = new THREE.Mesh(
-	   		new THREE.SphereGeometry(3, 16, 16),
+	   		new THREE.SphereGeometry(2, 6, 4),
 	   		new THREE.MeshBasicMaterial({
 				color: 0xff0000,
 				transparent: true,
@@ -13,10 +13,21 @@ define(function(require)) {
 
 		this._mesh.position.copy(position);
 
+		this.update = function(z) {		   	
+		   	this._mesh.position.z -= 10;
+
+		   	if(Math.abs(this._mesh.position.z - z) > 1000) {
+		     	return false;
+		     	delete this._mesh;	
+		   	}
+
+		   	return true;
+		}
+
 		this.getMesh = function() {
             return this._mesh;
         }
 	}
 
 	return Shot;
-};
+});

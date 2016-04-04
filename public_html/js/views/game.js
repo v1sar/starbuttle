@@ -18,7 +18,8 @@ define(function(require) {
         camera = null,
         Sphere = require('./game_models/sphere'),
         Spacecraft = require('./game_models/spacecraft'),
-        Shot = require('./game_models/shot');      
+        Shot = require('./game_models/shot'),
+        shots = [];      
 
     function initWorld() {
         World.init({ 
@@ -28,7 +29,7 @@ define(function(require) {
 
         World.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);       
         
-        worldSphere = new Sphere(1000);
+        worldSphere = new Sphere(1000);     // sphere radius
         World.add(worldSphere.getMesh());   
         
         camera = World.getCamera();
@@ -45,13 +46,20 @@ define(function(require) {
             return;
         }
 
-        keyboardListener();        
+        keyboardListener();   
+
+        for (var i = 0; i < shots.length; i++) {
+            if (!shots[i].update(camera.position.z)) {
+                World.getScene().remove(shots[i].getMesh());
+                shots.splice(i, 1);
+            }
+        }    
     }
 
     function keyboardListener() {
         var delta = clock.getDelta(),
-            moveDistance = 200 * delta,
-            rotateAngle = Math.PI / 3 * delta;     
+            moveDistance = 5,
+            rotateAngle = Math.PI / 3 * 0.01;   
 
         var spacecraft = player.getMesh();
 
@@ -94,7 +102,7 @@ define(function(require) {
             spacecraft.rotate(Math.PI);
         }
      
-        var relativeCameraOffset = new THREE.Vector3(0, 1, -10);
+        var relativeCameraOffset = new THREE.Vector3(0, 2, -10);
      
         var cameraOffset = relativeCameraOffset.applyMatrix4( spacecraft.matrixWorld );
      
@@ -104,6 +112,17 @@ define(function(require) {
         camera.lookAt(spacecraft.position);
     }
 
+    window.addEventListener('keyup', function(e) {
+        switch(e.keyCode) {
+            case 49: {  // Клавиша "1"
+                var spacecraft = player.getMesh();
+                var shot = new Shot(spacecraft.position);
+
+                shots.push(shot);
+                World.add(shot.getMesh());
+            } break;
+        }
+    });
     /****** WORLD ****/
 
 
