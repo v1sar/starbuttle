@@ -13,20 +13,20 @@ define(function(require) {
 
 		this._mesh.position.copy(position);
 
-		this.update = function(z) {		   	
-		   	this._mesh.position.z -= 10;
-
-		   	if(Math.abs(this._mesh.position.z - z) > 1000) {
-		     	return false;
-		     	delete this._mesh;	
-		   	}
-
-		   	return true;
-		}
-
 		this.getMesh = function() {
             return this._mesh;
         }
+	}
+
+	Shot.prototype.update = function(z) {
+		this._mesh.position.z -= 10;	
+
+	   	if(Math.abs(this._mesh.position.z - z) > 1000) {
+	     	return false;
+	     	delete this._mesh;	
+	   	}
+
+	   	return true;
 	}
 
 	return Shot;

@@ -1,16 +1,5 @@
 define(function(require) {
     
-    function gameWorldCSS() {
-        $('html')
-            .css('padding', '0px')
-            .css('margin', '0px')
-            .css('height', '100%')
-            .css('height', '100vh')
-            .css('overflow', 'hidden');
-    }
-
-    gameWorldCSS();
-
     /****** WORLD ****/
     var World = require('three_world'),
         clock = new THREE.Clock(),
@@ -20,6 +9,8 @@ define(function(require) {
         Spacecraft = require('./game_models/spacecraft'),
         Shot = require('./game_models/shot'),
         shots = [];      
+
+    var KEY_ONE = 49;
 
     function initWorld() {
         World.init({ 
@@ -99,7 +90,7 @@ define(function(require) {
      
         if (keyboard.pressed("Z")) {
             spacecraft.position.set(0, -25, 0);
-            spacecraft.rotate(Math.PI);
+            spacecraft.rotateX(Math.PI);
         }
      
         var relativeCameraOffset = new THREE.Vector3(0, 2, -10);
@@ -114,7 +105,7 @@ define(function(require) {
 
     window.addEventListener('keyup', function(e) {
         switch(e.keyCode) {
-            case 49: {  // Клавиша "1"
+            case KEY_ONE: {  // Клавиша "1"
                 var spacecraft = player.getMesh();
                 var shot = new Shot(spacecraft.position);
 
