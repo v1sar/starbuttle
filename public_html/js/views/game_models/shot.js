@@ -22,8 +22,8 @@ define(function(require) {
 		this._mesh.position.z -= 10;	
 
 	   	if(Math.abs(this._mesh.position.z - z) > 1000) {
-	     	return false;
 	     	delete this._mesh;	
+	     	return false;
 	   	}
 
 	   	return true;

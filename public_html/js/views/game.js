@@ -141,6 +141,7 @@ define(function(require) {
         },
 
         hide: function () {
+            // $('canvas').remove();
             this.$el.hide();
         }       
     });
