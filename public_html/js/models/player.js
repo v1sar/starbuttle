@@ -6,14 +6,15 @@ define([
     
     var PlayerModel = Backbone.Model.extend({
     	defaults: {
+    		id: 0,
     		email: '_',
     		password: '_',
-    		nickname: '_',
+    		login: '_',
     		score: 0
     	},
 
     	validate: function(attrs) {
-			if (!(attrs.email && attrs.password && attrs.nickname)) {
+			if (!(attrs.email && attrs.password && attrs.login)) {
 				return 'Пожалуйста, заполните все поля';
 			}
  			

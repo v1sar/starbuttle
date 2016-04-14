@@ -196,11 +196,11 @@ define(function(require) {
             var newPlayer = {
                 email: this.$('input[name="email"]').val(),
                 password: this.$('input[name="password"]').val(),
-                nickname: this.$('input[name="nickname"]').val()
+                login: this.$('input[name="login"]').val()
             }   
 
             this.newPlayer.set(newPlayer);
-
+            
             if (this.newPlayer.isValid()) {
                 var regView = this,
                     file = this._avatar;
@@ -237,7 +237,7 @@ define(function(require) {
             var regView = this;
 
             $.ajax({ 
-                url: "/api/user",
+                url: "localhost:8091/api/user",
                 
                 type: "PUT",
                 
