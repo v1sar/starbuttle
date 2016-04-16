@@ -89,9 +89,13 @@
     text-align: center;
     max-width: 170px;
     margin: 0 auto;            
-    font-size: 30px;
-
+    font-size: 22px;
     color: white;
+}
+.profile__avatar {
+	margin-bottom: 10px;
+	height: 160px;
+	width: 160px;
 }
 .profile__nickname {        
     color: white;
@@ -174,6 +178,7 @@
 	color: rgba(206, 6, 6, 0.75);
 	font-size: 18px;
 	margin-bottom: 0px;
+	text-shadow: inherit;
 }
 
 .content__alert {

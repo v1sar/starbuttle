@@ -42,7 +42,7 @@ define([
         	return this._user;
         },
 
-        login: function(userLogin, userPassword) {
+        signin: function(userLogin, userPassword) {
             return new Promise(function(resolve, reject) {       	
             	$.ajax({ 
                     url: "/api/session",
@@ -59,7 +59,7 @@ define([
                     }),
                     
                     success: function(userData) {                      
-                        console.log("...LOGIN SUCCESS!");
+                        console.log("...SIGNIN SUCCESS!");
                         console.log(userData);
 
                         resolve(userData.id);
@@ -69,7 +69,7 @@ define([
                         var error = new Error(error_msg);
                         error.code = xhr.status;
 
-                        console.log("...LOGIN ERROR!\n" + error.code + " " + error.message);
+                        console.log("...SIGNIN ERROR!\n" + error.code + " " + error.message);
 
                         reject(error); 
                     }
@@ -77,7 +77,7 @@ define([
             }); // Promise
         },  // login
         
-        logout: function() {
+        signout: function() {
             var session = this;
 
             return new Promise(function(resolve, reject) {          
@@ -89,7 +89,7 @@ define([
                     mimeType: "text/html",  // "No element found" fix
                     
                     success: function() {                      
-                        console.log("...LOGOUT SUCCESS!");
+                        console.log("...SIGNOUT SUCCESS!");
                         session.clearUser();
                         resolve(session.trigger('logout'));
                     },
@@ -98,7 +98,7 @@ define([
                         var error = new Error(error_msg);
                         error.code = xhr.status;
 
-                        console.log("...LOGOUT ERROR!\n" + error.code + " " + error.message);
+                        console.log("...SIGNOUT ERROR!\n" + error.code + " " + error.message);
 
                         reject(error); 
                     }

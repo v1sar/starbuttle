@@ -7,11 +7,11 @@ define([
 ) {    
     var UserModel = Backbone.Model.extend({
     	defaults: {
-    		id: 0,
-    		login: '',
-    		email: '',
-    		password: '',
-    		avatar: '',
+    		id: null,
+    		login: null,
+    		email: null,
+    		password: null,
+    		avatar: null,
     		player: new PlayerModel()
     	},
 
@@ -19,7 +19,8 @@ define([
     		return this.get('player');
     	},
 
-    	registered: function() {
+    	signup: function() {
+    		var user = this;
     		return new Promise(function(resolve, reject) {
     			$.ajax({ 
 	                url: "/api/user",
@@ -31,19 +32,19 @@ define([
 	                contentType: "application/json",
 
 	                data: JSON.stringify({ 
-	                    login: this.login,
-	                    password: this.password,
-	                    email: this.email,
-	                    avatar: this.avatar
+	                    login: user.get('login'),
+	                    password: user.get('password'),
+	                    email: user.get('email'),
+	                    avatar: user.get('avatar')
 	                }),
 	                
 	                success: function(player) {                      
-	                    console.log("...REGISTRATION SUCCESS!");
+	                    console.log("...SIGNUP SUCCESS!");
 	                    resolve();
 	                },
 
 	                error: function(xhr, error_msg, error) {
-	                    console.log("...REGISTRATION ERROR!\n" + xhr.status + " " + error_msg); 
+	                    console.log("...SIGNUP ERROR!\n" + xhr.status + " " + error_msg); 
 	                    reject(xhr.status);
 	                } 
 	            });	// ajax
@@ -59,11 +60,7 @@ define([
 				errors['login'] = 'Please fill this field';
 				invalid = true;
 			} else {
-				if (attrs.password.length < 5) {
-					errors['login'] = 'Too short login (< 5)';
-					invalid = true;
-				}
-				if (attrs.password.length > 15) {
+				if (attrs.login.length > 15) {
 					errors['login'] = 'Too long login (> 15)';
 					invalid = true;
 				}

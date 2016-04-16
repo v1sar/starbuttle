@@ -12,7 +12,7 @@ define([
         id: 'sign-in',
 
         events: {
-            'submit .js-sign-in-form': 'loginPLayer',
+            'submit .js-sign-in-form': 'signin',
         },
 
         initialize: function () {
@@ -34,16 +34,21 @@ define([
             this.$el.hide();
         },
 
-        loginPLayer: function(event) {
+        showError: function() {
+            this.$('.js-alert-error').fadeIn();
+        },
+
+        signin: function(event) {
             event.preventDefault();
 
             var session = window.activeSession;
                 $login = this.$('input[name="login"]').val(),
-                $password = this.$('input[name="password"]').val();
+                $password = this.$('input[name="password"]').val(),
+                view = this;
 
             this.$('.js-sign-in-form')[0].reset();
             
-            session.login($login, $password)
+            session.signin($login, $password)
                 .then(function(id) {
                     return session.getUserData(id);
                 })
@@ -53,13 +58,9 @@ define([
                 })
                 .catch(function(error) { 
                     console.log(error);
-                    this.showLoginError();
+                    view.showError();
                 });
-        },
-
-        showLoginError: function() {
-            this.$('.js-alert-error').fadeIn();
-        },
+        }
     });
 
     return LoginView;

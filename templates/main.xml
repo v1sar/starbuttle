@@ -37,7 +37,7 @@
 
         <fest:if test="signedFlag">
             <div class="profile">
-                <img class="profile__avatar" src="{ avatar }" height="160" width="160"/>
+                <img class="profile__avatar" src="{ avatar }"/>
                 <div class="form-group">
                     <a href="#profile" class="profile__nickname pull-left">
                         <span class="glyphicon glyphicon-user"></span>
