@@ -1,16 +1,13 @@
 define([
-    'backbone',
-    '../models/session'
+    'backbone'
 ], function(
-    Backbone,
-    SessionModel
+    Backbone
 ) {
     var AppView = Backbone.View.extend({
         el: $('#page'),
 
         initialize: function () {
             this._views = {};
-            window.activeSession = new SessionModel(); 
         },
 
         setViews: function(Views) {

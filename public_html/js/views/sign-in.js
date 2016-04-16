@@ -16,7 +16,7 @@ define([
         },
 
         initialize: function () {
-            // TODO: this.listenTo(...)
+            // TODO: listenTo
         },
         
         render: function() {
@@ -26,6 +26,7 @@ define([
 
         show: function () {
             this.trigger('show');
+            this.$('.js-alert-error').hide();
             this.$el.show();
         },
 
@@ -36,34 +37,29 @@ define([
         loginPLayer: function(event) {
             event.preventDefault();
 
-            var $login = this.$('input[name="login"]').val(),
+            var session = window.activeSession;
+                $login = this.$('input[name="login"]').val(),
                 $password = this.$('input[name="password"]').val();
 
-            // window.activeSession.login($login, $password);
-            $.ajax({ 
-                url: "http://localhost:8091/api/session",
-                
-                type: "POST",
-                
-                dataType: "jsonp",  // "json"
-                
-                contentType: "application/json",
+            this.$('.js-sign-in-form')[0].reset();
+            
+            session.login($login, $password)
+                .then(function(id) {
+                    return session.getUserData(id);
+                })
+                .then(function(data) {
+                    session.setUser(data);
+                    session.trigger('login');
+                })
+                .catch(function(error) { 
+                    console.log(error);
+                    this.showLoginError();
+                });
+        },
 
-                data: JSON.stringify({ 
-                    login: $login,
-                    password: $password
-                }),
-                
-                success: function(json) {                      
-                    console.log("...SUCCESS!");
-                    console.log(json); 
-                },
-
-                error: function(xhr, error_msg, error) {
-                    console.log("...ERROR!\n" + xhr.status + " " + error_msg); 
-                }
-            });
-        }
+        showLoginError: function() {
+            this.$('.js-alert-error').fadeIn();
+        },
     });
 
     return LoginView;

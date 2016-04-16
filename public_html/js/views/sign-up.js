@@ -30,7 +30,7 @@ define(function(require) {
         initialize: function () {
             this._avatar = null;
 
-            this.listenTo(this.newPlayer, 'invalid', this.errorRegMsg);
+            this.listenTo(this.newPlayer, 'invalid', this.showErrors);
             this.listenTo(this.collection, 'add', this.successRegMsg);
         },
 
@@ -69,14 +69,20 @@ define(function(require) {
             // }, 5000);
         },
 
-        errorRegMsg: function(model, error) {
-            this.showMessage('error', error);
+        showErrors: function(model, errors) {
+            var $input = null;
+
+            _.each(errors, function(message, inputName) {                
+                $input = this.$('input[name="' + inputName + '"]');
+                $input.parent().parent('.form-group').addClass('has-error');
+                $input.next().text(message);
+            }, this);
         },
 
         successRegMsg: function(player) {
             var text = 'Вы успешно зарегистрированы как',
                 link = '/#signin',
-                linkText = player.get('nickname');
+                linkText = player.get('login');
 
             this.showMessage('success', text, link, linkText);
         },
@@ -221,7 +227,7 @@ define(function(require) {
                     regView.sendNewPlayer(newPlayer);
                 } 
 
-                this.$('.app-form')[0].reset();
+                this.$('.js-sign-up-form')[0].reset();
 
                 $preview.children('video').remove();
                 $preview.children('canvas').remove();   
@@ -237,7 +243,7 @@ define(function(require) {
             var regView = this;
 
             $.ajax({ 
-                url: "localhost:8091/api/user",
+                url: "/api/user",
                 
                 type: "PUT",
                 
@@ -246,7 +252,7 @@ define(function(require) {
                 contentType: "application/json",
 
                 data: JSON.stringify({ 
-                    login: newPlayer.nickname,
+                    login: newPlayer.login,
                     password: newPlayer.password,
                     email: newPlayer.email,
                     avatar: newPlayer.avatar
