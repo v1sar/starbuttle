@@ -12,13 +12,42 @@ define([
         initialize: function() {
         	this._user = new UserModel();
 
-            if (!localStorage.getItem(this.USER_STORAGE_KEY)) {
-                localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(this._user));
-            } else {
-                var localUser = JSON.parse(localStorage.getItem(this.USER_STORAGE_KEY));
-                this._user.set(localUser);
-            }
+            var session = this,
+                localUser = JSON.parse(localStorage.getItem(this.USER_STORAGE_KEY));
+
+            this._user.set(localUser);
+
+            this.checkAuth()
+                .catch(function() {
+                    session.clearUser();
+                });
         },
+
+        checkAuth: function() {
+            return new Promise(function(resolve, reject) {
+                $.ajax({ 
+                    url: "/api/session",
+                    
+                    type: "GET",
+                    
+                    success: function(userData) {                      
+                        console.log("...SESSION ALIVE!");
+                        console.log(userData);
+
+                        resolve(userData.id);
+                    },
+
+                    error: function(xhr, error_msg, error) {
+                        var error = new Error(error_msg);
+                        error.code = xhr.status;
+
+                        console.log("...DEAD SESSION!\n" + error.code + " " + error.message);
+
+                        reject(error); 
+                    }
+                }); // ajax
+            }); // Promise    
+        },  // checkAuth
 
         isSigned: function() {
             return this._user.get('id') ? true : false;
@@ -42,7 +71,7 @@ define([
         	return this._user;
         },
 
-        signin: function(userLogin, userPassword) {
+        signin: function(userLogin, userPassword, remember) {
             return new Promise(function(resolve, reject) {       	
             	$.ajax({ 
                     url: "/api/session",
@@ -55,7 +84,8 @@ define([
 
                     data: JSON.stringify({ 
                         login: userLogin,
-            			password: userPassword
+            			password: userPassword,
+                        remember: remember
                     }),
                     
                     success: function(userData) {                      

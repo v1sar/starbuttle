@@ -8,6 +8,8 @@ define(function(require) {
         SignUpView = require('views/sign-up');
         SessionModel = require('models/session');
 
+    window.activeSession = new SessionModel();
+
     var app = require('views/app');
     app.setViews({
         'main': MainView,
@@ -16,8 +18,6 @@ define(function(require) {
         'game': GameView,
         'signUp': SignUpView
     });
-
-    window.activeSession = new SessionModel();
 
     var Router = Backbone.Router.extend({
         initialize: function() {

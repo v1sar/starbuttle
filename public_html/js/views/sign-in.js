@@ -44,11 +44,12 @@ define([
             var session = window.activeSession;
                 $login = this.$('input[name="login"]').val(),
                 $password = this.$('input[name="password"]').val(),
+                $remember = this.$('input[name="remember"]:checkbox:checked').val() ? true : false,
                 view = this;
 
             this.$('.js-sign-in-form')[0].reset();
             
-            session.signin($login, $password)
+            session.signin($login, $password, $remember)
                 .then(function(id) {
                     return session.getUserData(id);
                 })
