@@ -1,4 +1,7 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
+<fest:template xmlns:fest="http://fest.mail.ru" >
+	<fest:include src="./subtemplates/input.xml"/> 	<!-- name="app-form-input" -->
+	<fest:include src="./subtemplates/alert.xml"/> 	<!-- name="app-alert" -->
+
 	<div class="header">
 		<h1 class="header__h1 header__h1_50">
 			SIGN UP
@@ -7,48 +10,16 @@
 
 	<div class="content">
 		<!-- Success message -->
-		<div class="content__alert content__alert_success js-alert js-alert-success" style="display: none">
-			<span class="js-alert-success-text"></span><br></br>
-			<a href="#" class="js-alert-success-link content__alert__alert-link"></a>
-		</div>
+		<fest:get name="app-alert"> { type: 'success'} </fest:get>
 
 		<!-- Error message -->
-		<div class="content__alert content__alert_danger js-alert js-alert-error"  style="display: none">
-			<span class="js-alert-error-text"></span><br></br>
-			<a href="#" class="js-alert-error-link content__alert__alert-link"></a>
-		</div>
+		<fest:get name="app-alert"> { type: 'error'} </fest:get>
 
 		<!-- Signup form -->
 		<form method="POST" action="" class="js-sign-up-form form-horizontal app-form">
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="login" class="control-label app-form__label">Login</label>
-				</div>
-				<div class="col-md-9">
-					<input type="text" name="login" class="form-control app-form__input" placeholder="login" />
-					<span class="help-block"></span>
-				</div>
-			</div>
-
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="password" class="control-label app-form__label">Password</label>
-				</div>
-				<div class="col-md-9">
-					<input type="password" class="form-control app-form__input" name="password" placeholder="password" />
-					<span class="help-block"></span>
-				</div>
-			</div>
-
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="email" class="control-label app-form__label">Email</label>
-				</div>
-				<div class="col-md-9">
-					<input type="text" class="form-control app-form__input" name="email" placeholder="email" />
-					<span class="help-block"></span>
-				</div>
-			</div>
+			<fest:get name="app-form-input"> { name: 'login'} </fest:get>
+			<fest:get name="app-form-input"> { name: 'password', type: 'password'} </fest:get>
+			<fest:get name="app-form-input"> { name: 'email'} </fest:get>
 
 			<div class="form-group form-group-lg">
 				<div class="col-md-3">

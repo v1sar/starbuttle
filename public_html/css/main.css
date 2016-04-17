@@ -181,7 +181,7 @@
 	text-shadow: inherit;
 }
 
-.content__alert {
+.app-alert {
 	max-width: 500px;
 	border-radius: 0px;
 	margin: 0 auto;
@@ -193,17 +193,17 @@
 	border-color: #ebccd1;
 	font-size: 18px;
 }
-.content__alert_danger {
+.app-alert_error {
 	background-color: rgba(206, 6, 6, 0.75);
 }
-.content__alert_success {
+.app-alert_success {
 	background-color: rgba(32, 84, 11, 0.75);
 }
-.content__alert__alert-link {
+.app-alert__alert-link {
     color: #fff;
     font-size: 20px;
 }
-.content__alert__alert-link:hover {
+.app-alert__alert-link:hover {
 	color: #e7e6e6;
 	font-weight: bold;
 }

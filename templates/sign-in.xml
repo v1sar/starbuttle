@@ -1,4 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:include src="./subtemplates/input.xml"/> 	<!-- name="app-form-input" -->
+	<fest:include src="./subtemplates/alert.xml"/> 	<!-- name="app-alert" -->
+
 	<div class="header">
 		<h1 class="header__h1 header__h1_50">
 			SIGN IN
@@ -7,28 +10,12 @@
 
 	<div class="content">
 		<!-- Error message -->
-		<div class="content__alert content__alert_danger js-alert-error" style="display: none">
-			<span>Authorization failed. Please check your login and password</span>
-		</div>
+		<fest:get name="app-alert"> { type: 'error', text: 'Authorization failed. Please check your login and password'} </fest:get>
 
+		<!-- Signin form -->
 		<form class="app-form form-horizontal js-sign-in-form">
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="login" class="control-label app-form__label">Login</label>
-				</div>
-				<div class="col-md-9">
-					<input type="login" name="login" class="form-control app-form__input" placeholder="login" />
-				</div>
-			</div>
-
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="password" class="control-label app-form__label">Password</label>
-				</div>
-				<div class="col-md-9">
-					<input type="password" class="form-control app-form__input" name="password" placeholder="password" />
-				</div>
-			</div>
+			<fest:get name="app-form-input"> { name: 'login'} </fest:get>
+			<fest:get name="app-form-input"> { name: 'password', type: 'password'} </fest:get>
 			
 			<div class="form-group form-group-lg">
 				<div class="checkbox col-md-12">
