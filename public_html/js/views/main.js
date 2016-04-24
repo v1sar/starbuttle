@@ -1,14 +1,18 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/main',
+    '../models/session'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    activeSession
 ) {
     var MainView = Backbone.View.extend({
         template: tmpl,
 
         id: 'main',
+
+        model: activeSession,
 
         events: {
             'click .js-sign-out-btn': 'signout'
@@ -33,7 +37,7 @@ define([
         },
 
         signout: function() {
-            var session = window.activeSession;
+            var session = this.model;
 
             session.signout()
                 .then(function() {

@@ -5,7 +5,6 @@ define([
     Backbone,
     UserModel
 ) {
-
     var SessionModel = Backbone.Model.extend({   	
         USER_STORAGE_KEY: 'user',
 
@@ -165,5 +164,5 @@ define([
         }   // getUserData
     }); // SessionModel
 
-    return SessionModel;
+    return new SessionModel();
 });

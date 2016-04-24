@@ -8,9 +8,8 @@ require.config({
         bootstrap: "lib/bootstrap",        
         fileAPI: "lib/file_api/FileAPI",
         // 3D - world
-        three: "lib/3D/three.min",  // TODO: delete three.js
-        threex: "lib/3D/threex.keyboardstate",
-        three_world: "lib/3D/world", 
+        three: "lib/3D/three.min", 
+        flycontrols: "lib/3D/flycontrols",
         ddsloader: "lib/3D/ddsloader",
         mtlloader: "lib/3D/mtlloader",
         objloader: "lib/3D/objloader",
@@ -34,9 +33,12 @@ require.config({
         'three': {
             exports: 'THREE'
         },
+        'flycontrols': { 
+            deps: ['three']
+        },
         'ddsloader': {
             deps: ['three'],
-            exports: 'DDSLoader',
+            exports: 'DDSLoader'
         },
         'mtlloader': {
             deps: ['three'],
@@ -44,16 +46,12 @@ require.config({
         },
         'objloader': {
             deps: ['three'],
-            exports: 'OBJLoader',
+            exports: 'OBJLoader'
         },
         'objmtlloader': {
             deps: ['three', 'ddsloader', 'mtlloader', 'objloader'],
             exports: 'OBJMTLLoader'
-        },
-        'three_world': {
-            deps: ['three', 'threex', 'objmtlloader'],
-            exports: 'World'
-        },
+        }
     }
 });
 

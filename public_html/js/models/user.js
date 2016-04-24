@@ -57,32 +57,32 @@ define([
 				invalid = false;
 
 			if (!attrs.login) {
-				errors['login'] = 'Please fill this field';
+				errors.login = 'Please fill this field';
 				invalid = true;
 			} else {
 				if (attrs.login.length > 15) {
-					errors['login'] = 'Too long login (> 15)';
+					errors.login = 'Too long login (> 15)';
 					invalid = true;
 				}
 			}
 
 			if (!attrs.password) {
-				errors['password'] = 'Please fill this field';
+				errors.password = 'Please fill this field';
 				invalid = true;
 			} else {
 				if (attrs.password.length < 6) {
-					errors['password'] = 'Too short password (< 6)';
+					errors.password = 'Too short password (< 6)';
 					invalid = true;
 				}
 			}
 
  			if (!attrs.email) {
-				errors['email'] = 'Please fill this field';
+				errors.email = 'Please fill this field';
 				invalid = true;
 			} else {
 				reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 				if (!reg.test(attrs.email)) {
-					errors['email'] = 'Please enter correct email';
+					errors.email = 'Please enter correct email';
 					invalid = true;
 				}
 			}

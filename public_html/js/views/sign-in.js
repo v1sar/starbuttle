@@ -1,15 +1,19 @@
 define([
     'backbone',
-    'tmpl/sign-in'
+    'tmpl/sign-in',
+    '../models/session'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    activeSession
 ) {
     var LoginView = Backbone.View.extend({
 
         template: tmpl,
 
         id: 'sign-in',
+
+        model: activeSession,
 
         events: {
             'submit .js-sign-in-form': 'signin',
@@ -41,10 +45,10 @@ define([
         signin: function(event) {
             event.preventDefault();
 
-            var session = window.activeSession;
+            var session = this.model;
                 $login = this.$('input[name="login"]').val(),
                 $password = this.$('input[name="password"]').val(),
-                $remember = this.$('input[name="remember"]:checkbox:checked').val() ? true : false,
+                $remember = !!this.$('input[name="remember"]:checkbox:checked').val(),
                 view = this;
 
             this.$('.js-sign-in-form')[0].reset();

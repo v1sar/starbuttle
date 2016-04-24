@@ -6,9 +6,7 @@ define(function(require) {
         ScoreboardView = require('views/scoreboard'),
         GameView = require('views/game'),
         SignUpView = require('views/sign-up');
-        SessionModel = require('models/session');
-
-    window.activeSession = new SessionModel();
+        activeSession = require('models/session');
 
     var app = require('views/app');
     app.setViews({
@@ -21,8 +19,8 @@ define(function(require) {
 
     var Router = Backbone.Router.extend({
         initialize: function() {
-            this.listenTo(window.activeSession, 'login', this.rootAction);
-            this.listenTo(window.activeSession, 'logout', this.rootAction);
+            this.listenTo(activeSession, 'login', this.rootAction);
+            this.listenTo(activeSession, 'logout', this.rootAction);
         },
 
         routes: {
