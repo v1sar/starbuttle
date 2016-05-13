@@ -7,6 +7,7 @@ require.config({
         backbone: "lib/backbone",
         bootstrap: "lib/bootstrap",        
         fileAPI: "lib/file_api/FileAPI",
+        promisepolly: "lib/promise.min",
         // 3D - world
         three: "lib/3D/three.min", 
         flycontrols: "lib/3D/flycontrols",
@@ -28,6 +29,9 @@ require.config({
         },
         'fileAPI': {
             exports: 'FileAPI'
+        },
+        'promisepolly': {
+            exports: 'Promise'
         },
         // 3D - world
         'three': {
@@ -63,7 +67,5 @@ require([
 	Backbone,
 	router
 ) {
-
     Backbone.history.start();
-
 });

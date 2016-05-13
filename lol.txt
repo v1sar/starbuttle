@@ -1,0 +1,6 @@
+[4mRunning "qunit:all" (qunit) task[24m
+Testing ./public_html/tests/index.html 
+[31m>> [39mPhantomJS timed out, possibly due to a missing QUnit start() call.
+[33mWarning: 1/1 assertions failed (0ms) Use --force to continue.[39m
+
+[31mAborted due to warnings.[39m

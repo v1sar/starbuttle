@@ -1,7 +1,6 @@
 define(function (require) {
     QUnit.module("views/");
-
-    /* TODO: Promise error
+    
     QUnit.test("Render MainView is right (check $el)", function () {
         var MainView = require('views/main'),
             main = new MainView();
@@ -15,10 +14,8 @@ define(function (require) {
         main.render();
         QUnit.equal(main.$el.find('.header').html(), mainHeader, 'Header there is! Content is correct! (after render)');
     });
-    */
 
-    /*
-    QUnit.test("AppView correctly shows and hides views", function () {
+    QUnit.("AppView correctly shows and hides views", function () {
     	$('body').append('<div id="page"></div>');
     	
     	var app = require('views/app'),
@@ -41,5 +38,4 @@ define(function (require) {
         QUnit.equal($main.is(':visible'), false, 'The mainView is hidden');
         QUnit.equal($signin.is(':visible'), true, 'The signinView is visible!');
     });
-    */
 });

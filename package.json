@@ -23,7 +23,8 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-fest": "~0.1.6",
     "grunt-sass": "^1.2.0",
-    "grunt-shell": "^1.1.2"
+    "grunt-shell": "^1.1.2",
+    "promise-polyfill": "^5.1.0"
   },
   "scripts": {
     "start": "node server.js",

@@ -1,12 +1,18 @@
 define([
     'backbone',
     './sessionSync',
-    './user'
+    './user',
+    'promisepolly'  // for QUnit
 ], function (
     Backbone,
     sessionSync,
-    UserModel
+    UserModel,
+    PromisePolly
 ) {
+    if (!window.Promise) {
+        window.Promise = PromisePolly;
+    }
+
     var SessionModel = Backbone.Model.extend({   	
         defaults: {
             login: '',
@@ -87,43 +93,7 @@ define([
         getUser: function() {
         	return this._user;
         },
-/*
-        signin: function(userLogin, userPassword, remember) {
-            return new Promise(function(resolve, reject) {       	
-            	$.ajax({ 
-                    url: "/api/session",
-                    
-                    type: "POST",
-                    
-                    dataType: "json",
-                    
-                    contentType: "application/json",
 
-                    data: JSON.stringify({ 
-                        login: userLogin,
-            			password: userPassword,
-                        remember: remember
-                    }),
-                    
-                    success: function(userData) {                      
-                        console.log("...SIGNIN SUCCESS!");
-                        console.log(userData);
-
-                        resolve(userData.id);
-                    },
-
-                    error: function(xhr, error_msg, error) {
-                        var error = new Error(error_msg);
-                        error.code = xhr.status;
-
-                        console.log("...SIGNIN ERROR!\n" + error.code + " " + error.message);
-
-                        reject(error); 
-                    }
-                }); // ajax
-            }); // Promise
-        },  // login
-*/
         signout: function() {
             var session = this;
 
