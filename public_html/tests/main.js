@@ -16,7 +16,7 @@ require.config({
         },
         'underscore': {
             exports: '_'
-        }
+        },
         'promisepolly': {
             exports: 'Promise'
         }

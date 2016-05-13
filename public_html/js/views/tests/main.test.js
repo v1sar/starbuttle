@@ -15,7 +15,7 @@ define(function (require) {
         QUnit.equal(main.$el.find('.header').html(), mainHeader, 'Header there is! Content is correct! (after render)');
     });
 
-    QUnit.("AppView correctly shows and hides views", function () {
+    QUnit.test("AppView correctly shows and hides views", function () {
     	$('body').append('<div id="page"></div>');
     	
     	var app = require('views/app'),

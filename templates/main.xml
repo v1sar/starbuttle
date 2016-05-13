@@ -1,31 +1,20 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="session">
 	<div class="header">
 		<h1 class="header__h1 header__h1_80">
 			STAR BUTTLE
     	</h1>
 	</div>
 
-    <fest:script>
-        <![CDATA[
-            var session = window.activeSession,
-                signedFlag = session.isSigned(),
-                unsignedFlag = !signedFlag,
-                avatar = session.getUser().get('avatar'),
-                nickname = session.getUser().get('login'),
-                score = session.getUser().asPlayer().score;
-        ]]>
-    </fest:script>
-
 	<div class="content">
     	<ul class="main-menu">
     		<li class="main-menu__item">
-    			<a href="{ signedFlag ? '#game' : '#signin'}">START GAME</a>
+    			<a href="{ session.signedFlag ? '#game' : '#signin'}">START GAME</a>
     		</li>
     		<li class="main-menu__item">
     			<a href="#scoreboard">TOP PLAYERS</a>
     		</li>
-            
-            <fest:if test="unsignedFlag">
+
+            <fest:if test="session.unsignedFlag">
                 <li class="main-menu__item">
         			<a href="#signin">SIGN IN</a>
         		</li>
@@ -35,13 +24,13 @@
             </fest:if>
     	</ul>
 
-        <fest:if test="signedFlag">
+        <fest:if test="session.signedFlag">
             <div class="profile">
-                <img class="profile__avatar" src="{ avatar }"/>
+                <img class="profile__avatar" src="{ session.avatar }"/>
                 <div class="form-group">
                     <a href="#profile" class="profile__nickname pull-left">
                         <span class="glyphicon glyphicon-user"></span>
-                        <fest:value>nickname</fest:value>
+                        <fest:value>session.nickname</fest:value>
                     </a> 
                     <span class="pull-right"><fest:value>score</fest:value></span>                   
                 </div>

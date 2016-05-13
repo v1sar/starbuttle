@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             },
             server: {
                 //command: 'node server.js'
-		command: 'java -cp target/L1.3-2.0.jar main.Main 8090'
+		        command: 'java -cp target/L1.3-2.0.jar main.Main 8090'
             }
 		},
 
@@ -38,9 +38,9 @@ module.exports = function (grunt) {
 
         qunit: {
             all: ['./public_html/tests/index.html'],
-            options: {
-                timeout: 50000
-            }
+            // options: {
+            //     timeout: 50000
+            // }
         },
 
 		concurrent: {

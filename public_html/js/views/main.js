@@ -23,7 +23,17 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template());
+            var session = this.model;
+
+            var session_context = {
+                    signedFlag: session.isSigned(),
+                    unsignedFlag: !session.isSigned(),
+                    avatar: session.getUser().get('avatar'),
+                    nickname: session.getUser().get('login'),
+                    score: session.getUser().asPlayer().score
+                };
+            
+            this.$el.html(this.template(session_context));
             return this;
         },
 
