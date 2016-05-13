@@ -1,11 +1,21 @@
 define([
     'backbone',
+    './sessionSync',
     './user'
 ], function (
     Backbone,
+    sessionSync,
     UserModel
 ) {
     var SessionModel = Backbone.Model.extend({   	
+        defaults: {
+            login: '',
+            password: '',
+            remember: false
+        },
+
+        url: "/api/session",
+
         USER_STORAGE_KEY: 'user',
 
         initialize: function() {

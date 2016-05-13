@@ -1,0 +1,47 @@
+/* bootstrap */
+.has-error .help-block, 
+.has-error .control-label, 
+.has-error .radio, 
+.has-error .checkbox, 
+.has-error .radio-inline, 
+.has-error .checkbox-inline, 
+.has-error.radio label, 
+.has-error.checkbox label, 
+.has-error.radio-inline label, 
+.has-error.checkbox-inline label {
+	color: rgba(206, 6, 6, 0.75);
+	font-size: 18px;
+	margin-bottom: 0px;
+	text-shadow: inherit;
+}
+
+.app-alert {
+	max-width: 500px;
+	border-radius: 0px;
+	margin: 0 auto;
+	margin-bottom: 0px;	
+	color: white;
+	cursor: default;
+	padding: 10px;
+	border: 1px solid transparent;
+	border-color: #ebccd1;
+	font-size: 18px;
+
+	&_error {
+		background-color: rgba(206, 6, 6, 0.75);
+	}
+
+	&_success {
+		background-color: rgba(32, 84, 11, 0.75);
+	}
+
+	&__alert-link {
+	    color: #fff;
+	    font-size: 20px;
+
+	    &:hover {
+			color: #e7e6e6;
+			font-weight: bold;
+		}
+	}
+}

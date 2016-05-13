@@ -22,8 +22,17 @@ module.exports = function (grunt) {
                 tasks: ['fest'],
                 options: {
                     spawn: 'false',     // false
-                    atBegin: 'true',    // true
+                    atBegin: 'true'     // true
                 },
+            },
+
+            sass: {
+                files: ['./public_html/css/scss/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    spawn: 'false',
+                    atBegin: 'true'
+                }
             }
 		},
 
@@ -50,9 +59,25 @@ module.exports = function (grunt) {
                     template: function (data) {
                         return grunt.template.process(
                             'define(function () { return <%= contents %> ; });',
-                            {data: data}
+                            { data: data }
                         );
                     }
+                }
+            }
+        },
+
+        // SASS
+        sass: {
+            css: {
+                files: [{
+                    expand: true,
+                    cwd: 'public_html/css/scss',
+                    src: '*.scss',
+                    dest: 'public_html/css',
+                    ext: '.css', 
+                }],
+                options: {
+                    update: true
                 }
             }
         }
@@ -65,6 +90,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
   	grunt.loadNpmTasks('grunt-shell');
   	grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-sass');
 
     // результат команды grunt
     grunt.registerTask('default', ['concurrent']);

@@ -1,0 +1,40 @@
+@import 'header';
+@import 'main-menu';
+@import 'top-table';
+@import 'profile';
+@import 'app-form';
+@import 'alert';
+@import 'footer';
+
+/* APPLICATION */
+
+.app {
+    background-image: url(../images/background.jpg);
+    background-size: 100%; 
+	font-family: 'Englebert', sans-serif;
+}
+
+/* CONTENT */
+.content {
+	width: 100%;
+	min-height: 300px;
+}
+
+#page, .content {
+	text-align: center;
+}
+
+/* GAME */
+.game-field {
+	padding: 0;
+    margin:  0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* bootstrap */
+.glyphicon {
+	margin-right: 5px;
+}
