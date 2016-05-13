@@ -1,0 +1,32 @@
+.top-table {
+	margin: 0 auto;
+	font-size: 30px;
+	color: #9b9595;
+	min-width: 400px;
+	font-weight: bold;
+	margin-top: 20px;
+}
+.top-tr {
+	td {
+		min-width: 100px;
+		cursor: default;
+	}
+
+	&:hover {
+		text-shadow: 2px 2px 3px black, 0 0 30px white;
+		color: white;
+	}
+
+	&_gold-hover {
+		&:hover {
+			text-shadow: 2px 2px 3px black, 0 0 30px gold;
+			color: gold;
+		}
+	}
+}
+.col_no-padding-left {
+	padding-left: 0px;
+}
+.col_no-padding-right {
+	padding-right: 0px;
+}

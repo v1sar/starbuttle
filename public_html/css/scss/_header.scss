@@ -1,0 +1,17 @@
+.header {
+	color: white;
+	margin-top: 50px;
+	
+	&__h1 {	
+		font-weight: bold;
+		text-shadow: 2px 2px 2px black, 0 0 1em white;
+	}
+
+	&__h1_80 {
+		font-size: 80px;
+	}
+
+	&__h1_50 {
+		font-size: 50px;
+	}
+}

@@ -1,0 +1,11 @@
+<fest:template xmlns:fest="http://fest.mail.ru" >
+	<fest:set name="app-alert">
+		<div class="app-alert { 'app-alert_' + params.type } js-alert { 'js-alert-' + params.type }" style="display: none">
+			<span class="{ 'js-alert-' + params.type + '-text' }">
+				<fest:value>params.text</fest:value>
+			</span>
+			<br></br>
+			<a href="#" class="{ 'js-alert-' + params.type + '-link' } app-alert__alert-link"></a>
+		</div>
+	</fest:set>
+</fest:template>

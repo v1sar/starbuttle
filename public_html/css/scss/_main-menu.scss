@@ -1,0 +1,28 @@
+.main-menu {
+	text-align: center;
+	color: white;
+	top: 50px;
+	font-size: 40px;
+	padding: 0px;
+	text-shadow: 1px 1px 2px black, 0 0 1em white;
+	
+	&__item {
+		list-style-type: none;
+		width: 100%;
+
+		a {
+			height: 100%;
+			display: block;
+			padding-top: 5px;
+		}
+
+		&:hover {
+			background: rgba(0, 25, 162, 0.21);
+		}
+
+		&:hover > a {
+			text-decoration: none;
+			color: white;
+		}
+	}
+}

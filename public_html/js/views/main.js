@@ -1,21 +1,39 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/main',
+    '../models/session'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    activeSession
 ) {
     var MainView = Backbone.View.extend({
         template: tmpl,
 
         id: 'main',
 
+        model: activeSession,
+
+        events: {
+            'click .js-sign-out-btn': 'signout'
+        },
+
         initialize: function () {
             // TODO: this.listenTo(...)
         },
 
         render: function() {
-            this.$el.html(this.template());
+            var session = this.model;
+
+            var session_context = {
+                    signedFlag: session.isSigned(),
+                    unsignedFlag: !session.isSigned(),
+                    avatar: session.getUser().get('avatar'),
+                    nickname: session.getUser().get('login'),
+                    score: session.getUser().asPlayer().score
+                };
+            
+            this.$el.html(this.template(session_context));
             return this;
         },
 
@@ -26,6 +44,18 @@ define([
 
         hide: function () {
             this.$el.hide();
+        },
+
+        signout: function() {
+            var session = this.model;
+
+            session.signout()
+                .then(function() {
+                    $(location).attr('href', '/')
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
         }
     });
 

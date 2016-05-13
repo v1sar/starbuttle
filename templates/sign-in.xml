@@ -1,4 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:include src="./subtemplates/input.xml"/> 	<!-- name="app-form-input" -->
+	<fest:include src="./subtemplates/alert.xml"/> 	<!-- name="app-alert" -->
+
 	<div class="header">
 		<h1 class="header__h1 header__h1_50">
 			SIGN IN
@@ -6,34 +9,23 @@
 	</div>
 
 	<div class="content">
-		<form method="" class="app-form form-horizontal">
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="email" class="control-label app-form__label">Email</label>
-				</div>
-				<div class="col-md-9">
-					<input type="email" name="email" class="form-control app-form__input" placeholder="email" />
-				</div>
-			</div>
+		<!-- Error message -->
+		<fest:get name="app-alert"> { type: 'error', text: 'Authorization failed. Please check your login and password'} </fest:get>
 
-			<div class="form-group form-group-lg">
-				<div class="col-md-3">
-					<label for="password" class="control-label app-form__label">Password</label>
-				</div>
-				<div class="col-md-9">
-					<input type="password" class="form-control app-form__input" name="password" placeholder="password" />
-				</div>
-			</div>
+		<!-- Signin form -->
+		<form class="app-form form-horizontal js-sign-in-form">
+			<fest:get name="app-form-input"> { name: 'login'} </fest:get>
+			<fest:get name="app-form-input"> { name: 'password', type: 'password'} </fest:get>
 			
 			<div class="form-group form-group-lg">
 				<div class="checkbox col-md-12">
   					<label class="app-form__label">
-  						<input type="checkbox" name="remember" value="remember" />Remember me!
+  						<input type="checkbox" name="remember" value="remember" checked="checked"/>Remember me!
   					</label>
 				</div>
 			</div>
 			
-			<button class="btn btn-primary btn-lg app-form__btn" type="submit">Sign in</button>
+			<button class="btn btn-primary btn-lg app-form__btn" type="submit" checked="true">Sign in</button>
 		</form>
 	</div>
 

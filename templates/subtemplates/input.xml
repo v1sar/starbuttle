@@ -1,0 +1,15 @@
+<fest:template xmlns:fest="http://fest.mail.ru" >
+	<fest:set name="app-form-input">	
+		<div class="form-group form-group-lg">
+			<div class="col-md-3">
+				<label for="{ params.name }" class="control-label app-form__label">
+					<fest:value>params.name[0].toUpperCase() + params.name.slice(1)</fest:value>
+				</label>
+			</div>
+			<div class="col-md-9">
+				<input type="{ params.type ? params.type : 'text' }" name="{ params.name }" class="form-control app-form__input" placeholder="{ params.name }" />
+				<span class="help-block"></span>
+			</div>
+		</div>
+	</fest:set>
+</fest:template>

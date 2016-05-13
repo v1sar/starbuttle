@@ -1,0 +1,25 @@
+.footer {
+	margin-bottom: 50px;
+
+	&__a {
+		display: block;
+		height: 100%;
+		
+		span {
+			font-size: 20px;
+			vertical-align: middle;
+			margin-bottom: 5px;
+		}
+
+		&:hover {
+			color: white;
+			font-size: 28px;
+			text-decoration: none;
+		}
+
+		&:hover > span {
+			font-size: 26px;
+			margin-bottom: 6px;
+		}
+	}
+}

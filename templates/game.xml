@@ -1,4 +1,4 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<div id="game-field">
+	<div class="game-field js-game-field">
 	</div>
 </fest:template>

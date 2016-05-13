@@ -1,0 +1,59 @@
+.app-form {
+	max-width: 500px;
+	margin: 0 auto;
+	margin-top: 30px;
+	text-align: right;
+
+	&_w400 {
+		max-width: 400px;
+	}
+
+	&__label {
+		text-shadow: 2px 2px 2px black, 0 0 1em white;
+		color: white;
+	}
+
+	&__btn {
+		padding: 10px 30px;
+		border-radius: 0px !important;
+		
+		span {
+			margin-right: 5px;
+		}
+
+		&_mar-t-5 {
+			margin-top: 5px;
+		}
+	}
+
+	&__input {
+		border-radius: 0px !important;
+		font-weight: bold !important;
+	}
+
+	&__upload-btn {
+		font-size: 16px;
+		padding: 10px;
+		width: 100%;
+	}
+
+	&__upload-input {
+		position: absolute;
+		max-width: 177px;
+		height: 45px;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	&__upload-container {
+		&:hover > &__upload-btn {
+			color: #333;
+			background-color: #e6e6e6;
+			border-color: #adadad;
+		}
+	}
+}
+
+.glyphicon_sm {
+	font-size: 16px;
+}
