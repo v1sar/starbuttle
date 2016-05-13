@@ -20,7 +20,7 @@ define([
         },
 
         initialize: function () {
-            // TODO: listenTo
+            this.listenTo(activeSession, 'loginError', this.showError);
         },
         
         render: function() {
@@ -53,18 +53,11 @@ define([
 
             this.$('.js-sign-in-form')[0].reset();
             
-            session.signin($login, $password, $remember)
-                .then(function(id) {
-                    return session.getUserData(id);
-                })
-                .then(function(data) {
-                    session.setUser(data);
-                    session.trigger('login');
-                })
-                .catch(function(error) { 
-                    console.log(error);
-                    view.showError();
-                });
+            session.save({ 
+                login: $login,
+                password: $password,
+                remember: $remember
+            });
         }
     });
 

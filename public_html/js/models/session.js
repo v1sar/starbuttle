@@ -14,9 +14,17 @@ define([
             remember: false
         },
 
-        url: "/api/session",
+        url: '/api/session',
+
+        sync: sessionSync,
 
         USER_STORAGE_KEY: 'user',
+
+        toJSON: function() {
+            return JSON.stringify(
+                _.clone(this.attributes)
+            );
+        },
 
         initialize: function() {
         	this._user = new UserModel();
@@ -79,7 +87,7 @@ define([
         getUser: function() {
         	return this._user;
         },
-
+/*
         signin: function(userLogin, userPassword, remember) {
             return new Promise(function(resolve, reject) {       	
             	$.ajax({ 
@@ -115,7 +123,7 @@ define([
                 }); // ajax
             }); // Promise
         },  // login
-        
+*/
         signout: function() {
             var session = this;
 

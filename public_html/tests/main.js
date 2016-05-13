@@ -21,8 +21,8 @@ require.config({
 
 var tests = [
     'models/player.test',
-    'views/main.test',
-    'models/session.test'
+    'views/main.test'
+    // 'models/session.test'
 ];
 
 require(tests, function () {
