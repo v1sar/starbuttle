@@ -83,4 +83,11 @@ define(function(require) {
         }
     }); */
 
+    var a = websoce.create(
+        onMessage(
+                // двигаю врага
+            )
+    )
+
+    
 });

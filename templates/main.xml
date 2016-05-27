@@ -32,11 +32,11 @@
                         <span class="glyphicon glyphicon-user"></span>
                         <fest:value>session.nickname</fest:value>
                     </a> 
-                    <span class="pull-right"><fest:value>score</fest:value></span>                   
+                    <span class="pull-right"><fest:value>session.score</fest:value></span>                   
                 </div>
                 <fest:element name="br"/> 
                 <div style="margin-top: -10px;">
-                    <a href="" class="js-sign-out-btn profile__sign-out">
+                    <a href="#" class="js-sign-out-btn profile__sign-out">
                         <span class="glyphicon glyphicon-log-out"></span> SIGN OUT
                     </a>
                 </div>

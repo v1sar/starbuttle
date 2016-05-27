@@ -49,13 +49,7 @@ define([
         signout: function() {
             var session = this.model;
 
-            session.signout()
-                .then(function() {
-                    $(location).attr('href', '/')
-                })
-                .catch(function(error) {
-                    console.log(error);
-                })
+            session.destroy({ wait: true });
         }
     });
 

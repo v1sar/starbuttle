@@ -23,8 +23,10 @@ define([
         url: '/api/session',
 
         sync: sessionSync,
-
+        
         USER_STORAGE_KEY: 'user',
+
+        id: '1',    // for DELETE
 
         toJSON: function() {
             return JSON.stringify(
@@ -40,37 +42,8 @@ define([
 
             this._user.set(localUser);
 
-            this.checkAuth()
-                .catch(function() {
-                    session.clearUser();
-                });
+            this.fetch();
         },
-
-        checkAuth: function() {
-            return new Promise(function(resolve, reject) {
-                $.ajax({ 
-                    url: "/api/session",
-                    
-                    type: "GET",
-                    
-                    success: function(userData) {                      
-                        console.log("...SESSION ALIVE!");
-                        console.log(userData);
-
-                        resolve(userData.id);
-                    },
-
-                    error: function(xhr, error_msg, error) {
-                        var error = new Error(error_msg);
-                        error.code = xhr.status;
-
-                        console.log("...DEAD SESSION!\n" + error.code + " " + error.message);
-
-                        reject(error); 
-                    }
-                }); // ajax
-            }); // Promise    
-        },  // checkAuth
 
         isSigned: function() {
             return this._user.get('id') ? true : false;
@@ -93,35 +66,6 @@ define([
         getUser: function() {
         	return this._user;
         },
-
-        signout: function() {
-            var session = this;
-
-            return new Promise(function(resolve, reject) {          
-                $.ajax({ 
-                    url: "/api/session",
-                    
-                    type: "DELETE",
-
-                    mimeType: "text/html",  // "No element found" fix
-                    
-                    success: function() {                      
-                        console.log("...SIGNOUT SUCCESS!");
-                        session.clearUser();
-                        resolve(session.trigger('logout'));
-                    },
-
-                    error: function(xhr, error_msg, error) {
-                        var error = new Error(error_msg);
-                        error.code = xhr.status;
-
-                        console.log("...SIGNOUT ERROR!\n" + error.code + " " + error.message);
-
-                        reject(error); 
-                    }
-                }); // ajax
-            }); // Promise    
-        },  // logout
 
         getUserData: function(id) {
             return new Promise(function(resolve, reject) {
