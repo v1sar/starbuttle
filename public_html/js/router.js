@@ -19,7 +19,7 @@ define(function(require) {
 
     var Router = Backbone.Router.extend({
         initialize: function() {
-            this.listenTo(activeSession, 'login', this.rootAction);
+            this.listenTo(activeSession.getUser(), 'logined', this.rootAction);
             this.listenTo(activeSession, 'logout', this.rootAction);
         },
 

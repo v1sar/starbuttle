@@ -20,7 +20,15 @@ define([
         },
 
         initialize: function () {
-            this.listenTo(activeSession, 'loginError', this.showError);
+            this.listenTo(
+                this.model, 
+                'login', 
+                function() { 
+                    $(location).attr('href', '/'); 
+                }
+            );
+
+            this.listenTo(this.model, 'loginError', this.showError);
         },
         
         render: function() {

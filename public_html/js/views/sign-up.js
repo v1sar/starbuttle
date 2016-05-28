@@ -22,8 +22,24 @@ define(function(require) {
             'change .js-choose': 'fileUpload'
         },
 
+        model: new UserModel(),
+
         initialize: function () {
-            this._avatar = null;           
+            var view = this;
+
+            this.listenTo(
+                this.model, 
+                'signUpSuccess',
+                function() { view.successMsg(view.model.get('login')); }
+            );
+
+            this.listenTo(
+                this.model, 
+                'signUpError',
+                function() { view.errorMsg(); }
+            ); 
+
+            this.listenTo(this.model, 'invalid', this.showErrors);
         },
 
         render: function() {
@@ -102,9 +118,9 @@ define(function(require) {
             $webcameraBtn.hide();
             $shotBtn.show();
 
-            this._avatar = null;
-
             var view = this;
+
+            view.model.set({ avatar: null });
 
             FileAPI.Camera.publish($preview, { width: 170, height: 170 }, function (err, cam) {
                 if (err) {
@@ -124,7 +140,7 @@ define(function(require) {
                     if(cam.isActive()) {
                         var shot = cam.shot();
 
-                        view._avatar = shot.file;    // canvas
+                        view.model.set({ avatar: shot.file });   // canvas
 
                         shot.preview(170).get(function (err, img){                            
                             $preview.children('video').remove();
@@ -135,7 +151,7 @@ define(function(require) {
                     } else {
                         alert('Web camera is turned off!');
                         
-                        view._avatar = null;
+                        view.model.set({ avatar: null });
 
                         $preview.children('video').remove();
                         $preview.children('canvas').remove();                        
@@ -154,12 +170,12 @@ define(function(require) {
         },
 
         fileUpload: function(event) {
-            this._avatar = null;
-
             var view = this,
                 $preview = this.$('.js-preview'),                    
                 $defaultImg = this.$('.js-default-img');
-                
+            
+            view.model.set({ avatar: null });
+
             var files = FileAPI.getFiles(event);
 
             FileAPI.filterFiles(files, function(file, info) {
@@ -184,7 +200,7 @@ define(function(require) {
                 if (files.length) {
                     var file = files[0];
 
-                    view._avatar = file; 
+                    view.model.set({ avatar: file }); 
                     
                     FileAPI.Image(file).preview(170).get(function(err, img) {           
                         $defaultImg.hide();
@@ -200,52 +216,36 @@ define(function(require) {
         signup: function(event) {                   
             event.preventDefault();
 
-            this.hideErrors();
+            var view = this;
+
+            view.hideErrors();
 
             var $preview = this.$('.js-preview'),
                 $webcameraBtn = this.$('.js-webcamera-btn'),
                 $shotBtn = this.$('.js-shot-btn'),
                 $defaultImg = this.$('.js-default-img');
 
-            var newUser = new UserModel();
-            this.listenTo(newUser, 'invalid', this.showErrors);
-
-            newUser.set({
-                email: this.$('input[name="email"]').val(),
-                password: this.$('input[name="password"]').val(),
-                login: this.$('input[name="login"]').val()
+            view.model.set({
+                email: view.$('input[name="email"]').val(),
+                password: view.$('input[name="password"]').val(),
+                login: view.$('input[name="login"]').val()
             });
             
-            var view = this;
-            if (newUser.isValid()) {
-                avatar = this._avatar;
+            if (view.model.isValid()) {
+                avatar = view.model.get('avatar');
                 
                 if (avatar !== null) {
                     FileAPI.readAsDataURL(avatar, function(event) {
                         if (event.type == 'load') {
-                            newUser.set({ avatar: event.result });      
-
-                            newUser.signup()
-                                .then(function() {
-                                    view.successMsg(newUser.get('login'));
-                                })
-                                .catch(function(code) {
-                                    view.errorMsg();
-                                });                      
+                            view.model.save({ avatar: event.result });             
                         } else if (event.type =='progress') {
                             console.log(event.loaded / event.total * 100 + '% avatar parsing to base64');
                         } else {
                             console.log('Avatar error parse to base64');
                         }
-                    })               
+                    });              
                 } else {
-                    newUser.signup()
-                        .then(function() {
-                            view.successMsg(newUser.get('login'));
-                        })
-                        .catch(function(code) {
-                            view.errorMsg();
-                        });  
+                    view.model.save();
                 }
 
                 this.$('.js-sign-up-form')[0].reset();
