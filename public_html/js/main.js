@@ -67,6 +67,8 @@ require([
 	Backbone,
 	router
 ) { 
+    
+    /*
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/serviceWorker.js')
             .then(function(registration) {
@@ -75,7 +77,7 @@ require([
             .catch(function(err) {
                 console.log('ServiceWorker registration failed: ', err);
             });
-    }
+    }*/
         
     Backbone.history.start();
 });

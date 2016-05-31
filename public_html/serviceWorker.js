@@ -37,10 +37,8 @@ self.addEventListener('fetch', function(event) {
 			.then(function(fetchResponse) {			// Затянули с сервера - положили в кэш
    				caches.open(CACHE_NAME)
    					.then(function(cache) {
-      					if (fetchResponse !== undefined) {
-      						cache.put(event.request, fetchResponse.clone());
-      						console.log('Request was putted in the ' + CACHE_NAME, event.request.url);
-      					}
+      					cache.put(event.request, fetchResponse.clone());
+      					console.log('Request was putted in the ' + CACHE_NAME, event.request.url);
     				});
 
     			return fetchResponse;

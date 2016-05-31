@@ -1,6 +1,6 @@
 define([
 	'backbone',
-	'./userSync',
+	'./sync/userSync',
 	'./player'
 ], function(
 	Backbone,

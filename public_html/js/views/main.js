@@ -18,8 +18,13 @@ define([
             'click .js-sign-out-btn': 'signout'
         },
 
-        initialize: function () {
+        initialize: function() {
             // TODO: this.listenTo(...)
+        },
+
+        isVisible: function() {
+            console.log(this.$el.css('display'))
+            return (this.$el.css('display') == 'block');
         },
 
         render: function() {

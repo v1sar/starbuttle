@@ -1,6 +1,6 @@
 define([
     'backbone',
-    './sessionSync',
+    './sync/sessionSync',
     './user'
 ], function (
     Backbone,
@@ -31,7 +31,6 @@ define([
                 _.clone(this.attributes)
             );
         },
-
 
         isSigned: function() {
             return !!this._user.get('id');

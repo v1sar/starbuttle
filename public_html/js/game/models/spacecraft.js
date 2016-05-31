@@ -15,7 +15,7 @@ define(function(require) {
             spacecraft = this;
         
         return new Promise(function(resolve, reject) {
-            if (spacecraft._mesh) {
+            if (spacecraft._mesh !== null) {
                 resolve(spacecraft._mesh);
             }
 
