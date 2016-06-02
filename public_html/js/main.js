@@ -1,5 +1,5 @@
 require.config({
-    urlArgs: "_=" + (new Date()).getTime(),
+    // urlArgs: "_=" + (new Date()).getTime(), // Не позволяет кешировать
     baseUrl: "js",
     paths: {
         jquery: "lib/jquery",
@@ -66,6 +66,18 @@ require([
 ], function(
 	Backbone,
 	router
-) {
+) { 
+    
+    /*
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/serviceWorker.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    }*/
+        
     Backbone.history.start();
 });

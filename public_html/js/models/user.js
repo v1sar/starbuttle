@@ -1,8 +1,10 @@
 define([
 	'backbone',
+	'./sync/userSync',
 	'./player'
 ], function(
 	Backbone,
+	userSync,
 	PlayerModel
 ) {    
     var UserModel = Backbone.Model.extend({
@@ -11,45 +13,35 @@ define([
     		login: null,
     		email: null,
     		password: null,
-    		avatar: null,
-    		player: new PlayerModel()
+    		avatar: null
+    	},
+
+    	url: '/api/user',
+
+    	sync: userSync,
+    	
+    	initialize: function() {
+    		this._player = new PlayerModel();
+    	},
+
+    	toJSON: function() {
+			return JSON.stringify(
+                _.clone(this.attributes)
+            );
+    	},
+
+    	// For Sign Up
+    	toNotFullJSON: function() {
+    		return JSON.stringify({
+    			login: this.get('login'),
+    			email: this.get('email'),
+    			password: this.get('password')
+    		});
     	},
 
     	asPlayer: function() {
-    		return this.get('player');
+    		return this._player;
     	},
-
-    	signup: function() {
-    		var user = this;
-    		return new Promise(function(resolve, reject) {
-    			$.ajax({ 
-	                url: "/api/user",
-	                
-	                type: "PUT",
-	                
-	                dataType: "json",
-	                
-	                contentType: "application/json",
-
-	                data: JSON.stringify({ 
-	                    login: user.get('login'),
-	                    password: user.get('password'),
-	                    email: user.get('email'),
-	                    avatar: user.get('avatar')
-	                }),
-	                
-	                success: function(player) {                      
-	                    console.log("...SIGNUP SUCCESS!");
-	                    resolve();
-	                },
-
-	                error: function(xhr, error_msg, error) {
-	                    console.log("...SIGNUP ERROR!\n" + xhr.status + " " + error_msg); 
-	                    reject(xhr.status);
-	                } 
-	            });	// ajax
-    		});	// Promise    		
-    	},	// registered
 
     	validate: function(attrs) {
 			var errors = {},

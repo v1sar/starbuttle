@@ -7,7 +7,7 @@
 
 	<div class="content">
 		<table class="top-table">
-			<fest:each iterate="json.collection" index="i" value="player">
+			<fest:each iterate="json.players" index="i" value="player">
 				<!-- Первые три подсвечиваются золотом -->
 				<fest:script>
 					i++;
@@ -15,13 +15,13 @@
 				</fest:script>
 		        <tr class="top-tr { i < 4 ? tr_gold : ''}">	
 					<td>
-						<fest:value output="text">i</fest:value>
+						<fest:value>i</fest:value>
 					</td>
 					<td align="left">
-						<fest:value output="text">player.name</fest:value>
+						<fest:value>player.name</fest:value>
 					</td>
 					<td>
-						<fest:value output="text">player.score</fest:value>
+						<fest:value>player.score</fest:value>
 					</td>
 				</tr>
 			</fest:each>

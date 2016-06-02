@@ -12,10 +12,10 @@ define(function(require) {
 		);
 
 		this._mesh.position.copy(position);
+	}
 
-		this.getMesh = function() {
-            return this._mesh;
-        }
+	Shot.prototype.getMesh = function() {
+		return this._mesh;
 	}
 
 	Shot.prototype.update = function(z) {

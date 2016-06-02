@@ -20,7 +20,7 @@ define([
         },
 
         initialize: function () {
-            this.listenTo(activeSession, 'loginError', this.showError);
+            this.listenTo(this.model, 'loginError', this.showError);
         },
         
         render: function() {
@@ -48,16 +48,20 @@ define([
             var session = this.model;
                 $login = this.$('input[name="login"]').val(),
                 $password = this.$('input[name="password"]').val(),
-                $remember = !!this.$('input[name="remember"]:checkbox:checked').val(),
-                view = this;
+                $remember = !!this.$('input[name="remember"]:checkbox:checked').val();
 
             this.$('.js-sign-in-form')[0].reset();
             
-            session.save({ 
-                login: $login,
-                password: $password,
-                remember: $remember
-            });
+            session.save(
+                { 
+                    login: $login,
+                    password: $password,
+                    remember: $remember
+                }, 
+                {
+                    isNew: true
+                }
+            );
         }
     });
 

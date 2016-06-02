@@ -19,7 +19,7 @@ define(function(require) {
 
     var Router = Backbone.Router.extend({
         initialize: function() {
-            this.listenTo(activeSession, 'login', this.rootAction);
+            this.listenTo(activeSession.getUser(), 'login', this.reRenderMain);
             this.listenTo(activeSession, 'logout', this.rootAction);
         },
 
@@ -45,7 +45,12 @@ define(function(require) {
         },
 
         signInAction: function () {
-            app.getView('signIn').show();
+            console.log(activeSession.isSigned())
+            if (activeSession.isSigned()) {
+                $(location).attr('href', '/');
+            } else {
+                app.getView('signIn').show();
+            }
         },
         
         signUpAction: function () {
@@ -55,6 +60,10 @@ define(function(require) {
         rootAction: function() {
             // this.navigate('/', {trigger: true});     // not working
             $(location).attr('href', '/');
+        },
+
+        reRenderMain: function() {
+            app.getView('main').render();   /// БАААААГ
         }
     });
 

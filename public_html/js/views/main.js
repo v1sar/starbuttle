@@ -18,8 +18,13 @@ define([
             'click .js-sign-out-btn': 'signout'
         },
 
-        initialize: function () {
+        initialize: function() {
             // TODO: this.listenTo(...)
+        },
+
+        isVisible: function() {
+            console.log(this.$el.css('display'))
+            return (this.$el.css('display') == 'block');
         },
 
         render: function() {
@@ -49,13 +54,7 @@ define([
         signout: function() {
             var session = this.model;
 
-            session.signout()
-                .then(function() {
-                    $(location).attr('href', '/')
-                })
-                .catch(function(error) {
-                    console.log(error);
-                })
+            session.destroy({ wait: true });
         }
     });
 
