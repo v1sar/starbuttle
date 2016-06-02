@@ -1,16 +1,20 @@
 define([
 	'backbone',
+    'three',
     '../game/models/spacecraft',
+    '../game/models/shot'
 ], function(
 	Backbone,
-    Spacecraft
+    THREE,
+    Spacecraft,
+    Shot
 ) {    
 
     var PlayerModel = Backbone.Model.extend({
     	defaults: {
     		id: 0,
     		score: 0,
-    		health: 0,
+    		health: 100,
             x: 0,
             y: 0,
             z: 0
@@ -20,8 +24,6 @@ define([
 
         initialize: function() {
             this._spacecraft = new Spacecraft(this.get('x'), this.get('y'), this.get('z'));
-
-            this.createConnection();
         },
 
         getMesh: function() {
@@ -34,36 +36,31 @@ define([
             );
         },
 
-        createConnection: function() {
-            this._gameSocket = new WebSocket('ws://localhost:8090' + this.url);
+        update: function(cameraPosition) {
+            var player = this;
             
-            this._gameSocket.onopen = function() {
-                console.log('Соединение с игровой комнатой установлено.');
-            };
-
-            this._gameSocket.onclose = function(event) {
-                if (event.wasClean) {
-                    console.log('Соедение с игровой комнатой закрыто чисто.');
-                } else {
-                    console.log('Обрыв соединения.');
-                }
-                
-                console.log('Код: ' + event.code + ', причина: ' + event.reason);
-            };
-
-            this._gameSocket.onmessage = function(event) {
-                console.log('Получены данные ' + event.data);
-            };
-
-            this._gameSocket.onerror = function(error) {
-                console.log('Ошибка ' + error.message);
-            };
+            player.set({
+                x: cameraPosition.x,
+                y: cameraPosition.y - 2,    // константы при создании
+                z: cameraPosition.z - 20
+            });
         },
 
-        sendData: function() {
-            console.log('Send: ' + this.toJSON());
-            this._gameSocket.send(this.toJSON());
+        getPositionInWorld: function() {
+            return this.getMesh().matrixWorld;
         }
+        /*
+        createShot: function(camera, event) {
+            var projector = new THREE.Projector(),
+                shot = new Shot(new THREE.Vector3(this.get('x'), this.get('y'), this.get('z')));
+
+            var vector = new t.Vector3(mouse.x, mouse.y, 1);
+            projector.unprojectVector(vector, );
+            sphere.ray = new t.Ray(
+                obj.position,
+                vector.subSelf(obj.position).normalize()
+            );
+        }*/
     });
     
     return PlayerModel;

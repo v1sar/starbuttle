@@ -3,9 +3,9 @@ define(function(require) {
         loadingManager = require('./loadmanager');
 
     var Spacecraft = function(x, y, z) {
-        this._x = x;
-        this._y = y;
-        this._z = z;
+        this._startX = x;
+        this._startY = y;
+        this._startZ = z;
 
         this._mesh = null;
     }
@@ -14,11 +14,11 @@ define(function(require) {
         var loader = new THREE.JSONLoader(loadingManager),
             spacecraft = this;
         
-        return new Promise(function(resolve, reject) {
-            if (spacecraft._mesh !== null) {
-                resolve(spacecraft._mesh);
-            }
+        if (spacecraft._mesh !== null) {
+            return spacecraft._mesh;
+        }
 
+        return new Promise(function(resolve, reject) {
             loader.load(
                 'js/game/3D_models/spacecraft.json',   // ../ not working
                 function(geometry, materials) {
@@ -27,7 +27,7 @@ define(function(require) {
                         new THREE.MeshFaceMaterial(materials)
                     );
 
-                    mesh.position.set(spacecraft._x, spacecraft._y, spacecraft._z);
+                    mesh.position.set(spacecraft._startX, spacecraft._startY, spacecraft._startZ);
                     mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
                     mesh.rotateY(Math.PI); 
                     mesh.tranlation = geometry.center();
