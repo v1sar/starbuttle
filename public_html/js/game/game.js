@@ -31,12 +31,15 @@ define(function(require) {
             game._controls.update(delta);
             game.updatePlayers();
             //game.sendData();
-
+            
             for (var i = 0; i < shots.length; i++) {
-                if (!shots[i].update(game._world.getCamera().position.z)) {
+                /*if (!shots[i].update(game._world.getCamera().position.z)) {
                     game._world.getScene().remove(shots[i].getMesh());
                     shots.splice(i, 1);
-                }
+                }*/
+                shots[i].getMesh().translateX(10 * shots[i].ray.direction.x);
+                shots[i].getMesh().translateX(10 * shots[i].ray.direction.y);
+                shots[i].getMesh().translateZ(-10 * shots[i].ray.direction.z);
             }    
         }
     }
@@ -91,7 +94,7 @@ define(function(require) {
     Game.prototype.getWorld = function() {
         return this._world;
     }
-    
+
     Game.prototype.start = function() {
         var game = this,
             controls = null;
@@ -114,7 +117,7 @@ define(function(require) {
 
             // game._controls.dragToLook = true;
             game._controls.autoForward = true;
-            game._controls.movementSpeed =  30;
+            game._controls.movementSpeed =  5;
             game._controls.rollSpeed = Math.PI / 10;
 
             game.createConnection();
@@ -123,8 +126,8 @@ define(function(require) {
             //window.addEventListener('keyup', function(e) {
             //    switch(e.keyCode) {
             //        case KEY_ONE: {  // Клавиша "1"
-            document.on('click', function (event) {
-                var raycaster = new THREE.Raycaster();
+            $(document).on('click', function (event) {
+                /*var raycaster = new THREE.Raycaster();
                 //    vector = new THREE.Vector3();
 
                 var spacecraft = game._player.getMesh(),
@@ -138,9 +141,8 @@ define(function(require) {
                 
                 vector.set(0, 0, 0);
                 raycaster.setFromCamera(
-                    //new THREE.Vector2(game._world.getContainer().width, game._world.getContainer().height), 
                     new THREE.Vector2((event.clientX / window.innerWidth ) * 2 - 1, (event.clientY / window.innerHeight ) * 2 + 1),
-                    game._player.getMesh()
+                    game._world.getCamera()
                 );
 
                 var intersects = raycaster.intersectObjects(game._world.getScene().children);
@@ -149,12 +151,36 @@ define(function(require) {
 
                 shots.push(shot);
                 game._world.add(shot.getMesh());
-            //        } break;
+            //        } break;*/
+                var spacecraft = game._player.getMesh(),
+                    camera = game._world.getCamera(),
+                    raycaster = new THREE.Raycaster();
+
+                var vector = new THREE.Vector3();
+                vector.setFromMatrixPosition(game._player.getPositionInWorld());
+                var shot = new Shot(vector);
+
+                var mouse = new THREE.Vector3(
+                    (event.clientX / window.innerWidth ) * 2 - 1, 
+                    (event.clientY / window.innerHeight ) * 2 + 1,
+                    1
+                );
+                raycaster.setFromCamera(mouse, camera );
+
+                shot.ray = new THREE.Ray(
+                    camera.position,
+                    vector.normalize()
+                );
+
+                shots.push(shot);
+                game._world.add(shot.getMesh());
+
+                var intersects = raycaster.intersectObjects(game._world.getScene().children);
             })
-                        
+                
+
             //    }
             });
-        });
     } 
 
 

@@ -19,7 +19,8 @@ define(function(require) {
 	}
 
 	Shot.prototype.update = function(z) {
-		this._mesh.position.z -= 10;	
+		this._mesh.translateZ(-10);
+		//this._mesh.position.z -= 10;	
 
 	   	if(Math.abs(this._mesh.position.z - z) > 1000) {
 	     	delete this._mesh;	

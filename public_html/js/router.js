@@ -41,20 +41,15 @@ define(function(require) {
         },
 
         gameAction: function () {
-            app.getView('game').show();
+            this.authRequired('game');
         },
 
         signInAction: function () {
-            console.log(activeSession.isSigned())
-            if (activeSession.isSigned()) {
-                $(location).attr('href', '/');
-            } else {
-                app.getView('signIn').show();
-            }
+            this.nonAuthRequired('signIn');
         },
         
         signUpAction: function () {
-            app.getView('signUp').show();
+            this.nonAuthRequired('signUp');
         },
 
         rootAction: function() {
@@ -64,6 +59,20 @@ define(function(require) {
 
         reRenderMain: function() {
             app.getView('main').render();   /// БАААААГ
+        },
+
+        authRequired: function(viewName) {
+            if (activeSession.isSigned()) {
+                app.getView(viewName).show();
+            } else {
+                this.navigate('#signin', {trigger: true})
+            }
+        },
+
+        nonAuthRequired: function(viewName) {
+            if (!activeSession.isSigned()) {
+                app.getView(viewName).show();
+            }
         }
     });
 
