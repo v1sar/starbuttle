@@ -28,7 +28,7 @@ define([
         url: '/api/game',
 
         initialize: function() {
-            this._spacecraft = new Spacecraft(this.get('x'), this.get('y'), this.get('z'));
+            this._spacecraft = new Spacecraft(this.get('posX'), this.get('posY'), this.get('posZ'));
         },
 
         getMesh: function() {
