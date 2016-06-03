@@ -32,6 +32,13 @@ define(function(require) {
             game.updatePlayers();
             //game.sendData();
             
+            var relativeCameraOffset = new THREE.Vector3(0, 3, -15);
+            var cameraOffset = relativeCameraOffset.applyMatrix4(game._player.getMesh().matrixWorld);
+            game._world.getCamera().position.x = cameraOffset.x
+            game._world.getCamera().position.y = cameraOffset.y
+            game._world.getCamera().position.z = cameraOffset.z
+            game._world.getCamera().lookAt(game._player.getMesh().position);
+
             for (var i = 0; i < shots.length; i++) {
                 /*if (!shots[i].update(game._world.getCamera().position.z)) {
                     game._world.getScene().remove(shots[i].getMesh());
@@ -50,7 +57,7 @@ define(function(require) {
     }
 
     Game.prototype.createConnection = function() {
-        this._socket = new WebSocket('ws://localhost:8090' + this._url);
+        this._socket = new WebSocket('ws://0.0.0.0:8090' + this._url);
         
         this._socket.onclose = function(event) {
             if (event.wasClean) {
@@ -112,13 +119,13 @@ define(function(require) {
                 game._world.add(mesh);
             });
 
-            game._world.getCamera().add(results[1]);
-            game._controls = new THREE.FlyControls(game._world.getCamera(), game._world.getContainer());
+            //game._world.getCamera().add(results[1]);
+            game._controls = new THREE.FlyControls(results[1], game._world.getContainer());
 
             // game._controls.dragToLook = true;
             game._controls.autoForward = true;
-            game._controls.movementSpeed =  5;
-            game._controls.rollSpeed = Math.PI / 10;
+            game._controls.movementSpeed =  20;
+            game._controls.rollSpeed = Math.PI / 100;
 
             game.createConnection();
             game._world.start();

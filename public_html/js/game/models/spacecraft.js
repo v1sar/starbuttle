@@ -14,6 +14,7 @@ define(function(require) {
         var loader = new THREE.JSONLoader(loadingManager),
             spacecraft = this;
         
+        // TODO: в промис
         if (spacecraft._mesh !== null) {
             return spacecraft._mesh;
         }
