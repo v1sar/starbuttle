@@ -15,9 +15,14 @@ define([
     		id: 0,
     		score: 0,
     		health: 100,
-            x: 0,
-            y: 0,
-            z: 0
+            
+            posX: 0,
+            posY: 0,
+            posZ: 0,
+            
+            rotX: 0,
+            rotY: 0,
+            rotZ: 0
     	},
 
         url: '/api/game',
@@ -36,13 +41,17 @@ define([
             );
         },
 
-        update: function(cameraPosition) {
+        update: function(camPosition, camRotation) {
             var player = this;
             
             player.set({
-                x: cameraPosition.x,
-                y: cameraPosition.y - 2,    // константы при создании
-                z: cameraPosition.z - 20
+                posX: Math.round(camPosition.x),
+                posY: Math.round(camPosition.y) - 2,    // константы при создании
+                posZ: Math.round(camPosition.z) - 20,
+
+                rotX: Math.round(camRotation.x),
+                rotY: Math.round(camRotation.y),
+                rotZ: Math.round(camRotation.z)
             });
         },
 

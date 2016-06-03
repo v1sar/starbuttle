@@ -31,13 +31,13 @@ define(function(require) {
             game._controls.update(delta);
             game.updatePlayers();
             //game.sendData();
-            
-            var relativeCameraOffset = new THREE.Vector3(0, 3, -15);
+            /*
+            var relativeCameraOffset = new THREE.Vector3(0, 3, 15);
             var cameraOffset = relativeCameraOffset.applyMatrix4(game._player.getMesh().matrixWorld);
             game._world.getCamera().position.x = cameraOffset.x
             game._world.getCamera().position.y = cameraOffset.y
             game._world.getCamera().position.z = cameraOffset.z
-            game._world.getCamera().lookAt(game._player.getMesh().position);
+            game._world.getCamera().lookAt(game._player.getMesh().position);*/
 
             for (var i = 0; i < shots.length; i++) {
                 /*if (!shots[i].update(game._world.getCamera().position.z)) {
@@ -46,17 +46,22 @@ define(function(require) {
                 }*/
                 shots[i].getMesh().translateX(10 * shots[i].ray.direction.x);
                 shots[i].getMesh().translateX(10 * shots[i].ray.direction.y);
-                shots[i].getMesh().translateZ(-10 * shots[i].ray.direction.z);
+                shots[i].getMesh().translateZ(10 * shots[i].ray.direction.z);
             }    
         }
     }
 
     Game.prototype.updatePlayers = function() {
-        this._player.update(this._world.getCamera().position);
+        var camPosition = this._world.getCamera().position,
+            camRotation = this._world.getCamera().rotation;
+
+        this._player.update(camPosition, camRotation);
         //this._enemy.update();
     }
 
     Game.prototype.createConnection = function() {
+        var game = this;
+
         this._socket = new WebSocket('ws://0.0.0.0:8090' + this._url);
         
         this._socket.onclose = function(event) {
@@ -67,11 +72,20 @@ define(function(require) {
             }
             
             console.log('Код: ' + event.code + ', причина: ' + event.reason);
-            this._connected = false;
+            game._connected = false;
         };
 
         this._socket.onmessage = function(event) {
             console.log('Получены данные ' + event.data);
+
+            var data = event.data;
+            game._enemy.getMesh().position.x = data.posX;
+            game._enemy.getMesh().position.y = data.posY;
+            game._enemy.getMesh().position.z = data.posZ;
+
+            game._enemy.getMesh().rotation.x = data.rotX;
+            game._enemy.getMesh().rotation.y = data.rotY;
+            game._enemy.getMesh().rotation.z = data.rotZ;
         };
 
         this._socket.onerror = function(error) {
@@ -82,19 +96,21 @@ define(function(require) {
     Game.prototype.sendData = function() {
         var game = this;
 
-        if (!this._connected) {
-            this._socket.onopen = function() {
+        if (!game._connected) {
+            game._socket = new WebSocket('ws://0.0.0.0:8090' + game._url);
+
+            game._socket.onopen = function() {
                 game._connected = true;
                 console.log('Соединение с игровой комнатой установлено.');
 
                 console.log('Send player: ' + game._player.toJSON());
                 game._socket.send(game._player.toJSON());
 
-                this._connected = true;
+                game._connected = true;
             };
         } else {
             console.log('Send player: ' + this._player.toJSON());
-            this._socket.send(this._player.toJSON());
+            game._socket.send(this._player.toJSON());
         }
     }
 
@@ -119,13 +135,14 @@ define(function(require) {
                 game._world.add(mesh);
             });
 
-            //game._world.getCamera().add(results[1]);
-            game._controls = new THREE.FlyControls(results[1], game._world.getContainer());
 
-            // game._controls.dragToLook = true;
+            game._world.getCamera().add(results[1]);
+            game._controls = new THREE.FlyControls(game._world.getCamera(), game._world.getContainer());
+
+            game._controls.dragToLook = false;
             game._controls.autoForward = true;
             game._controls.movementSpeed =  20;
-            game._controls.rollSpeed = Math.PI / 100;
+            game._controls.rollSpeed = Math.PI / 10;
 
             game.createConnection();
             game._world.start();
