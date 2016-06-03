@@ -45,6 +45,7 @@ define([
             var player = this;
             
             player.set({
+
                 posX: camPosition.x,
                 posY: camPosition.y,    // константы при создании
                 posZ: camPosition.z,
@@ -52,6 +53,7 @@ define([
                 rotX: camRotation.x,
                 rotY: camRotation.y,
                 rotZ: camRotation.z
+
             });
         },
 

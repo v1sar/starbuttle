@@ -60,6 +60,7 @@ define(function(require) {
             camRotation = this._world.getCamera().rotation;
 
         this._player.update(camPosition, camRotation);
+
     }
 
     Game.prototype.createConnection = function() {
@@ -96,6 +97,7 @@ define(function(require) {
                 return;
             }   
 
+
             if (game._status.gaming) {
 
                 game._enemyCamera.position.x = data.posX;
@@ -115,6 +117,7 @@ define(function(require) {
 //                game._enemy.getMesh().rotation.z = data.rotZ;
 
        //         game._enemy.getMesh().rotateY(Math.PI);
+
             }
         };
 
@@ -144,9 +147,11 @@ define(function(require) {
         var game = this,
             controls = null;
 
+
         //game._player = new Player({posX: 0, posY: -2, posZ: -20 });
         game._player = new Player({posX: 0, posY: -2, posZ: -20 });
         game._enemy = new Player({posX: 0, posY: -2, posZ: -20 });
+
 
         // Players
         Promise.all([
@@ -158,6 +163,7 @@ define(function(require) {
                 game._world.add(mesh);
             });
 
+
             game._enemyCamera = new THREE.PerspectiveCamera(
                 45,
                 game._world.getContainer().width / game._world.getContainer().height,
@@ -167,8 +173,10 @@ define(function(require) {
             game._enemyCamera.add(results[2]);
             game._world.add(game._enemyCamera);
 
+
             game._world.getCamera().add(results[1]);
             game._controls = new THREE.FlyControls(game._world.getCamera(), game._world.getContainer());
+
 
             game._controls.dragToLook = true;
             game._controls.autoForward = false;
@@ -177,6 +185,7 @@ define(function(require) {
 
             game._world.start();
             setInterval(game.sendData.bind(game), 60);
+
 
 
             $(document).on('click', function (event) {
