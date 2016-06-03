@@ -15,15 +15,20 @@ define([
     		id: 0,
     		score: 0,
     		health: 100,
-            x: 0,
-            y: 0,
-            z: 0
+            
+            posX: 0,
+            posY: 0,
+            posZ: 0,
+            
+            rotX: 0,
+            rotY: 0,
+            rotZ: 0
     	},
 
         url: '/api/game',
 
         initialize: function() {
-            this._spacecraft = new Spacecraft(this.get('x'), this.get('y'), this.get('z'));
+            this._spacecraft = new Spacecraft(this.get('posX'), this.get('posY'), this.get('posZ'));
         },
 
         getMesh: function() {
@@ -36,13 +41,17 @@ define([
             );
         },
 
-        update: function(cameraPosition) {
+        update: function(camPosition, camRotation) {
             var player = this;
             
             player.set({
-                x: cameraPosition.x,
-                y: cameraPosition.y - 2,    // константы при создании
-                z: cameraPosition.z - 20
+                posX: camPosition.x,
+                posY: camPosition.y,    // константы при создании
+                posZ: camPosition.z,
+
+                rotX: camRotation.x,
+                rotY: camRotation.y,
+                rotZ: camRotation.z
             });
         },
 
