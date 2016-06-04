@@ -2,9 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a35de6-bc37-45d6-ad1b-575ce4a54d72" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mechanic/GameMechanic.class" afterPath="$PROJECT_DIR$/target/classes/mechanic/GameMechanic.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/css/main.css" afterPath="$PROJECT_DIR$/public_html/css/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/css/scss/main.scss" afterPath="$PROJECT_DIR$/public_html/css/scss/main.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/index.html" afterPath="$PROJECT_DIR$/public_html/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/collections/players.js" afterPath="$PROJECT_DIR$/public_html/js/collections/players.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/game/game.js" afterPath="$PROJECT_DIR$/public_html/js/game/game.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/game/models/world.js" afterPath="$PROJECT_DIR$/public_html/js/game/models/world.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/models/session.js" afterPath="$PROJECT_DIR$/public_html/js/models/session.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/models/sync/sessionSync.js" afterPath="$PROJECT_DIR$/public_html/js/models/sync/sessionSync.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/models/sync/userSync.js" afterPath="$PROJECT_DIR$/public_html/js/models/sync/userSync.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/router.js" afterPath="$PROJECT_DIR$/public_html/js/router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/tmpl/scoreboard.js" afterPath="$PROJECT_DIR$/public_html/js/tmpl/scoreboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/views/app.js" afterPath="$PROJECT_DIR$/public_html/js/views/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/views/game.js" afterPath="$PROJECT_DIR$/public_html/js/views/game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/views/main.js" afterPath="$PROJECT_DIR$/public_html/js/views/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public_html/js/views/scoreboard.js" afterPath="$PROJECT_DIR$/public_html/js/views/scoreboard.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mechanic/GameMechanic.java" afterPath="$PROJECT_DIR$/src/main/java/mechanic/GameMechanic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/scoreboard.xml" afterPath="$PROJECT_DIR$/templates/scoreboard.xml" />
     </list>
     <ignored path="L1.3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,10 +46,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/mechanic/GameMechanic.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="69" selection-end-column="5" />
+              <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
               <folding>
-                <element signature="e#3689#3690#0" expanded="true" />
-                <element signature="e#3746#3747#0" expanded="true" />
+                <element signature="e#3690#3691#0" expanded="true" />
+                <element signature="e#3747#3748#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -42,8 +58,8 @@
       <file leaf-file-name="game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public_html/js/game/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5957944">
-              <caret line="162" column="30" selection-start-line="162" selection-start-column="30" selection-end-line="162" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.21028037">
+              <caret line="34" column="79" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="79" />
               <folding />
             </state>
           </provider>
@@ -63,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/public_html/js/game/models/world.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1331,7 +1347,7 @@
     <entry file="file://$PROJECT_DIR$/public_html/js/game/models/world.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1347,18 +1363,18 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/mechanic/GameMechanic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="69" selection-end-column="5" />
+          <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
           <folding>
-            <element signature="e#3689#3690#0" expanded="true" />
-            <element signature="e#3746#3747#0" expanded="true" />
+            <element signature="e#3690#3691#0" expanded="true" />
+            <element signature="e#3747#3748#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public_html/js/game/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5957944">
-          <caret line="162" column="30" selection-start-line="162" selection-start-column="30" selection-end-line="162" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.21028037">
+          <caret line="34" column="79" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="79" />
           <folding />
         </state>
       </provider>

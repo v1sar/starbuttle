@@ -48,7 +48,7 @@ public class GameMechanic {
 
     public void sendPosition(Lobby lobby, String username,  JSONObject data) {
         final int HP = data.getInt("health");
-        if (HP<0) {
+        if (HP<=0) {
             sendGameOver(lobby, username);
         }
         if (lobby.getFirstUser().getUsername() == username) {

@@ -10,10 +10,7 @@ define(function(require) {
         this._renderer = {};
         this._frameCallback = {};
         this._paused = false;
-
-
-
-
+        
         if (!options) {
             options = {};
         }

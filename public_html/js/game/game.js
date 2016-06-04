@@ -28,19 +28,23 @@ define(function(require) {
 
         updatePlayer();
 
+        var lastHealth;
         for (var i = 0; i < shots.length; i++) {
             shots[i].update();
 
-            if (isIntersection(shots[i]._hitbox, enemy._spacecraft._hitbox)) {
-                console.log('Попадание');
+            if (isIntersection(shots[i]._hitbox, player._spacecraft._hitbox)) {
+                console.log('В вас попали');
                 world.remove(shots[i].getMesh());
                 shots.splice(i, 1);
+
+                lastHealth = player.get('health');
+                player.set({ health: lastHealth - 10 });
             } else if (!isIntersection(shots[i]._hitbox, sphere._hitbox)) {
-                console.log('За пределами мира');
+                //console.log('За пределами мира');
                 world.remove(shots[i].getMesh());
                 shots.splice(i, 1);
             }
-        }
+        }    
     };
 
     function updatePlayer() {
@@ -52,7 +56,7 @@ define(function(require) {
 
     function createConnection() {
         socket = new WebSocket('ws://' + window.location.hostname + ':' + window.location.port + URL);
-
+        
         socket.onopen = function() {
             console.log('Соединение с игровой комнатой установлено.');
             status.connected = true;
@@ -64,7 +68,7 @@ define(function(require) {
             } else {
                 console.log('Обрыв соединения.');
             }
-
+            
             console.log('Код: ' + event.code + ', причина: ' + event.reason);
 
             status.connected = false;
@@ -74,14 +78,14 @@ define(function(require) {
         };
 
         socket.onmessage = function(event) {
-            console.log('Получены данные ' + event.data);
+            //console.log('Получены данные ' + event.data);
 
             var data = JSON.parse(event.data);
 
             if (data.command === CMD_START) {
                 status.gaming = true;
                 return;
-            }
+            } 
 
             if (status.gaming) {
                 enemyCamera.position.x = data.posX;
@@ -97,15 +101,33 @@ define(function(require) {
 
                 enemy.update(camPosition, camRotation);
 
-                if ((data.command !== undefined) && (data.command === CMD_ENEMY_SHOT)) {
-                    createShot(enemyCamera, enemy, false);
+                if (data.command !== undefined) {
+                    if (data.command === CMD_ENEMY_SHOT) {
+                        createShot(enemyCamera, enemy, false);
+                    } else if (data.command === CMD_WIN) {
+                        status.gaming = false;
+                        status.connected = false;
+                        socket = null;
+
+                        alert('Вы победили!');
+
+                        $(location).attr('href', '/');
+                    } else if (data.command === CMD_LOSE) {
+                        status.gaming = false;
+                        status.connected = false;
+                        socket = null;
+
+                        alert('Вы уничтожены! :(');
+
+                        $(location).attr('href', '/');
+                    }
                 }
             }
         };
 
         socket.onerror = function(error) {
             console.log('Ошибка ' + error.message);
-
+            
             if (error.code !== 403) {
                 status.connected = false;
                 status.game = false;
@@ -115,7 +137,7 @@ define(function(require) {
     }
 
     function sendData(data) {
-        if (status.connected) {
+        if (status.connected) {            
             if (status.gaming) {
                 console.log('Send data: ' + data);
                 socket.send(data);
@@ -147,20 +169,20 @@ define(function(require) {
             player.set({ signal: SGNL_CREATE_SHOT });  // hack!
             sendData(player.toJSON());
             player.unset('signal', { silent: true });
+
+            var audio = new Audio();
+            audio.src = 'sounds/lazer_effect.wav';
+            audio.autoplay = true;
         }
 
-        world.add(shot.getMesh());
-
-        var audio = new Audio();
-        audio.src = 'sounds/lazer_effect.wav';
-        audio.autoplay = true;
+        world.add(shot.getMesh());            
     }
 
     function configureControls(drag, forward, movSpeed, rollSpeed) {
         controls.dragToLook = drag;
         controls.autoForward = forward;
         controls.movementSpeed =  movSpeed;
-        controls.rollSpeed = 0;
+        controls.rollSpeed = rollSpeed;
     }
 
     // *** //
@@ -175,10 +197,10 @@ define(function(require) {
             clearColor: 0x000022,
             container: worldContainer
         });
-
+        
         clock = new THREE.Clock();
 
-        world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);
+        world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);   
 
 
         enemyCamera = new THREE.PerspectiveCamera(
@@ -190,7 +212,7 @@ define(function(require) {
 
         player = new Player({posX: 0, posY: -2, posZ: -20 });
         enemy = new Player({posX: 0, posY: -2, posZ: -20 });
-        sphere = new Sphere(1000);
+        sphere = new Sphere(700);
     }
 
     Game.prototype.start = function() {
@@ -216,7 +238,7 @@ define(function(require) {
             setInterval(sendPlayerData, 60);
 
             $(document).on('click', function (event) {
-                createShot(world.getCamera(), player);
+                createShot(world.getCamera(), player);               
             })
         }); // PROMISE
     } // Game.start
