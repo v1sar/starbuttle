@@ -59,7 +59,7 @@ public class GameWebSocket {
     public void onDisconnect(int statusCode, String reason) {
         System.out.println("User disconnected with code " + statusCode + " by reason: " + reason);
         if (username != null)
-            gameMechanic.disconnectUser(username);
+            gameMechanic.unregisterUser(username);
     }
 
     public void sendMessage(String message) {

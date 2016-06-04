@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.json.JSONObject;
 
 /**
  * @author iu6team
@@ -114,6 +115,13 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
+    public String getIdAndAvatar(long id, String avatar) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", id);
+        jsonObject.put("avatar", avatar);
+        return jsonObject.toString();
+    }
 
     public Map<String, UserDataSet> getSessions() { return sessions; }
 

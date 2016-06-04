@@ -36,9 +36,9 @@ public class GameMechanic {
     public void onMessage(String username, String message) {
         final Lobby lobby = userToLobby.get(username);
         final JSONObject data = new JSONObject(message);
-        final String signal = data.getString("signal");
-        if (signal == "CREATE_SHOT") {
-            sendShot(lobby,username);
+        if (data.has("signal")) {
+            data.getString("signal");
+            sendShot(lobby, username);
             return;
         }
         sendPosition(lobby, username, data);
@@ -47,7 +47,7 @@ public class GameMechanic {
     }
 
     public void sendPosition(Lobby lobby, String username,  JSONObject data) {
-        final int HP = data.getInt("HP");
+        final int HP = data.getInt("health");
         if (HP<0) {
             sendGameOver(lobby, username);
         }

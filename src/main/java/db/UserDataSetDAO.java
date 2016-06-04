@@ -17,8 +17,7 @@ public class UserDataSetDAO {
     }
 
     public List<UserDataSet> getAllUsers() {
-        final Criteria criteria = session.createCriteria(UserDataSet.class);
-        //noinspection unchecked
+        Criteria criteria = session.createCriteria(UserDataSet.class);
         return (List<UserDataSet>) criteria.list();
     }
 
@@ -27,14 +26,14 @@ public class UserDataSetDAO {
     }
 
     public void addUser(UserDataSet user) {
-        final Transaction trx = session.beginTransaction();
+        Transaction trx = session.beginTransaction();
         session.save(user);
         trx.commit();
     }
 
     public void editUser(UserDataSet userNew, long userId) {
-        final Transaction trx = session.beginTransaction();
-        final UserDataSet user = session.load(UserDataSet.class, userId);
+        Transaction trx = session.beginTransaction();
+        UserDataSet user = session.load(UserDataSet.class, userId);
         if (getUserByLogin(userNew.getLogin()) == null)
             user.setLogin(userNew.getLogin());
         if (getUserByEmail(userNew.getEmail()) == null)
@@ -45,21 +44,21 @@ public class UserDataSetDAO {
     }
 
     public void deleteUser(long userId) {
-        final Transaction trx = session.beginTransaction();
-        final UserDataSet user = session.load(UserDataSet.class, userId);
+        Transaction trx = session.beginTransaction();
+        UserDataSet user = session.load(UserDataSet.class, userId);
         session.delete(user);
         trx.commit();
     }
 
     public UserDataSet getUserByLogin(String login) {
-        final Criteria criteria = session.createCriteria(UserDataSet.class);
+        Criteria criteria = session.createCriteria(UserDataSet.class);
         return (UserDataSet) criteria
                 .add(Restrictions.eq("login", login))
                 .uniqueResult();
     }
 
     public UserDataSet getUserByEmail(String email) {
-        final Criteria criteria = session.createCriteria(UserDataSet.class);
+        Criteria criteria = session.createCriteria(UserDataSet.class);
         return (UserDataSet) criteria
                 .add(Restrictions.eq("email", email))
                 .uniqueResult();

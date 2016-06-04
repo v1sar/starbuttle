@@ -7,14 +7,11 @@ import java.io.Serializable;
 /**
  * author iu6team
  */
-@SuppressWarnings("EqualsAndHashcode")
 @Entity
 @Table(name = "Users")
 public class UserDataSet implements Serializable {
-    @SuppressWarnings("unused")
     private static final long serialVersionUID = -8706689714326132798L;
 
-    @SuppressWarnings("InstanceVariableNamingConvention")
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +26,9 @@ public class UserDataSet implements Serializable {
     @Column(name="email")
     private String email;
 
+    @Column(name="avatar", columnDefinition="LONGBLOB")
+    private String avatar;
+
     @NotNull
     public String getLogin() {
         return login;
@@ -36,6 +36,14 @@ public class UserDataSet implements Serializable {
 
     public void setLogin(@NotNull String login) {
         this.login = login;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(@NotNull String avatar) {
+        this.avatar = avatar;
     }
 
     @NotNull
@@ -60,8 +68,7 @@ public class UserDataSet implements Serializable {
     public boolean equals(Object object) {
         if (object == null) return false;
         if (this.getClass() != object.getClass()) return false;
-        final UserDataSet userTemp = (UserDataSet) object;
-        //noinspection OverlyComplexBooleanExpression
+        UserDataSet userTemp = (UserDataSet) object;
         return ((this.id == userTemp.id) && (this.login.equals(userTemp.login)) && (this.email.equals(userTemp.email))
                 && (this.password.equals(userTemp.password)));
     }

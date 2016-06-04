@@ -17,6 +17,7 @@ public interface AccountService {
     boolean isExists(@NotNull UserDataSet user);
     void addSession(String sessionId, UserDataSet user);
     boolean checkAuth(String sessionId);
+    String getIdAndAvatar(long id, String avatar);
     UserDataSet giveProfileFromSessionId(String sessionId);
     void deleteUser(long id);
 }

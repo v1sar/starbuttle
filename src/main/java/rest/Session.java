@@ -69,4 +69,11 @@ public class Session {
         jsonObject.put("id", id);
         return jsonObject.toString();
     }
+
+    public String getIdAndAvatar(long id, String avatar) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", id);
+        jsonObject.put("avatar", avatar);
+        return jsonObject.toString();
+    }
 }
