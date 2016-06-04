@@ -62,9 +62,10 @@ public class GameMechanic {
         final JSONObject shot = new JSONObject();
         shot.put("command","ENEMY_SHOT");
         if (lobby.getFirstUser().getUsername() == username) {
-            userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(shot.toString());
-        } else {
             userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(shot.toString());
+        } else {
+            userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(shot.toString());
+
         }
     }
 

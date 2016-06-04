@@ -40,7 +40,7 @@ define(function(require) {
                 world.remove(shots[i].getMesh());
                 shots.splice(i, 1);
             }
-        }    
+        }
     };
 
     function updatePlayer() {
@@ -52,7 +52,7 @@ define(function(require) {
 
     function createConnection() {
         socket = new WebSocket('ws://' + window.location.hostname + ':' + window.location.port + URL);
-        
+
         socket.onopen = function() {
             console.log('Соединение с игровой комнатой установлено.');
             status.connected = true;
@@ -64,7 +64,7 @@ define(function(require) {
             } else {
                 console.log('Обрыв соединения.');
             }
-            
+
             console.log('Код: ' + event.code + ', причина: ' + event.reason);
 
             status.connected = false;
@@ -81,7 +81,7 @@ define(function(require) {
             if (data.command === CMD_START) {
                 status.gaming = true;
                 return;
-            } 
+            }
 
             if (status.gaming) {
                 enemyCamera.position.x = data.posX;
@@ -98,14 +98,14 @@ define(function(require) {
                 enemy.update(camPosition, camRotation);
 
                 if ((data.command !== undefined) && (data.command === CMD_ENEMY_SHOT)) {
-                    createShot(enemyCamera, enemy);
+                    createShot(enemyCamera, enemy, false);
                 }
             }
         };
 
         socket.onerror = function(error) {
             console.log('Ошибка ' + error.message);
-            
+
             if (error.code !== 403) {
                 status.connected = false;
                 status.game = false;
@@ -115,7 +115,7 @@ define(function(require) {
     }
 
     function sendData(data) {
-        if (status.connected) {            
+        if (status.connected) {
             if (status.gaming) {
                 console.log('Send data: ' + data);
                 socket.send(data);
@@ -127,7 +127,7 @@ define(function(require) {
         sendData(player.toJSON());
     }
 
-    function createShot(camera, player) {
+    function createShot(camera, player, signal = true) {
         var raycaster = new THREE.Raycaster();
 
         var vector = new THREE.Vector3();
@@ -143,9 +143,11 @@ define(function(require) {
 
         shots.push(shot);
 
-        player.set({ signal: SGNL_CREATE_SHOT });  // hack!
-        sendData(player.toJSON());
-        player.unset('signal', { silent: true });
+        if (signal) {
+            player.set({ signal: SGNL_CREATE_SHOT });  // hack!
+            sendData(player.toJSON());
+            player.unset('signal', { silent: true });
+        }
 
         world.add(shot.getMesh());
 
@@ -158,7 +160,7 @@ define(function(require) {
         controls.dragToLook = drag;
         controls.autoForward = forward;
         controls.movementSpeed =  movSpeed;
-        controls.rollSpeed = rollSpeed;
+        controls.rollSpeed = 0;
     }
 
     // *** //
@@ -173,10 +175,10 @@ define(function(require) {
             clearColor: 0x000022,
             container: worldContainer
         });
-        
+
         clock = new THREE.Clock();
 
-        world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);   
+        world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);
 
 
         enemyCamera = new THREE.PerspectiveCamera(
@@ -214,7 +216,7 @@ define(function(require) {
             setInterval(sendPlayerData, 60);
 
             $(document).on('click', function (event) {
-                createShot(world.getCamera(), player);               
+                createShot(world.getCamera(), player);
             })
         }); // PROMISE
     } // Game.start
