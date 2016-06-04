@@ -1,7 +1,2 @@
-node_modules
-.DS_Store
-.idea
 
-npm-debug.log
-public_html/uploads
-target
+.DS_Store
