@@ -47,10 +47,10 @@ public class GameWebSocket {
             return;
         }
         username = user.getLogin();
-//        if (gameMechanic.isRegistered(username)) {
-//            session.close(Response.SC_FORBIDDEN, "You has already opened session connected to this resource");
-//            return;
-//        }
+        if (gameMechanic.isRegistered(username)) {
+            session.close(Response.SC_FORBIDDEN, "You has already opened session connected to this resource");
+            return;
+        }
         gameMechanic.registerUser(username, this);
     }
 
@@ -58,8 +58,8 @@ public class GameWebSocket {
     @OnWebSocketClose
     public void onDisconnect(int statusCode, String reason) {
         System.out.println("User disconnected with code " + statusCode + " by reason: " + reason);
-//        if (username != null)
-//            gameMechanic.unregisterUser(username);
+        if (username != null)
+            gameMechanic.disconnectUser(username);
     }
 
     public void sendMessage(String message) {

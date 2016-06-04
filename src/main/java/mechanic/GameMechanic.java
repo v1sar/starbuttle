@@ -15,6 +15,8 @@ public class GameMechanic {
     private final Map<String, GameWebSocket> userToSocket = new ConcurrentHashMap<>();
     Lobby vacantLobby;
 
+
+
     public void registerUser(String userName, GameWebSocket gameWebSocket) {
         userToSocket.put(userName, gameWebSocket);
         if (vacantLobby == null) {
@@ -24,7 +26,7 @@ public class GameMechanic {
             userToLobby.put(vacantLobby.getFirstUser().getUsername(), vacantLobby);
             userToLobby.put(vacantLobby.getSecondUser().getUsername(), vacantLobby);
             JSONObject data = new JSONObject();
-            data.put("start",true);
+            data.put("command", "START");
             userToSocket.get(vacantLobby.getFirstUser().getUsername()).sendMessage(data.toString());
             userToSocket.get(vacantLobby.getSecondUser().getUsername()).sendMessage(data.toString());
             vacantLobby = null;
@@ -40,6 +42,10 @@ public class GameMechanic {
     }
 
     public void sendPosition(Lobby lobby, String username,  JSONObject data) {
+        final int HP = data.getInt("HP");
+        if (HP<0) {
+            sendGameOver(lobby, username);
+        }
         if (lobby.getFirstUser().getUsername() == username) {
             userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(data.toString());
         } else {
@@ -47,4 +53,50 @@ public class GameMechanic {
         }
     }
 
+    public void sendGameOver(Lobby lobby, String username) {
+        final JSONObject win = new JSONObject();
+        final JSONObject lose = new JSONObject();
+        win.put("command","WIN");
+        lose.put("command","LOSE");
+        if (lobby.getFirstUser().getUsername() == username) {
+            userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(win.toString());
+            userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(lose.toString());
+        } else {
+            userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(lose.toString());
+            userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(win.toString());
+        }
+        unregisterUser(lobby.getSecondUser().getUsername());
+        unregisterUser(lobby.getFirstUser().getUsername());
+    }
+
+    public void unregisterUser(String userName) {
+        userToSocket.remove(userName);
+        userToLobby.remove(userName);
+        if (vacantLobby.getUserbyName(userName) != null)
+            vacantLobby = null;
+    }
+
+    public boolean isRegistered(String username) {
+        return userToSocket.containsKey(username);
+    }
+
+    public void disconnectUser(String userName) {
+        Lobby lobby = userToLobby.get(userName);
+        final JSONObject win = new JSONObject();
+        win.put("command", "WIN");
+        if (lobby.getFirstUser() != null) {
+            if (lobby.getFirstUser().getUsername() == userName) {
+                userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(win.toString());
+            }
+        }
+        if (lobby.getSecondUser() != null) {
+            if (lobby.getSecondUser().getUsername() == userName) {
+                userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(win.toString());
+            }
+        }
+        userToSocket.remove(userName);
+        userToLobby.remove(userName);
+        if (vacantLobby.getUserbyName(userName) != null)
+            vacantLobby = null;
+    }
 }

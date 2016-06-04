@@ -5,77 +5,55 @@ define(function(require) {
         Shot = require('./models/shot'),
         Spacecraft = require('./models/spacecraft');
 
+    var URL = '/api/game';
+
+    var world, status, clock, controls, player, enemy, enemyCamera, sphere;
+
+    var socket;
+
     var shots = [];
 
-    var KEY_ONE = 49;
-
-    var Game = function(worldContainer) {
-        var game = this;
-
-        game._url = '/api/game';
-
-        game._status = {
-            connected: false,
-            gaming: false
-        };
-
-        game._world = new World({
-            renderCallback: render,
-            clearColor: 0x000022,
-            container: worldContainer
-        });
-        
-        game._clock = new THREE.Clock();
-
-        // Sphere
-        game._world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);        
-
-        // Render
-        function render() {
-            var delta = game._clock.getDelta();
-            game._controls.update(delta);
-            game.updatePlayers();
-            /*
-            var relativeCameraOffset = new THREE.Vector3(0, 3, 15);
-            var cameraOffset = relativeCameraOffset.applyMatrix4(game._player.getMesh().matrixWorld);
-            game._world.getCamera().position.x = cameraOffset.x
-            game._world.getCamera().position.y = cameraOffset.y
-            game._world.getCamera().position.z = cameraOffset.z
-            game._world.getCamera().lookAt(game._player.getMesh().position);*/
-
-            for (var i = 0; i < shots.length; i++) {
-                /*if (!shots[i].update(game._world.getCamera().position.z)) {
-                    game._world.getScene().remove(shots[i].getMesh());
-                    shots.splice(i, 1);
-                }*/
-                shots[i].getMesh().translateX(10 * shots[i].ray.direction.x);
-                shots[i].getMesh().translateX(10 * shots[i].ray.direction.y);
-                shots[i].getMesh().translateZ(10 * shots[i].ray.direction.z);
-            }    
-        };
+    function isIntersection(boxA, boxB) {
+        return boxA.intersectsBox(boxB);
     }
 
-    Game.prototype.updatePlayers = function() {
-        var camPosition = this._world.getCamera().position,
-            camRotation = this._world.getCamera().rotation;
+    function render() {
+        var delta = clock.getDelta();
+        controls.update(delta);
 
-        this._player.update(camPosition, camRotation);
+        updatePlayer();
 
+        for (var i = 0; i < shots.length; i++) {
+            shots[i].update();
+
+            if (isIntersection(shots[i]._hitbox, enemy._spacecraft._hitbox)) {
+                console.log('Попадание');
+                world.remove(shots[i].getMesh());
+                shots.splice(i, 1);
+            } else if (!isIntersection(shots[i]._hitbox, sphere._hitbox)) {
+                console.log('За пределами мира');
+                world.remove(shots[i].getMesh());
+                shots.splice(i, 1);
+            }
+        }    
+    };
+
+    function updatePlayer() {
+        var camPosition = world.getCamera().position,
+            camRotation = world.getCamera().rotation;
+
+        player.update(camPosition, camRotation);
     }
 
-    Game.prototype.createConnection = function() {
-        var game = this;
-
-        this._socket = new WebSocket('ws://0.0.0.0:8090' + this._url);
+    function createConnection() {
+        socket = new WebSocket('ws://' + window.location.hostname + ':' + window.location.port + URL);
         
-        game._socket.onopen = function() {
-            game._connected = true;
+        socket.onopen = function() {
             console.log('Соединение с игровой комнатой установлено.');
-
-            game._status.connected = true;
+            status.connected = true;
         };
 
-        this._socket.onclose = function(event) {
+        socket.onclose = function(event) {
             if (event.wasClean) {
                 console.log('Соедение с игровой комнатой закрыто чисто.');
             } else {
@@ -83,140 +61,139 @@ define(function(require) {
             }
             
             console.log('Код: ' + event.code + ', причина: ' + event.reason);
-            game._status.connected = false;
-            game._status.start = false;
+            status.connected = false;
+            status.start = false;
         };
 
-        this._socket.onmessage = function(event) {
+        socket.onmessage = function(event) {
             console.log('Получены данные ' + event.data);
 
             var data = JSON.parse(event.data);
 
             if (data.start) {
-                game._status.gaming = true;
+                status.gaming = true;
                 return;
-            }   
+            } 
 
+            if (status.gaming) {
+                enemyCamera.position.x = data.posX;
+                enemyCamera.position.y = data.posY;
+                enemyCamera.position.z = data.posZ;
 
-            if (game._status.gaming) {
+                enemyCamera.rotation.x = data.rotX;
+                enemyCamera.rotation.y = data.rotY;
+                enemyCamera.rotation.z = data.rotZ;
 
-                game._enemyCamera.position.x = data.posX;
-                game._enemyCamera.position.y = data.posY;
-                game._enemyCamera.position.z = data.posZ;
+                var camPosition = enemyCamera.position,
+                    camRotation = enemyCamera.rotation;
 
-                game._enemyCamera.rotation.x = data.rotX;
-                game._enemyCamera.rotation.y = data.rotY;
-                game._enemyCamera.rotation.z = data.rotZ;
-
-//                game._enemy.getMesh().position.x = data.posX;
-//                game._enemy.getMesh().position.y = data.posY;
-//                game._enemy.getMesh().position.z = data.posZ;
-//
-//                game._enemy.getMesh().rotation.x = data.rotX;
-//                game._enemy.getMesh().rotation.y = data.rotY;
-//                game._enemy.getMesh().rotation.z = data.rotZ;
-
-       //         game._enemy.getMesh().rotateY(Math.PI);
-
+                enemy.update(camPosition, camRotation);
             }
         };
 
-        this._socket.onerror = function(error) {
+        socket.onerror = function(error) {
             console.log('Ошибка ' + error.message);
+            status.connected = false;
+            status.start = false;
         };
     }
 
-    Game.prototype.sendData = function() {
-        var game = this;
-
-        if (game._status.connected) {            
-            if (game._status.gaming) {
-                console.log('Send player: ' + this._player.toJSON());
-                game._socket.send(this._player.toJSON());
+    function sendData() {
+        if (status.connected) {            
+            if (status.gaming) {
+                console.log('Send player: ' + player.toJSON());
+                socket.send(player.toJSON());
             }
         } else {
-            game.createConnection();
+            createConnection();
         }
     }
 
-    Game.prototype.getWorld = function() {
-        return this._world;
+    function createShot(camera, player) {
+        var raycaster = new THREE.Raycaster();
+
+        var vector = new THREE.Vector3();
+        vector.setFromMatrixPosition(player.getPositionWorld());
+        var shot = new Shot(vector);
+
+        raycaster.setFromCamera(vector, camera);
+
+        shot._ray = new THREE.Ray(
+            camera.position,
+            vector.sub(camera.position).normalize()
+        );
+
+        shots.push(shot);
+        world.add(shot.getMesh());
+
+        var audio = new Audio();
+        audio.src = 'sounds/lazer_effect.wav';
+        audio.autoplay = true;
+    }
+
+    function configureControls(drag, forward, movSpeed, rollSpeed) {
+        controls.dragToLook = drag;
+        controls.autoForward = forward;
+        controls.movementSpeed =  movSpeed;
+        controls.rollSpeed = rollSpeed;
+    }
+
+    // *** //
+    var Game = function(worldContainer) {
+        status = {
+            connected: false,
+            gaming: false
+        };
+
+        world = new World({
+            renderCallback: render,
+            clearColor: 0x000022,
+            container: worldContainer
+        });
+        
+        clock = new THREE.Clock();
+
+        world.getScene().fog = new THREE.FogExp2(0x0000022, 0.00125);   
+
+
+        enemyCamera = new THREE.PerspectiveCamera(
+            45,
+            world.getContainer().width / world.getContainer().height,
+            1,
+            2000
+        );
+
+        player = new Player({posX: 0, posY: -2, posZ: -20 });
+        enemy = new Player({posX: 0, posY: -2, posZ: -20 });
+        sphere = new Sphere(1000);
     }
 
     Game.prototype.start = function() {
-        var game = this,
-            controls = null;
-
-
-        //game._player = new Player({posX: 0, posY: -2, posZ: -20 });
-        game._player = new Player({posX: 0, posY: -2, posZ: -20 });
-        game._enemy = new Player({posX: 0, posY: -2, posZ: -20 });
-
-
-        // Players
         Promise.all([
-            new Sphere(1000).getMesh(),
-            game._player.getMesh(),
-            game._enemy.getMesh(),
+            sphere.getMesh(),
+            player.getMesh(),
+            enemy.getMesh(),
         ]).then(function(results) {
             results.forEach(function(mesh) {
-                game._world.add(mesh);
+                world.add(mesh);
             });
 
+            enemyCamera.add(results[2]);
+            world.add(enemyCamera);
 
-            game._enemyCamera = new THREE.PerspectiveCamera(
-                45,
-                game._world.getContainer().width / game._world.getContainer().height,
-                1,
-                2000
-            );
-            game._enemyCamera.add(results[2]);
-            game._world.add(game._enemyCamera);
+            world.getCamera().add(results[1]);
+            controls = new THREE.FlyControls(world.getCamera(), world.getContainer());
 
+            configureControls(false, false, 30, 1); // drag, forward, movSpeed, rollSpeed
 
-            game._world.getCamera().add(results[1]);
-            game._controls = new THREE.FlyControls(game._world.getCamera(), game._world.getContainer());
-
-
-            game._controls.dragToLook = true;
-            game._controls.autoForward = false;
-            game._controls.movementSpeed =  10;
-            game._controls.rollSpeed = 1;
-
-            game._world.start();
-            setInterval(game.sendData.bind(game), 60);
-
-
+            world.start();
+            setInterval(sendData, 60);
 
             $(document).on('click', function (event) {
-                var spacecraft = game._player.getMesh(),
-                    camera = game._world.getCamera(),
-                    raycaster = new THREE.Raycaster();
-
-                var vector = new THREE.Vector3();
-                vector.setFromMatrixPosition(game._player.getPositionInWorld());
-                var shot = new Shot(vector);
-
-                var mouse = new THREE.Vector3(
-                    (event.clientX / window.innerWidth ) * 2 - 1, 
-                    (event.clientY / window.innerHeight ) * 2 + 1,
-                    1
-                );
-                raycaster.setFromCamera(mouse, camera );
-
-                shot.ray = new THREE.Ray(
-                    camera.position,
-                    vector.normalize()
-                );
-
-                shots.push(shot);
-                game._world.add(shot.getMesh());
-
-                var intersects = raycaster.intersectObjects(game._world.getScene().children);
+                createShot(world.getCamera(), player);               
             })
         }); // PROMISE
     } // Game.start
-
 
     return Game;
 });
