@@ -36,6 +36,11 @@ public class GameMechanic {
     public void onMessage(String username, String message) {
         final Lobby lobby = userToLobby.get(username);
         final JSONObject data = new JSONObject(message);
+        final String signal = data.getString("signal");
+        if (signal == "CREATE_SHOT") {
+            sendShot(lobby,username);
+            return;
+        }
         sendPosition(lobby, username, data);
 //        System.out.print(username);
 //        System.out.print(message);
@@ -50,6 +55,16 @@ public class GameMechanic {
             userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(data.toString());
         } else {
             userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(data.toString());
+        }
+    }
+
+    public void sendShot(Lobby lobby, String username) {
+        final JSONObject shot = new JSONObject();
+        shot.put("command","ENEMY_SHOT");
+        if (lobby.getFirstUser().getUsername() == username) {
+            userToSocket.get(lobby.getFirstUser().getUsername()).sendMessage(shot.toString());
+        } else {
+            userToSocket.get(lobby.getSecondUser().getUsername()).sendMessage(shot.toString());
         }
     }
 
